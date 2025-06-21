@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@theme {
+  --color-text-black: #080808;
+  --color-background-light: #ffffff;
+  --color-background-dark: #1e293b;
+}
+
+.bg-theme {
+  background: linear-gradient(
+    135deg,
+    #fdf2f8 0%,
+    #fce7f3 25%,
+    #eff6ff 50%,
+    #dbeafe 75%,
+    #f0f9ff 100%
+  );
+}
