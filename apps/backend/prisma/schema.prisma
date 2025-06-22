@@ -13,3 +13,99 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+// 一般ユーザー
+model User {
+  id               String             @id @default(uuid())
+  email            String             @unique
+  password         String
+  userName         String?            @map("user_name")
+  userImageUrl     String?            @map("user_image_url")
+  userDescription  String?            @map("user_description")
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  // フォローしているアーティストとの関係
+  followingArtists UserArtistFollow[]
+
+  @@map("users")
+}
+
+// アーティスト（出演者）
+model Artist {
+  id                String             @id @default(uuid())
+  artistName        String             @map("artist_name")
+  artistImageUrl    String?            @map("artist_image_url")
+  artistDescription String?            @map("artist_description")
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  // アーティスト本人のアカウント
+  artistUser        ArtistUser?
+  // フォロワーとの関係
+  followers         UserArtistFollow[]
+  // 出演イベントとの関係
+  events            ArtistEvent[]
+
+  @@map("artists")
+}
+
+// アーティスト本人のアカウント
+model ArtistUser {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  artistId  String   @unique @map("artist_id")
+  artist    Artist   @relation(fields: [artistId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("artist_users")
+}
+
+// イベント
+model Event {
+  id                    String        @id @default(uuid())
+  eventName             String        @map("event_name")
+  eventDescription      String?       @map("event_description")
+  eventImageUrl         String?       @map("event_image_url")
+  eventDate             DateTime      @map("event_date")
+  openDateTime          DateTime      @map("open_date_time")
+  startDateTime         DateTime      @map("start_date_time")
+  eventLocationName     String?       @map("event_location_name")
+  eventLocationAddress  String?       @map("event_location_url")
+  ticketReleaseDateTime DateTime      @map("ticket_release_date_time")
+  ticketPrice           Int           @map("ticket_price")
+  sameDayTicketPrice    Int           @map("same_day_ticket_price")
+  ticketUrl             String?       @map("ticket_url")
+  isNeedDrink           Boolean       @map("is_need_drink")
+  updatedAt             DateTime      @updatedAt
+  // 出演アーティストとの関係
+  artists               ArtistEvent[]
+
+  @@map("events")
+}
+
+// User-Artist間のフォロー関係（多対多）
+model UserArtistFollow {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  artistId  String   @map("artist_id")
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  artist    Artist   @relation(fields: [artistId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, artistId])
+  @@map("user_artist_follows")
+}
+
+// Artist-Event間の出演関係（多対多）
+model ArtistEvent {
+  id        String   @id @default(uuid())
+  artistId  String   @map("artist_id")
+  eventId   String   @map("event_id")
+  createdAt DateTime @default(now())
+  artist    Artist   @relation(fields: [artistId], references: [id], onDelete: Cascade)
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@unique([artistId, eventId])
+  @@map("artist_events")
+}

@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@theme {
+  --color-text-primary: #f472b6;
+  --color-text-black: #080808;
+  --color-text-white: #ffffff;
+  --color-text-gray: #6b7280;
+  --color-button-primary: #f472b6;
+  --color-background-light: #ffffff;
+  --color-background-dark: #1e293b;
+}
+
+.bg-theme {
+  background: linear-gradient(
+    135deg,
+    #fdf2f8 0%,
+    #fce7f3 25%,
+    #eff6ff 50%,
+    #dbeafe 75%,
+    #f0f9ff 100%
+  );
+}
