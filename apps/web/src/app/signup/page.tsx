@@ -1,13 +1,6 @@
 "use client";
 
-import {
-	Anchor,
-	Button,
-	Checkbox,
-	Paper,
-	PasswordInput,
-	TextInput,
-} from "@mantine/core";
+import { Button, Paper } from "@mantine/core";
 import Image from "next/image";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
