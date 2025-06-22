@@ -57,6 +57,9 @@ importers:
       '@tailwindcss/postcss':
         specifier: ^4.1.10
         version: 4.1.10
+      dayjs:
+        specifier: ^1.11.13
+        version: 1.11.13
       next:
         specifier: ^15.3.0
         version: 15.3.3(react-dom@19.1.0)(react@19.1.0)
@@ -1549,6 +1552,10 @@ packages:
     resolution: {integrity: sha512-7hvf7/GW8e86rW0ptuwS3OcBGDjIi6SZva7hCyWC0yYry2cOPmLIjXAUHI6DK2HsnwJd9ifmt57i8eV2n4YNpw==}
     engines: {node: '>= 14'}
     dev: true
+
+  /dayjs@1.11.13:
+    resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
+    dev: false
 
   /debug@4.4.1:
     resolution: {integrity: sha512-KcKCqiftBJcZr++7ykoDIEwSa3XWowTfNPo92BYxjXiyYEVrUQh2aLyhxBCwww+heortUFxEJYcRzosstTEBYQ==}
