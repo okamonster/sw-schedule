@@ -7,8 +7,8 @@ export const getUserByEmailAndPasswordOperation = async (
 ): Promise<User | null> => {
 	const user = await prismaClient.user.findUnique({
 		where: {
-			email,
-			password,
+			email: email,
+			password: password,
 		},
 	});
 
