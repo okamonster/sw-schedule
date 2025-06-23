@@ -1,7 +1,6 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Anchor, Button, Checkbox, PasswordInput, TextInput } from '@mantine/core';
-import { useRouter } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
 import { type SignupUserSchemaType, signupUserSchema } from '@/entities/user';
 import { useAuth } from '../hooks/useAuth';

@@ -1,5 +1,20 @@
 import type { User } from "@prisma/client";
 import { prismaClient } from "~/libs/prisma.js";
+import { comparePassword, hashPassword } from "~/utils/password.js";
+
+export const createUserOperation = async (
+	email: string,
+	password: string,
+): Promise<User> => {
+	const hashedPassword = await hashPassword(password);
+	const user = await prismaClient.user.create({
+		data: {
+			email,
+			password: hashedPassword,
+		},
+	});
+	return user;
+};
 
 export const getUserByEmailAndPasswordOperation = async (
 	email: string,
@@ -7,8 +22,7 @@ export const getUserByEmailAndPasswordOperation = async (
 ): Promise<User | null> => {
 	const user = await prismaClient.user.findUnique({
 		where: {
-			email: email,
-			password: password,
+			email,
 		},
 	});
 
@@ -16,19 +30,11 @@ export const getUserByEmailAndPasswordOperation = async (
 		return null;
 	}
 
-	return user;
-};
+	const isPasswordMatch = await comparePassword(password, user.password);
 
-export const createUserOperation = async (
-	email: string,
-	password: string,
-): Promise<User> => {
-	const user = await prismaClient.user.create({
-		data: {
-			email,
-			password,
-		},
-	});
+	if (!isPasswordMatch) {
+		return null;
+	}
 
 	return user;
 };
