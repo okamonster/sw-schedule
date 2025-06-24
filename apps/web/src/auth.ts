@@ -1,63 +1,100 @@
-import NextAuth from 'next-auth';
-import Credentials from 'next-auth/providers/credentials';
-// import Google from 'next-auth/providers/google';
-import type { User } from '@/entities/user';
+import NextAuth from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+import Google from "next-auth/providers/google";
 
-// biome-ignore lint/suspicious/noExplicitAny: NextAuthの型推論の問題
+// biome-ignore lint/suspicious/noExplicitAny: <signIn>
 export const { handlers, signIn, signOut, auth }: any = NextAuth({
-  pages: {
-    signIn: '/signup',
-  },
-  providers: [
-    // Google,
-    Credentials({
-      credentials: {
-        email: { label: 'メールアドレス' },
-        password: { label: 'パスワード' },
-      },
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          return null;
-        }
+	providers: [
+		Google,
+		Credentials({
+			credentials: {
+				email: { label: "Email", type: "email" },
+				password: { label: "Password", type: "password" },
+			},
+			authorize: async (credentials) => {
+				const { email, password } = credentials;
+				try {
+					const response = await fetch(
+						`${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
+						{
+							method: "POST",
+							body: JSON.stringify({ email, password }),
+						},
+					);
+					if (!response.ok) {
+						return null;
+					}
+					const data = await response.json();
 
-        // TODO: ここで実際にバックエンドAPIを叩いてユーザー認証を行う
-        const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email: credentials.email, password: credentials.password }),
-        });
+					return {
+						id: data.userId,
+						email: email as string,
+						token: data.token,
+					};
+				} catch (error) {
+					console.error("Credentials authorize error:", error);
+					return null;
+				}
+			},
+		}),
+	],
+	callbacks: {
+		async signIn({ user, account, profile }) {
+			// Googleログインの場合、バックエンドでユーザー作成/取得
+			if (account?.provider === "google" && user.email) {
+				try {
+					const response = await fetch(
+						`${process.env.NEXT_PUBLIC_API_URL}/auth/google`,
+						{
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json",
+							},
+							body: JSON.stringify({
+								email: user.email,
+								googleToken: account.access_token,
+							}),
+						},
+					);
 
-        if (!result.ok) {
-          throw new Error('Failed to login');
-        }
+					if (response.ok) {
+						const data = await response.json();
+						user.id = data.userId;
+						return true;
+					} else {
+						console.error("Backend auth failed:", response.status);
+					}
+				} catch (error) {
+					console.error("Google auth error:", error);
+				}
+			}
+			return true;
+		},
+		async jwt({ token, user, account }) {
+			// 初回ログイン時またはユーザー情報が更新された時
+			if (user) {
+				token.id = user.id;
+				token.email = user.email;
+			}
 
-        const user: User = await result.json();
+			// Googleログインの場合、account情報からemailを取得
+			if (account?.provider === "google" && account.providerAccountId) {
+				token.email = user?.email || token.email;
+			}
 
-        if (!user) {
-          return null;
-        }
-
-        return user;
-      },
-    }),
-  ],
-  callbacks: {
-    // JWTが作成・更新されるたびに呼び出される
-    // userオブジェクトは初回サインイン時のみ渡される
-    jwt({ token, user }) {
-      if (user) {
-        token.id = user.id; // JWTにユーザーIDを格納
-      }
-      return token;
-    },
-    // セッションがチェックされるたびに呼び出される
-    session({ session, token }) {
-      session.user.id = token.id as string; // セッションにユーザーIDを格納
-      return session;
-    },
-  },
-  secret: process.env.AUTH_SECRET,
-  basePath: '/api/auth',
+			return token;
+		},
+		async session({ session, token }) {
+			if (session.user) {
+				session.user.id = token.id as string;
+				session.user.email = token.email as string;
+			}
+			return session;
+		},
+	},
+	session: {
+		strategy: "jwt",
+	},
+	secret: process.env.AUTH_SECRET,
+	basePath: "/api/auth",
 });

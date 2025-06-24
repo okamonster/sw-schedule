@@ -17,4 +17,11 @@ export const createUserRequestSchema = z.object({
 
 export type createUserRequest = z.infer<typeof createUserRequestSchema>;
 
+export const signInByGoogleRequestSchema = z.object({
+  email: z.string().email(),
+  googleToken: z.string(),
+});
+
+export type signInByGoogleRequest = z.infer<typeof signInByGoogleRequestSchema>;
+
 export type ResponseUserDto = Omit<User, 'password'>;

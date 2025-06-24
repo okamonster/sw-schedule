@@ -1,13 +1,21 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 
 export const useAuth = (): {
+  handleGoogleLogin: () => Promise<void>;
   handleSignup: (email: string, password: string) => Promise<void>;
   handleLogin: (email: string, password: string) => Promise<void>;
 } => {
-  const router = useRouter();
+  const handleGoogleLogin = async () => {
+    try {
+      await signIn('google', {
+        redirectTo: '/',
+      });
+    } catch (e) {
+      console.error('An unexpected error occurred during sign in:', e);
+    }
+  };
 
   const handleSignup = async (email: string, password: string) => {
     try {
@@ -21,13 +29,10 @@ export const useAuth = (): {
       }
 
       await signIn('credentials', {
-        redirect: false,
+        redirectTo: '/',
         email,
         password,
       });
-
-      router.push('/');
-      router.refresh();
     } catch (e) {
       console.error('An unexpected error occurred during sign in:', e);
     }
@@ -35,28 +40,18 @@ export const useAuth = (): {
 
   const handleLogin = async (email: string, password: string) => {
     try {
-      // NextAuthのsignIn関数を呼び出す
-      const result = await signIn('credentials', {
-        redirect: false,
+      await signIn('credentials', {
+        redirectTo: '/',
         email,
         password,
       });
-
-      if (result?.error) {
-        throw new Error(result.error);
-      }
-
-      router.push('/');
-      router.refresh();
-
-      // ログイン成功時
-      // トップページに遷移し、サーバーコンポーネントを再レンダリングしてセッションを反映させる
     } catch (e) {
       console.error('An unexpected error occurred during sign in:', e);
     }
   };
 
   return {
+    handleGoogleLogin,
     handleSignup,
     handleLogin,
   };

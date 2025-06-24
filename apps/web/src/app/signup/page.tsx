@@ -1,12 +1,15 @@
 'use client';
-
 import { Button, Paper } from '@mantine/core';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FcGoogle } from 'react-icons/fc';
+import { signIn } from '@/auth';
 import { SignupForm } from '@/features/auth/components/SignupForm';
+import { useAuth } from '@/features/auth/hooks/useAuth';
 
 export default function SignupPage() {
+  const { handleGoogleLogin } = useAuth();
+
   return (
     <div className="grid gap-2 p-4">
       <div className="flex justify-center mb-4">
@@ -14,7 +17,7 @@ export default function SignupPage() {
       </div>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <Button leftSection={<FcGoogle />} variant="default" fullWidth>
+        <Button leftSection={<FcGoogle />} variant="default" fullWidth onClick={handleGoogleLogin}>
           Googleでサインアップ
         </Button>
 

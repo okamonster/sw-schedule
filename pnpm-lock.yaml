@@ -54,6 +54,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@auth/prisma-adapter':
+        specifier: ^2.10.0
+        version: 2.10.0(@prisma/client@6.10.1)
       '@hookform/resolvers':
         specifier: ^5.1.1
         version: 5.1.1(react-hook-form@7.58.1)
@@ -186,6 +189,19 @@ packages:
       oauth4webapi: 3.5.3
       preact: 10.24.3
       preact-render-to-string: 6.5.11(preact@10.24.3)
+    dev: false
+
+  /@auth/prisma-adapter@2.10.0(@prisma/client@6.10.1):
+    resolution: {integrity: sha512-EliOQoTjGK87jWWqnJvlQjbR4PjQZQqtwRwPAe108WwT9ubuuJJIrL68aNnQr4hFESz6P7SEX2bZy+y2yL37Gw==}
+    peerDependencies:
+      '@prisma/client': '>=2.26.0 || >=3 || >=4 || >=5 || >=6'
+    dependencies:
+      '@auth/core': 0.40.0
+      '@prisma/client': 6.10.1(typescript@5.8.2)
+    transitivePeerDependencies:
+      - '@simplewebauthn/browser'
+      - '@simplewebauthn/server'
+      - nodemailer
     dev: false
 
   /@babel/runtime-corejs3@7.27.6:
@@ -966,6 +982,22 @@ packages:
     dependencies:
       prisma: 6.10.0(typescript@5.8.3)
       typescript: 5.8.3
+    dev: false
+
+  /@prisma/client@6.10.1(typescript@5.8.2):
+    resolution: {integrity: sha512-Re4pMlcUsQsUTAYMK7EJ4Bw2kg3WfZAAlr8GjORJaK4VOP6LxRQUQ1TuLnxcF42XqGkWQ36q5CQF1yVadANQ6w==}
+    engines: {node: '>=18.18'}
+    requiresBuild: true
+    peerDependencies:
+      prisma: '*'
+      typescript: '>=5.1.0'
+    peerDependenciesMeta:
+      prisma:
+        optional: true
+      typescript:
+        optional: true
+    dependencies:
+      typescript: 5.8.2
     dev: false
 
   /@prisma/config@6.10.0:
@@ -3406,7 +3438,6 @@ packages:
     resolution: {integrity: sha512-aJn6wq13/afZp/jT9QZmwEjDqqvSGp1VT5GVg+f/t6/oVyrgXM6BY1h9BRh/O5p3PlUPAe+WuiEZOmb/49RqoQ==}
     engines: {node: '>=14.17'}
     hasBin: true
-    dev: true
 
   /typescript@5.8.3:
     resolution: {integrity: sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==}
