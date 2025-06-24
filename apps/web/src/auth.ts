@@ -60,6 +60,7 @@ export const { handlers, signIn, signOut, auth }: any = NextAuth({
 					if (response.ok) {
 						const data = await response.json();
 						user.id = data.userId;
+						user.token = data.token;
 						return true;
 					} else {
 						console.error("Backend auth failed:", response.status);
@@ -75,6 +76,9 @@ export const { handlers, signIn, signOut, auth }: any = NextAuth({
 			if (user) {
 				token.id = user.id;
 				token.email = user.email;
+				if (user.token) {
+					token.backendToken = user.token;
+				}
 			}
 
 			// Googleログインの場合、account情報からemailを取得
@@ -88,6 +92,7 @@ export const { handlers, signIn, signOut, auth }: any = NextAuth({
 			if (session.user) {
 				session.user.id = token.id as string;
 				session.user.email = token.email as string;
+				session.backendToken = token.backendToken as string;
 			}
 			return session;
 		},
