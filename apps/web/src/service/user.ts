@@ -1,0 +1,31 @@
+import { auth } from "@/auth";
+import type { User } from "@/entities/user";
+
+export const getCurrentUser = async (): Promise<User | null> => {
+	const session = await auth();
+
+	if (!session?.backendToken) {
+		return null;
+	}
+
+	const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/me`, {
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${session?.backendToken}`,
+		},
+	});
+
+	if (!result.ok) {
+		return null;
+	}
+
+	const data = await result.json();
+
+	return {
+		id: data.id,
+		email: data.email,
+		createdAt: data.createdAt,
+		updatedAt: data.updatedAt,
+		profile: data.profile,
+	} as User;
+};
