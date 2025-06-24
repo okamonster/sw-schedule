@@ -1,11 +1,11 @@
-import "@mantine/core/styles.css";
-import "@/styles/globals.css";
-import "@/styles/variables.css";
+import '@mantine/core/styles.css';
+import '@/styles/globals.css';
+import '@/styles/variables.css';
 
 export default function RootLayout({
-	children,
+  children,
 }: Readonly<{
-	children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-	return <div>{children}</div>;
+  return <div>{children}</div>;
 }

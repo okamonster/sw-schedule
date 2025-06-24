@@ -24,7 +24,13 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# dist
+dist/
+
 # misc
 .DS_Store
+
+# prisma
+prisma/migrations
 
 /src/generated/prisma
