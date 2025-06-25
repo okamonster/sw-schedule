@@ -3,7 +3,7 @@ import { Button } from '@mantine/core';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-export const DefaultHeader = (): React.ReactNode => {
+export const TopHeader = (): React.ReactNode => {
   const router = useRouter();
   return (
     <header className="flex justify-between items-center px-[10px] shadow-md h-[50px]">
