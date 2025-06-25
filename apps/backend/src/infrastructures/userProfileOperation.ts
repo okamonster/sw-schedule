@@ -1,7 +1,7 @@
-import type { CreateUserProfileRequest } from '~/entities/profile.js';
+import type { CreateUserProfileRequest, UpdateUserProfileRequest } from '~/entities/profile.js';
 import { prismaClient } from '~/libs/prisma.js';
 
-export const createProfileOperation = async (
+export const createUserProfileOperation = async (
   userId: string,
   profile: CreateUserProfileRequest
 ): Promise<void> => {
@@ -10,5 +10,15 @@ export const createProfileOperation = async (
       userId,
       ...profile,
     },
+  });
+};
+
+export const updateUserProfileOperation = async (
+  userId: string,
+  profile: UpdateUserProfileRequest
+): Promise<void> => {
+  await prismaClient.userProfile.update({
+    where: { userId },
+    data: { ...profile },
   });
 };

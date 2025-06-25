@@ -1,6 +1,8 @@
 'use client';
 
 import { Button } from '@mantine/core';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import { FaCheck } from 'react-icons/fa';
 import type { ProfileFormType } from '@/entities/profile';
@@ -12,11 +14,15 @@ import { useStepValidation } from '@/features/profile/hooks/useStepValidation';
 
 type Props = {
   defaultValues: ProfileFormType;
+  isEdit: boolean;
 };
 
-export const EditProfileForm = ({ defaultValues }: Props) => {
+export const EditProfileForm = ({ defaultValues, isEdit }: Props) => {
   const { currentStep, steps, handleNext, handleBack } = useSteps();
   const { resolver } = useStepValidation(currentStep);
+
+  const session = useSession();
+  const { push } = useRouter();
 
   const {
     register,
@@ -36,10 +42,6 @@ export const EditProfileForm = ({ defaultValues }: Props) => {
     },
     resolver,
   });
-
-  const onSubmit = (data: ProfileFormType) => {
-    // TODO: プロフィール作成APIを呼び出し
-  };
 
   const handleNextStep = async () => {
     // 現在のステップのフィールドのみバリデーション
@@ -68,6 +70,31 @@ export const EditProfileForm = ({ defaultValues }: Props) => {
   };
 
   const currentErrors = getCurrentStepErrors();
+
+  const onSubmit = async (data: ProfileFormType) => {
+    if (!session?.data?.backendToken) {
+      return null;
+    }
+
+    try {
+      const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/profile`, {
+        method: isEdit ? 'PUT' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${session?.data?.backendToken}`,
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!result.ok) {
+        throw new Error('Failed to create profile');
+      }
+
+      push('/home');
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <form className="p-4 grid gap-4" onSubmit={handleSubmit(onSubmit)}>

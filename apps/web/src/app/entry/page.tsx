@@ -1,16 +1,17 @@
-"use client";
+'use client';
 
-import { EditProfileForm } from "@/features/profile/components/EditProfileForm";
+import { EditProfileForm } from '@/features/profile/components/EditProfileForm';
 
 export default function EntryPage() {
-	return (
-		<EditProfileForm
-			defaultValues={{
-				userName: "",
-				userDescription: "",
-				mainActivityRegion: "",
-				userImageUrl: "",
-			}}
-		/>
-	);
+  return (
+    <EditProfileForm
+      defaultValues={{
+        userName: '',
+        userDescription: '',
+        mainActivityRegion: '',
+        userImageUrl: '',
+      }}
+      isEdit={false}
+    />
+  );
 }
