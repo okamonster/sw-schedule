@@ -1,5 +1,3 @@
-import { redirect } from 'next/navigation';
-import { auth } from '@/auth';
 import { LinkButton } from '@/components/Buttons/LinkButton';
 import { Footer } from '@/components/Navigations/Footer';
 import { TopHeader } from '@/components/Navigations/TopHeader';

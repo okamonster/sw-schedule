@@ -28,7 +28,9 @@ export const ProfilePreview = ({ profileValues }: Props) => {
                 </Badge>
               )}
               {profileValues.userDescription && (
-                <p className="text-sm text-text-gray">{profileValues.userDescription}</p>
+                <p className="text-sm text-text-gray break-words whitespace-pre-wrap">
+                  {profileValues.userDescription}
+                </p>
               )}
             </div>
           </div>
