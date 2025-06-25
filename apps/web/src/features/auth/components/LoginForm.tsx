@@ -28,12 +28,18 @@ export const LoginForm = (): React.ReactNode => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4">
-      <TextInput label="メールアドレス" placeholder="hello@gemba.com" {...register('email')} />
+      <TextInput
+        label="メールアドレス"
+        placeholder="hello@gemba.com"
+        {...register('email')}
+        error={errors.email?.message}
+      />
       <PasswordInput
         color="var(--color-text-black)"
         label="パスワード"
         placeholder="パスワードを入力"
         {...register('password')}
+        error={errors.password?.message}
       />
       <Controller
         control={control}
