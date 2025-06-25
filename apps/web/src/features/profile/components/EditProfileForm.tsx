@@ -1,6 +1,5 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import type {
   FirstProfileEditFormType,
@@ -14,9 +13,10 @@ import { useSteps } from '@/features/profile/hooks/useSteps';
 
 type Props = {
   profile?: Profile;
+  backendToken: string;
 };
 
-export const EditProfileForm = ({ profile }: Props) => {
+export const EditProfileForm = ({ profile, backendToken }: Props) => {
   const [firstStepValues, setFirstStepValues] = useState<FirstProfileEditFormType>({
     userName: profile?.userName ?? '',
     userDescription: profile?.userDescription ?? '',
@@ -36,8 +36,6 @@ export const EditProfileForm = ({ profile }: Props) => {
 
   const { currentStep, handleNext, handleBack } = useSteps();
 
-  const session = useSession();
-
   useEffect(() => {
     setProfileValues({
       userName: firstStepValues.userName,
@@ -48,15 +46,11 @@ export const EditProfileForm = ({ profile }: Props) => {
   }, [firstStepValues, secondStepValues]);
 
   const saveProfile = async (data: ProfileFormType) => {
-    if (!session.data?.backendToken) {
-      throw new Error('Unauthorized');
-    }
-
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/profile`, {
       method: profile ? 'PUT' : 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${session.data.backendToken}`,
+        Authorization: `Bearer ${backendToken}`,
       },
       body: JSON.stringify({
         ...data,
