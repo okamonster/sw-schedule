@@ -43,9 +43,10 @@ export const EditProfileForm = ({ defaultValues }: Props) => {
 
   const handleNextStep = async () => {
     // 現在のステップのフィールドのみバリデーション
-    const fieldsToValidate = currentStep === 1 ? ['userName'] : ['mainActivityRegion'];
+    const fieldsToValidate =
+      currentStep === 1 ? (['userName'] as const) : (['mainActivityRegion'] as const);
 
-    const isValid = await trigger(fieldsToValidate as any);
+    const isValid = await trigger(fieldsToValidate);
 
     if (isValid) {
       clearErrors(); // エラーをクリアしてから次のステップへ
