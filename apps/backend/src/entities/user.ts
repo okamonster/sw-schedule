@@ -1,5 +1,6 @@
 import type { User } from '@prisma/client';
 import { z } from 'zod';
+import type { UserProfile } from './profile.js';
 
 export const getUserByEmailAndPasswordRequestSchema = z.object({
   email: z.string().email(),
@@ -24,4 +25,6 @@ export const signInByGoogleRequestSchema = z.object({
 
 export type signInByGoogleRequest = z.infer<typeof signInByGoogleRequestSchema>;
 
-export type ResponseUserDto = Omit<User, 'password'>;
+export type ResponseUserDto = Omit<User, 'password'> & {
+  profile?: UserProfile;
+};

@@ -1,6 +1,6 @@
 import { LinkButton } from '@/components/Buttons/LinkButton';
-import { DefaultHeader } from '@/components/Navigations/DefaultHeader';
 import { Footer } from '@/components/Navigations/Footer';
+import { TopHeader } from '@/components/Navigations/TopHeader';
 import { ArtistCard } from '@/features/top/components/ArtistCard';
 import { EventCard } from '@/features/top/components/EventCard';
 import { UnloginHeroSection } from '@/features/top/components/UnloginHeroSection';
@@ -94,7 +94,7 @@ export default async function Home() {
 
   return (
     <div>
-      <DefaultHeader />
+      <TopHeader />
 
       {/* ヒーローセクション */}
       <div className="w-full grid items-center">

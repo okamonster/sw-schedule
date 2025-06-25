@@ -1,11 +1,10 @@
-'use client';
-
-import { signIn } from 'next-auth/react';
+import { signIn, signOut } from 'next-auth/react';
 
 export const useAuth = (): {
   handleGoogleLogin: () => Promise<void>;
   handleSignup: (email: string, password: string) => Promise<void>;
   handleLogin: (email: string, password: string) => Promise<void>;
+  handleLogout: () => Promise<void>;
 } => {
   const handleGoogleLogin = async () => {
     try {
@@ -50,9 +49,20 @@ export const useAuth = (): {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await signOut({
+        redirectTo: '/',
+      });
+    } catch (e) {
+      console.error('An unexpected error occurred during sign out:', e);
+    }
+  };
+
   return {
     handleGoogleLogin,
     handleSignup,
     handleLogin,
+    handleLogout,
   };
 };

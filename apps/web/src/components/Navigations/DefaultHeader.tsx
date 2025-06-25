@@ -1,21 +1,59 @@
 'use client';
-import { Button } from '@mantine/core';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 
-export const DefaultHeader = (): React.ReactNode => {
-  const router = useRouter();
+import { Avatar, Button } from '@mantine/core';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { FaChevronLeft } from 'react-icons/fa';
+import type { User } from '@/entities/user';
+
+type Props = {
+  user: User;
+  showBackButton?: boolean;
+  title?: string;
+};
+
+export const DefaultHeader = ({ user, showBackButton = true, title }: Props): React.ReactNode => {
+  const { back } = useRouter();
+
+  const handleBackClick = () => {
+    back();
+  };
+
   return (
-    <header className="flex justify-between items-center px-[10px] shadow-md h-[50px]">
-      <Image src="/images/logo.png" alt="gemba" width={130} height={50} />
-      <div className="flex gap-2">
-        <Button
-          variant="transparent"
-          color="var(--color-text-black)"
-          onClick={() => router.push('/login')}
-        >
-          ログイン
-        </Button>
+    <header className="flex justify-between items-center px-4 shadow-sm h-14 bg-white">
+      {/* 左側: 戻るボタンまたはタイトル */}
+      <div className="flex items-center">
+        {showBackButton ? (
+          <Button
+            variant="subtle"
+            color="gray"
+            onClick={handleBackClick}
+            className="p-2 hover:bg-gray-100"
+          >
+            <FaChevronLeft size={16} />
+          </Button>
+        ) : (
+          title && <h1 className="text-lg font-semibold text-gray-900">{title}</h1>
+        )}
+      </div>
+
+      {/* 中央: タイトル（戻るボタンがある場合） */}
+      {showBackButton && title && (
+        <div className="flex-1 text-center">
+          <h1 className="text-lg font-semibold text-gray-900">{title}</h1>
+        </div>
+      )}
+
+      {/* 右側: プロフィールアバター */}
+      <div className="flex items-center">
+        <Link href="/myPage">
+          <Avatar
+            src={user.profile?.userImageUrl}
+            size="md"
+            alt={`${user.profile?.userName || 'User'} profile`}
+            className="border-2 border-text-gray"
+          />
+        </Link>
       </div>
     </header>
   );

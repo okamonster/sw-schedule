@@ -5,7 +5,10 @@
   --color-text-black: #080808;
   --color-text-white: #ffffff;
   --color-text-gray: #6b7280;
+  --color-text-blue: #007bff;
   --color-button-primary: #f472b6;
+  --color-background-light-gray: #f5f5f5;
+  --color-background-blue: #f0f9ff;
   --color-background-light: #ffffff;
   --color-background-dark: #1e293b;
 }

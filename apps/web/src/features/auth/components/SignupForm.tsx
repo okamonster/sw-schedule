@@ -33,12 +33,23 @@ export const SignupForm = (): React.ReactNode => {
 
   return (
     <form className="grid gap-4" onSubmit={handleSubmit(onSubmit)}>
-      <TextInput label="メールアドレス" placeholder="hello@gemba.com" {...register('email')} />
-      <PasswordInput label="パスワード" placeholder="パスワードを入力" {...register('password')} />
+      <TextInput
+        label="メールアドレス"
+        placeholder="hello@gemba.com"
+        {...register('email')}
+        error={errors.email?.message}
+      />
+      <PasswordInput
+        label="パスワード"
+        placeholder="パスワードを入力"
+        {...register('password')}
+        error={errors.password?.message}
+      />
       <PasswordInput
         label="パスワード (確認)"
         placeholder="再度パスワードを入力"
         {...register('passwordConfirm')}
+        error={errors.passwordConfirm?.message}
       />
       <Controller
         control={control}

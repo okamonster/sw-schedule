@@ -35,6 +35,7 @@ model UserProfile {
   userName        String?  @map("user_name")
   userImageUrl    String?  @map("user_image_url")
   userDescription String?  @map("user_description")
+  mainActivityRegion String  @map("main_activity_region")
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }

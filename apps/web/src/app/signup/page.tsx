@@ -3,7 +3,6 @@ import { Button, Paper } from '@mantine/core';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FcGoogle } from 'react-icons/fc';
-import { signIn } from '@/auth';
 import { SignupForm } from '@/features/auth/components/SignupForm';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 
