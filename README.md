@@ -1,84 +1,95 @@
-# Turborepo starter
+# Gemba! (sw-live-schedule)
 
-This Turborepo starter is maintained by the Turborepo core team.
+推し活スケジュール確認プラットフォーム
 
-## Using this example
+## 🎯 コンセプト・目的
 
-Run the following command:
+**プロダクト名**: Gemba!  
+*アイドルのライブやイベントなどを現場と呼ぶ文化から命名*
 
-```sh
-npx create-turbo@latest
-```
+### 問題意識
+インディーズアーティストや地下アイドルなど、ライブやイベントのスケジュールがTwitter上の告知ツイートなどでしか発信されておらず、以下の課題があります：
 
-## What's inside?
+- どの日程にどういったイベントがあるのか把握しづらい
+- その日のイベントはどのアーティストが出演して誰と誰の共演が見れるのか分からない
+- 好きなアーティストのライブ日程や出演日程を一覧で確認できない
+- 新しい推しを見つける機会が限られている
+- 行きたいイベントを効率的に探せない
 
-This Turborepo includes the following packages/apps:
+### 解決策
+好きなアーティストやアイドルのライブ日程や出演日程を一覧で確認でき、行きたいイベントを見つけやすくなる推し活のためのプラットフォームを提供します。
 
-### Apps and Packages
+## 🌟 主要機能
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+### 1. アーティスト・イベントの作成・管理
+- ユーザーが自由にアーティストや出演情報を追加
+- 出演イベントを作成できるオープンなプラットフォーム
+- アーティストのプロフィール、写真、SNSリンクなどの詳細情報管理
+- イベントの詳細情報（会場、料金、出演者、セットリスト予想など）
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+### 2. 推しの出演情報を簡単に確認
+- カレンダーなど一覧性の高い形で推しの出演予定や情報を表示
+- 好きなアーティストの今月の出演スケジュールをまとめて表示
+- **推しのアーティストの全イベントをGoogleカレンダーに一括同期**
+- 推しの出演日をハイライト表示
+- 推しの出演情報をプッシュ通知でお知らせ
 
-### Utilities
+### 3. 新しい推し発見・イベント探索機能
+- **推し発見機能**: おすすめアーティストの提案
+  - 現在の推しと似たアーティストの推薦
+  - 人気のアーティストランキング
+  - 新進気鋭のアーティスト特集
+  - ジャンル別アーティスト検索
+- **イベント探索機能**: 行きたいイベントを見つける
+  - 日付・地域・ジャンルでの絞り込み検索
+  - 初回限定・特別イベントのハイライト
+  - 共演情報でのイベント検索（「AとBの共演が見たい」）
+  - イベントの口コミ・レビュー機能
+  - 行きたいイベントのブックマーク機能
 
-This Turborepo has some additional tools already setup for you:
+### 4. 推し活特化の世界観
+- 基本はアイドルなど「推し活」がメインのコンセプト
+- ロックやバンドなどインディーズでホームページがなく予定を把握しづらいアーティストをメインで扱う
+- 地下アイドル、アイドルなどの「推し活界隈」がプロダクトの世界観の中心
+- 推し活ファン同士のコミュニティ機能（将来的に）
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+## 🚀 開発環境セットアップ
 
-### Build
+```bash
+# 依存関係のインストール
+pnpm install
 
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
+# 開発サーバー起動
 pnpm dev
+
+# ビルド
+pnpm build
+
+# リント
+pnpm lint
 ```
 
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+## 🏗️ プロジェクト構造
 
 ```
-cd my-turborepo
-npx turbo login
+sw-live-schedule/
+├── apps/
+│   ├── web/          # フロントエンドアプリケーション
+│   └── backend/      # バックエンドAPI
+├── packages/
+│   ├── ui/           # 共有UIコンポーネント
+│   └── typescript-config/  # TypeScript設定
+└── turbo.json        # Turborepo設定
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+## 🛠️ 技術スタック
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+- **フレームワーク**: Next.js
+- **言語**: TypeScript
+- **パッケージマネージャー**: pnpm
+- **モノレポ管理**: Turborepo
+- **リンター**: ESLint + Biome
 
-```
-npx turbo link
-```
+---
 
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+*このプロジェクトはTurborepoスターターをベースに構築されています。*
