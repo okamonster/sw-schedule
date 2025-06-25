@@ -1,17 +1,54 @@
-import { Divider, Textarea, TextInput } from '@mantine/core';
-import { type Control, Controller, type FieldErrors, type UseFormRegister } from 'react-hook-form';
+'use client';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Button, Divider, Textarea, TextInput } from '@mantine/core';
+import { useEffect } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { ImageInput } from '@/components/Inputs/ImageInput';
-import type { ProfileFormType } from '@/entities/profile';
+import { type FirstProfileEditFormType, firstProfileEditFormSchema } from '@/entities/profile';
 
 type Props = {
-  register: UseFormRegister<ProfileFormType>;
-  control: Control<ProfileFormType>;
-  errors: FieldErrors<ProfileFormType>;
+  next: () => void;
+  firstStepValues: FirstProfileEditFormType;
+  onChangeFirstStep: (data: FirstProfileEditFormType) => void;
 };
 
-export const FirstProfileEditFormContent = ({ register, control, errors }: Props) => {
+export const FirstProfileEditFormContent = ({
+  next,
+  firstStepValues,
+  onChangeFirstStep,
+}: Props) => {
+  const {
+    register,
+    getValues,
+    control,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<FirstProfileEditFormType>({
+    resolver: zodResolver(firstProfileEditFormSchema),
+    mode: 'all',
+    defaultValues: {
+      userImageUrl: firstStepValues.userImageUrl,
+      userName: firstStepValues.userName,
+      userDescription: firstStepValues.userDescription,
+    },
+  });
+
+  const onSubmit = (data: FirstProfileEditFormType) => {
+    onChangeFirstStep(data);
+    next();
+  };
+
+  useEffect(() => {
+    onChangeFirstStep({
+      userImageUrl: getValues('userImageUrl'),
+      userName: getValues('userName'),
+      userDescription: getValues('userDescription'),
+    });
+  }, [getValues, onChangeFirstStep]);
+
   return (
-    <div className="grid gap-4">
+    <form className="grid gap-4" onSubmit={handleSubmit(onSubmit)}>
       <div className="grid gap-1">
         <h2 className="text-lg font-bold text-text-black">プロフィール設定</h2>
         <p className="text-sm text-text-gray">プロフィール情報を入力してください</p>
@@ -50,6 +87,15 @@ export const FirstProfileEditFormContent = ({ register, control, errors }: Props
         maxRows={5}
         radius="md"
       />
-    </div>
+
+      <div className="flex justify-between">
+        <Button variant="subtle" color="var(--color-text-black)" disabled radius="lg">
+          戻る
+        </Button>
+        <Button color="var(--color-text-primary)" radius="lg" type="submit" disabled={!isValid}>
+          次へ
+        </Button>
+      </div>
+    </form>
   );
 };

@@ -21,40 +21,19 @@ export const profileFormSchema = z.object({
 
 export type ProfileFormType = z.infer<typeof profileFormSchema>;
 
-// ステップ別バリデーション用のスキーマ
-export const createStepSchema = (step: number) => {
-  const baseSchema = z.object({
-    userImageUrl: z.string().nullable(),
-    userName: z.string(),
-    userDescription: z.string().nullable(),
-    mainActivityRegion: z.string(),
-  });
+export const firstProfileEditFormSchema = z.object({
+  userImageUrl: z.string().nullable(),
+  userName: z.string().min(1, '名前を入力してください'),
+  userDescription: z.string().nullable(),
+});
 
-  switch (step) {
-    case 1:
-      return baseSchema.refine(
-        (data) => {
-          return data.userName && data.userName.trim().length > 0;
-        },
-        {
-          message: '名前を入力してください',
-          path: ['userName'],
-        }
-      );
-    case 2:
-      return baseSchema.refine(
-        (data) => {
-          return data.mainActivityRegion && data.mainActivityRegion.trim().length > 0;
-        },
-        {
-          message: '活動地域を選択してください',
-          path: ['mainActivityRegion'],
-        }
-      );
-    default:
-      return profileFormSchema;
-  }
-};
+export type FirstProfileEditFormType = z.infer<typeof firstProfileEditFormSchema>;
+
+export const secondProfileEditFormSchema = z.object({
+  mainActivityRegion: z.string().min(1, '活動地域を選択してください'),
+});
+
+export type SecondProfileEditFormType = z.infer<typeof secondProfileEditFormSchema>;
 
 // 日本の地方データ
 export const JAPAN_REGIONS = [

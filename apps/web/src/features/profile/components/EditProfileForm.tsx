@@ -1,152 +1,93 @@
 'use client';
 
-import { Button } from '@mantine/core';
-import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { useForm } from 'react-hook-form';
-import { FaCheck } from 'react-icons/fa';
-import type { Profile, ProfileFormType } from '@/entities/profile';
+import { useEffect, useState } from 'react';
+import type {
+  FirstProfileEditFormType,
+  Profile,
+  ProfileFormType,
+  SecondProfileEditFormType,
+} from '@/entities/profile';
 import { FirstProfileEditFormContent } from '@/features/profile/components/FirstProfileEditFormContent';
-import { ProfilePreview } from '@/features/profile/components/ProfilePreview';
 import { SecondProfileEditFormContent } from '@/features/profile/components/SecondProfileEditFormContent';
 import { useSteps } from '@/features/profile/hooks/useSteps';
-import { useStepValidation } from '@/features/profile/hooks/useStepValidation';
 
 type Props = {
   profile?: Profile;
 };
 
 export const EditProfileForm = ({ profile }: Props) => {
-  const { currentStep, steps, handleNext, handleBack } = useSteps();
-  const { resolver } = useStepValidation(currentStep);
-
-  const session = useSession();
-  const { push } = useRouter();
-
-  const {
-    register,
-    control,
-    handleSubmit,
-    getValues,
-    formState: { errors, isValid },
-    trigger,
-    clearErrors,
-  } = useForm<ProfileFormType>({
-    mode: 'all',
-    defaultValues: {
-      userName: profile?.userName ?? '',
-      userDescription: profile?.userDescription ?? '',
-      mainActivityRegion: profile?.mainActivityRegion ?? '',
-      userImageUrl: profile?.userImageUrl ?? '',
-    },
-    resolver,
+  const [firstStepValues, setFirstStepValues] = useState<FirstProfileEditFormType>({
+    userName: profile?.userName ?? '',
+    userDescription: profile?.userDescription ?? '',
+    userImageUrl: profile?.userImageUrl ?? '',
   });
 
-  const handleNextStep = async () => {
-    // 現在のステップのフィールドのみバリデーション
-    const fieldsToValidate =
-      currentStep === 1 ? (['userName'] as const) : (['mainActivityRegion'] as const);
+  const [secondStepValues, setSecondStepValues] = useState<SecondProfileEditFormType>({
+    mainActivityRegion: profile?.mainActivityRegion ?? '',
+  });
 
-    const isValid = await trigger(fieldsToValidate);
+  const [profileValues, setProfileValues] = useState<ProfileFormType>({
+    userName: profile?.userName ?? '',
+    userDescription: profile?.userDescription ?? '',
+    mainActivityRegion: profile?.mainActivityRegion ?? '',
+    userImageUrl: profile?.userImageUrl ?? '',
+  });
 
-    if (isValid) {
-      clearErrors(); // エラーをクリアしてから次のステップへ
-      handleNext();
-    }
-  };
+  const { currentStep, handleNext, handleBack } = useSteps();
 
-  // 現在のステップで必要なフィールドのみエラーチェック
-  const getCurrentStepErrors = () => {
-    if (currentStep === 1) {
-      return {
-        userName: errors.userName,
-        userDescription: errors.userDescription,
-      };
-    }
-    return {
-      mainActivityRegion: errors.mainActivityRegion,
-    };
-  };
+  const session = useSession();
 
-  const currentErrors = getCurrentStepErrors();
+  useEffect(() => {
+    setProfileValues({
+      userName: firstStepValues.userName,
+      userDescription: firstStepValues.userDescription,
+      mainActivityRegion: secondStepValues.mainActivityRegion,
+      userImageUrl: firstStepValues.userImageUrl,
+    });
+  }, [firstStepValues, secondStepValues]);
 
-  const onSubmit = async (data: ProfileFormType) => {
-    if (!session?.data?.backendToken) {
-      return null;
+  const saveProfile = async (data: ProfileFormType) => {
+    if (!session.data?.backendToken) {
+      throw new Error('Unauthorized');
     }
 
-    try {
-      const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/profile`, {
-        method: profile ? 'PUT' : 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${session?.data?.backendToken}`,
-        },
-        body: JSON.stringify(data),
-      });
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/profile`, {
+      method: profile ? 'PUT' : 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${session.data.backendToken}`,
+      },
+      body: JSON.stringify({
+        ...data,
+      }),
+    });
 
-      if (!result.ok) {
-        throw new Error('Failed to create profile');
-      }
-
-      push('/home');
-    } catch (error) {
-      console.error(error);
+    if (!response.ok) {
+      throw new Error('Failed to save profile');
     }
   };
 
   return (
-    <form className="p-4 grid gap-4" onSubmit={handleSubmit(onSubmit)}>
+    <div className="p-4 grid gap-4">
       <div className="grid gap-4">
         {currentStep === 1 && (
           <FirstProfileEditFormContent
-            register={register}
-            control={control}
-            errors={currentErrors}
+            firstStepValues={firstStepValues}
+            onChangeFirstStep={setFirstStepValues}
+            next={handleNext}
           />
         )}
         {currentStep === 2 && (
-          <>
-            <SecondProfileEditFormContent control={control} errors={currentErrors} />
-            <ProfilePreview profileValues={getValues()} />
-          </>
+          <SecondProfileEditFormContent
+            back={handleBack}
+            secondStepValues={secondStepValues}
+            profileValues={profileValues}
+            onChangeSecondStep={setSecondStepValues}
+            saveProfile={saveProfile}
+          />
         )}
       </div>
-
-      {/* ナビゲーションボタン */}
-      <div className="flex justify-between">
-        <Button
-          variant="subtle"
-          color="var(--color-text-black)"
-          onClick={handleBack}
-          disabled={currentStep === 1}
-          radius="lg"
-        >
-          戻る
-        </Button>
-
-        {currentStep < steps.length ? (
-          <Button
-            onClick={handleNextStep}
-            color="var(--color-text-primary)"
-            radius="lg"
-            type="button"
-            disabled={!isValid}
-          >
-            次へ
-          </Button>
-        ) : (
-          <Button
-            color="var(--color-text-primary)"
-            radius="lg"
-            leftSection={<FaCheck size={16} />}
-            type="submit"
-            disabled={!isValid}
-          >
-            プロフィールを作成
-          </Button>
-        )}
-      </div>
-    </form>
+    </div>
   );
 };
