@@ -2,7 +2,7 @@
 
 import { Button } from '@mantine/core';
 import { useRouter } from 'next/navigation';
-import { FaCalendarAlt, FaCog, FaEdit } from 'react-icons/fa';
+import { FaCalendarAlt, FaCog, FaEdit, FaSignOutAlt } from 'react-icons/fa';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 
 export const ProfileActions = () => {
@@ -52,7 +52,7 @@ export const ProfileActions = () => {
           variant="light"
           fullWidth
           justify="flex-start"
-          leftSection={<FaCog size={16} />}
+          leftSection={<FaSignOutAlt size={16} />}
           onClick={handleLogout}
           radius="lg"
           color="var(--color-text-primary)"
