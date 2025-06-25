@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import { FaCheck } from 'react-icons/fa';
-import type { ProfileFormType } from '@/entities/profile';
+import type { Profile, ProfileFormType } from '@/entities/profile';
 import { FirstProfileEditFormContent } from '@/features/profile/components/FirstProfileEditFormContent';
 import { ProfilePreview } from '@/features/profile/components/ProfilePreview';
 import { SecondProfileEditFormContent } from '@/features/profile/components/SecondProfileEditFormContent';
@@ -13,11 +13,10 @@ import { useSteps } from '@/features/profile/hooks/useSteps';
 import { useStepValidation } from '@/features/profile/hooks/useStepValidation';
 
 type Props = {
-  defaultValues: ProfileFormType;
-  isEdit: boolean;
+  profile?: Profile;
 };
 
-export const EditProfileForm = ({ defaultValues, isEdit }: Props) => {
+export const EditProfileForm = ({ profile }: Props) => {
   const { currentStep, steps, handleNext, handleBack } = useSteps();
   const { resolver } = useStepValidation(currentStep);
 
@@ -35,10 +34,10 @@ export const EditProfileForm = ({ defaultValues, isEdit }: Props) => {
   } = useForm<ProfileFormType>({
     mode: 'all',
     defaultValues: {
-      userName: defaultValues.userName,
-      userDescription: defaultValues.userDescription,
-      mainActivityRegion: defaultValues.mainActivityRegion || '',
-      userImageUrl: defaultValues.userImageUrl,
+      userName: profile?.userName ?? '',
+      userDescription: profile?.userDescription ?? '',
+      mainActivityRegion: profile?.mainActivityRegion ?? '',
+      userImageUrl: profile?.userImageUrl ?? '',
     },
     resolver,
   });
@@ -78,7 +77,7 @@ export const EditProfileForm = ({ defaultValues, isEdit }: Props) => {
 
     try {
       const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/profile`, {
-        method: isEdit ? 'PUT' : 'POST',
+        method: profile ? 'PUT' : 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${session?.data?.backendToken}`,

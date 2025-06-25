@@ -15,6 +15,15 @@ export const ImageInput = ({ value, onChange, error }: Props): React.ReactNode =
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { isUploading, handleUpload } = useUploadImage(onChange);
 
+  const handleDelete = () => {
+    // ファイル入力もクリア
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+    // 値を空文字列に設定
+    onChange('');
+  };
+
   return (
     <div className="flex flex-col items-center gap-2">
       <div className="relative">
@@ -62,7 +71,8 @@ export const ImageInput = ({ value, onChange, error }: Props): React.ReactNode =
             pos="absolute"
             top={-8}
             right={-8}
-            onClick={() => onChange('')}
+            onClick={handleDelete}
+            style={{ zIndex: 10 }}
           >
             <FaTrash size={12} />
           </ActionIcon>
