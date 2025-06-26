@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Paper, Select, Textarea, TextInput } from "@mantine/core";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useId } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ImageInput } from "@/components/Inputs/ImageInput";
 import {
@@ -21,7 +20,7 @@ import { createArtist } from "@/service/artist";
 
 export const CreateArtistForm = () => {
 	const { push } = useRouter();
-	const descriptionId = useId();
+
 	const session = useSession();
 
 	const onSubmit = async (data: CreateArtistSchemaType) => {
@@ -128,7 +127,6 @@ export const CreateArtistForm = () => {
 
 					<Textarea
 						label="詳細"
-						id={descriptionId}
 						{...register("artistDescription")}
 						error={errors.artistDescription?.message}
 						rows={4}
