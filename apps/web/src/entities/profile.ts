@@ -34,21 +34,3 @@ export const secondProfileEditFormSchema = z.object({
 });
 
 export type SecondProfileEditFormType = z.infer<typeof secondProfileEditFormSchema>;
-
-// 日本の地方データ
-export const JAPAN_REGIONS = [
-  { value: 'hokkaido', label: '北海道' },
-  { value: 'tohoku', label: '東北' },
-  { value: 'kanto', label: '関東' },
-  { value: 'chubu', label: '中部' },
-  { value: 'kansai', label: '関西' },
-  { value: 'chugoku', label: '中国' },
-  { value: 'shikoku', label: '四国' },
-  { value: 'kyushu', label: '九州・沖縄' },
-] as const satisfies { value: string; label: string }[];
-
-export type JapanRegion = (typeof JAPAN_REGIONS)[number]['value'];
-
-export const getRegionLabel = (value: string) => {
-  return JAPAN_REGIONS.find((region) => region.value === value)?.label || value;
-};
