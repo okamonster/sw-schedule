@@ -2,7 +2,6 @@
 
 import { Button, Card, Image, Skeleton } from "@mantine/core";
 import Link from "next/link";
-import { useState } from "react";
 import { getGenreLabel, getRegionLabel } from "@/constants";
 import type { Artist } from "@/entities/artist";
 
@@ -45,7 +44,7 @@ export function ArtistListCard({ artist, isFollowing }: Props) {
 						{getGenreLabel(artist.genre)} • {getRegionLabel(artist.region)}
 					</p>
 					<div className="flex items-center justify-between">
-						<p className="text-xs text-text-gray">人が推し中</p>
+						<p className="text-xs text-text-gray">人が推しに登録</p>
 						<Button
 							type="button"
 							color="var(--color-button-primary)"
@@ -53,7 +52,7 @@ export function ArtistListCard({ artist, isFollowing }: Props) {
 							variant={isFollowing ? "filled" : "outline"}
 							radius="lg"
 						>
-							{isFollowing ? "推し中" : "推しに追加"}
+							{isFollowing ? "推しに登録済み" : "推しに追加"}
 						</Button>
 					</div>
 				</div>
