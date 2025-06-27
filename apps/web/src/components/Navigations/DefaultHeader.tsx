@@ -46,7 +46,7 @@ export const DefaultHeader = ({ user, showBackButton = true, title }: Props): Re
 
       {/* 右側: プロフィールアバター */}
       <div className="flex items-center">
-        <Link href="/myPage">
+        <Link href="/profile">
           <Avatar
             src={user.profile?.userImageUrl}
             size="md"
