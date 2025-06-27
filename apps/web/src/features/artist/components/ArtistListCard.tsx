@@ -4,16 +4,15 @@ import { Button, Card, Image, Skeleton } from '@mantine/core';
 import Link from 'next/link';
 import { getGenreLabel, getRegionLabel } from '@/constants';
 import type { Artist } from '@/entities/artist';
+import { useFollow } from '@/features/artist/hooks/useFollow';
 
 type Props = {
   artist: Artist;
   isFollowing: boolean;
 };
 
-export function ArtistListCard({ artist, isFollowing }: Props) {
-  const handleFollowToggle = (e: React.MouseEvent) => {
-    e.preventDefault();
-  };
+export function ArtistListCard({ artist }: Props) {
+  const { handleFollow, isFollowing } = useFollow(artist.id);
 
   return (
     <Link href={`/artists/${artist.id}`}>
@@ -38,7 +37,10 @@ export function ArtistListCard({ artist, isFollowing }: Props) {
             <Button
               type="button"
               color="var(--color-button-primary)"
-              onClick={handleFollowToggle}
+              onClick={async (e) => {
+                e.preventDefault();
+                await handleFollow();
+              }}
               variant={isFollowing ? 'outline' : 'filled'}
               radius="lg"
             >
