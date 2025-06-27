@@ -1,4 +1,5 @@
 import z from 'zod';
+import type { UserArtistFollow } from './userArtistFollow';
 
 export type Artist = {
   id: string;
@@ -12,6 +13,7 @@ export type Artist = {
   twitterId: string;
   instagramId: string;
   youtubeUrl: string;
+  followers: UserArtistFollow[];
 };
 
 export const createArtistSchema = z.object({

@@ -51,6 +51,9 @@ export const searchArtistsOperation = async (query: SearchArtistRequest): Promis
 export const getArtistByIdOperation = async (id: string): Promise<Artist | null> => {
   const artist = await prismaClient.artist.findUnique({
     where: { id },
+    include: {
+      followers: true,
+    },
   });
 
   if (!artist) {

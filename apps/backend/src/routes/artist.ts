@@ -1,12 +1,18 @@
 import { Hono } from 'hono';
 import { jwt } from 'hono/jwt';
 import { createArtistRequestSchema, searchArtistRequestSchema } from '~/entities/artist.js';
+import { createUserArtistFollowRequestSchema } from '~/entities/userArtistFollow.js';
 import {
   createArtistOperation,
   getArtistByIdOperation,
   getArtistsOperation,
   searchArtistsOperation,
 } from '~/infrastructures/artistOperations.js';
+import {
+  createUserArtistFollowOperation,
+  deleteUserArtistFollowOperation,
+  getUserArtistFollowByUserAndArtistIdOperation,
+} from '~/infrastructures/userArtistFollowOperations.js';
 
 const app = new Hono();
 
@@ -76,4 +82,64 @@ app.get('/:id', async (c) => {
   }
 });
 
+app.get('/:id/follow', jwt({ secret: process.env.JWT_SECRET || '' }), async (c) => {
+  const { id: artistId } = c.req.param();
+  const jwtPayload = c.get('jwtPayload');
+  if (!jwtPayload) {
+    return c.json({ error: 'Unauthorized' }, 403);
+  }
+
+  try {
+    const { userId } = jwtPayload;
+
+    const userArtistFollow = await getUserArtistFollowByUserAndArtistIdOperation(userId, artistId);
+
+    if (!userArtistFollow) {
+      return c.json(null, 200);
+    }
+
+    return c.json(userArtistFollow, 200);
+  } catch (error) {
+    console.error('Error getting user artist follow:', error);
+    return c.json({ error: 'Internal server error' }, 500);
+  }
+});
+
+app.post('/:id/follow', jwt({ secret: process.env.JWT_SECRET || '' }), async (c) => {
+  const { id: artistId } = c.req.param();
+  const jwtPayload = c.get('jwtPayload');
+  if (!jwtPayload) {
+    return c.json({ error: 'Unauthorized' }, 403);
+  }
+
+  try {
+    const { userId } = jwtPayload;
+
+    const userArtistFollow = await createUserArtistFollowOperation(userId, artistId);
+
+    return c.json(userArtistFollow, 201);
+  } catch (error) {
+    console.error('Error creating user artist follow:', error);
+    return c.json({ error: 'Internal server error' }, 500);
+  }
+});
+
+app.delete('/:id/follow', jwt({ secret: process.env.JWT_SECRET || '' }), async (c) => {
+  const { id: artistId } = c.req.param();
+  const jwtPayload = c.get('jwtPayload');
+  if (!jwtPayload) {
+    return c.json({ error: 'Unauthorized' }, 403);
+  }
+
+  try {
+    const { userId } = jwtPayload;
+
+    await deleteUserArtistFollowOperation(userId, artistId);
+
+    return c.json({ message: 'User artist follow deleted' }, 201);
+  } catch (error) {
+    console.error('Error creating user artist follow:', error);
+    return c.json({ error: 'Internal server error' }, 500);
+  }
+});
 export default app;

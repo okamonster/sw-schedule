@@ -13,11 +13,11 @@ export const createArtist = async (
     body: JSON.stringify({ ...dto }),
   });
 
-  if (!result.ok) {
+  const data = await result.json();
+
+  if (!result.ok || !data) {
     throw new Error('Failed to create artist');
   }
-
-  const data = await result.json();
 
   return {
     ...data,
@@ -78,12 +78,11 @@ export const getArtistById = async (id: string): Promise<Artist | null> => {
       'Content-Type': 'application/json',
     },
   });
+  const data = await result.json();
 
-  if (!result.ok) {
+  if (!result.ok || !data) {
     return null;
   }
-
-  const data = await result.json();
 
   return {
     ...data,

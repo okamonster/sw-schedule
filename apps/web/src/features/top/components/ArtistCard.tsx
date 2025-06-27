@@ -21,7 +21,7 @@ export const ArtistCard = ({ artist }: Props): React.ReactNode => {
 
         <p className="text-md font-bold">{artist.artistName}</p>
 
-        <p className="text-sm text-text-gray">フォロワー: {100}人</p>
+        <p className="text-sm text-text-gray">{artist.followers.length}人が推しに登録中</p>
       </Card>
     </Link>
   );
