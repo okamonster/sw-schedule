@@ -1,11 +1,22 @@
 import { Hono } from 'hono';
 import { jwt } from 'hono/jwt';
-import { createArtistRequestSchema, searchArtistRequestSchema } from '~/entities/artist.js';
+import {
+  createArtistRequestSchema,
+  searchArtistRequestSchema,
+  updateArtistRequestSchema,
+} from '~/entities/artist.js';
 import {
   createArtistOperation,
+  getArtistByIdOperation,
   getArtistsOperation,
   searchArtistsOperation,
+  updateArtistOperation,
 } from '~/infrastructures/artistOperations.js';
+import {
+  createUserArtistFollowOperation,
+  deleteUserArtistFollowOperation,
+  getUserArtistFollowByUserAndArtistIdOperation,
+} from '~/infrastructures/userArtistFollowOperations.js';
 
 const app = new Hono();
 
@@ -23,6 +34,29 @@ app.post('/', jwt({ secret: process.env.JWT_SECRET || '' }), async (c) => {
     }
 
     const artist = await createArtistOperation(result.data);
+    return c.json(artist, 201);
+  } catch (error) {
+    console.error('Error creating artist:', error);
+    return c.json({ error: 'Internal server error' }, 500);
+  }
+});
+
+app.put('/:id', jwt({ secret: process.env.JWT_SECRET || '' }), async (c) => {
+  const jwtPayload = c.get('jwtPayload');
+  if (!jwtPayload) {
+    return c.json({ error: 'Unauthorized' }, 403);
+  }
+
+  const { id } = c.req.param();
+
+  const body = await c.req.json();
+  const result = updateArtistRequestSchema.safeParse(body);
+  try {
+    if (!result.success) {
+      return c.json({ error: 'Invalid request format' }, 400);
+    }
+
+    const artist = await updateArtistOperation(id, result.data);
     return c.json(artist, 201);
   } catch (error) {
     console.error('Error creating artist:', error);
@@ -60,4 +94,79 @@ app.get('/search', async (c) => {
   }
 });
 
+app.get('/:id', async (c) => {
+  const { id } = c.req.param();
+  try {
+    const artist = await getArtistByIdOperation(id);
+    if (!artist) {
+      return c.json({ error: 'Artist not found' }, 404);
+    }
+
+    return c.json(artist, 200);
+  } catch (error) {
+    console.error('Error getting artist by id:', error);
+    return c.json({ error: 'Internal server error' }, 500);
+  }
+});
+
+app.get('/:id/follow', jwt({ secret: process.env.JWT_SECRET || '' }), async (c) => {
+  const { id: artistId } = c.req.param();
+  const jwtPayload = c.get('jwtPayload');
+  if (!jwtPayload) {
+    return c.json({ error: 'Unauthorized' }, 403);
+  }
+
+  try {
+    const { userId } = jwtPayload;
+
+    const userArtistFollow = await getUserArtistFollowByUserAndArtistIdOperation(userId, artistId);
+
+    if (!userArtistFollow) {
+      return c.json(null, 200);
+    }
+
+    return c.json(userArtistFollow, 200);
+  } catch (error) {
+    console.error('Error getting user artist follow:', error);
+    return c.json({ error: 'Internal server error' }, 500);
+  }
+});
+
+app.post('/:id/follow', jwt({ secret: process.env.JWT_SECRET || '' }), async (c) => {
+  const { id: artistId } = c.req.param();
+  const jwtPayload = c.get('jwtPayload');
+  if (!jwtPayload) {
+    return c.json({ error: 'Unauthorized' }, 403);
+  }
+
+  try {
+    const { userId } = jwtPayload;
+
+    const userArtistFollow = await createUserArtistFollowOperation(userId, artistId);
+
+    return c.json(userArtistFollow, 201);
+  } catch (error) {
+    console.error('Error creating user artist follow:', error);
+    return c.json({ error: 'Internal server error' }, 500);
+  }
+});
+
+app.delete('/:id/follow', jwt({ secret: process.env.JWT_SECRET || '' }), async (c) => {
+  const { id: artistId } = c.req.param();
+  const jwtPayload = c.get('jwtPayload');
+  if (!jwtPayload) {
+    return c.json({ error: 'Unauthorized' }, 403);
+  }
+
+  try {
+    const { userId } = jwtPayload;
+
+    await deleteUserArtistFollowOperation(userId, artistId);
+
+    return c.json({ message: 'User artist follow deleted' }, 201);
+  } catch (error) {
+    console.error('Error deleting user artist follow:', error);
+    return c.json({ error: 'Internal server error' }, 500);
+  }
+});
 export default app;

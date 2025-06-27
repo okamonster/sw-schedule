@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import type { Profile } from './profile';
+import type { UserArtistFollow } from './userArtistFollow';
 
 export type User = {
   id: string;
@@ -7,6 +8,7 @@ export type User = {
   createdAt: Date;
   updatedAt: Date;
   profile: Profile;
+  followingArtists: UserArtistFollow[];
 };
 
 export const signupUserSchema = z

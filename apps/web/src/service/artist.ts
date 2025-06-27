@@ -1,4 +1,4 @@
-import type { Artist, CreateArtistSchemaType } from '@/entities/artist';
+import type { Artist, CreateArtistSchemaType, UpdateArtistSchemaType } from '@/entities/artist';
 
 export const createArtist = async (
   dto: CreateArtistSchemaType,
@@ -13,11 +13,36 @@ export const createArtist = async (
     body: JSON.stringify({ ...dto }),
   });
 
-  if (!result.ok) {
+  const data = await result.json();
+
+  if (!result.ok || !data) {
     throw new Error('Failed to create artist');
   }
 
+  return {
+    ...data,
+  } as Artist;
+};
+
+export const updateArtist = async (
+  id: string,
+  dto: UpdateArtistSchemaType,
+  backendToken: string
+): Promise<Artist> => {
+  const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/artist/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${backendToken}`,
+    },
+    body: JSON.stringify({ ...dto }),
+  });
+
   const data = await result.json();
+
+  if (!result.ok || !data) {
+    throw new Error('Failed to update artist');
+  }
 
   return {
     ...data,
@@ -70,4 +95,21 @@ export const getArtistListByQuery = async (
   const data = await result.json();
 
   return data as Artist[];
+};
+
+export const getArtistById = async (id: string): Promise<Artist | null> => {
+  const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/artist/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const data = await result.json();
+
+  if (!result.ok || !data) {
+    return null;
+  }
+
+  return {
+    ...data,
+  } as Artist;
 };

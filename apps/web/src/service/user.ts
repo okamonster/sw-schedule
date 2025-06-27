@@ -15,11 +15,11 @@ export const getCurrentUser = async (): Promise<User | null> => {
     },
   });
 
-  if (!result.ok) {
+  const data = await result.json();
+
+  if (!result.ok || !data) {
     return null;
   }
-
-  const data = await result.json();
 
   return {
     ...data,

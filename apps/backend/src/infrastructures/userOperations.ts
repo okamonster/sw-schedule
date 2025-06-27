@@ -47,6 +47,7 @@ export const getUserByIdOperation = async (id: string): Promise<User | null> => 
     },
     include: {
       profile: true,
+      followingArtists: true,
     },
   });
 

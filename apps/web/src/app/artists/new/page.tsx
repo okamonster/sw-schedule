@@ -1,4 +1,4 @@
-import { CreateArtistForm } from '@/features/artist/components/CreateArtistForm';
+import { EditArtistForm } from '@/features/artist/components/EditArtistForm';
 
 export default function CreateArtistPage() {
   return (
@@ -10,7 +10,7 @@ export default function CreateArtistPage() {
       </div>
 
       {/* 作成フォーム */}
-      <CreateArtistForm />
+      <EditArtistForm />
     </div>
   );
 }
