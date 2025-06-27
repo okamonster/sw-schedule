@@ -1,6 +1,10 @@
 import { Hono } from 'hono';
 import { jwt } from 'hono/jwt';
-import { createArtistRequestSchema, searchArtistRequestSchema } from '~/entities/artist.js';
+import {
+  createArtistRequestSchema,
+  searchArtistRequestSchema,
+  updateArtistRequestSchema,
+} from '~/entities/artist.js';
 import {
   createArtistOperation,
   getArtistByIdOperation,
@@ -46,7 +50,7 @@ app.put('/:id', jwt({ secret: process.env.JWT_SECRET || '' }), async (c) => {
   const { id } = c.req.param();
 
   const body = await c.req.json();
-  const result = createArtistRequestSchema.safeParse(body);
+  const result = updateArtistRequestSchema.safeParse(body);
   try {
     if (!result.success) {
       return c.json({ error: 'Invalid request format' }, 400);
