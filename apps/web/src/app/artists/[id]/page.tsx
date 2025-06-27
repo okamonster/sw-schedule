@@ -2,12 +2,10 @@ import { ActionIcon, Button, Divider, Image } from '@mantine/core';
 import { Calendar } from '@mantine/dates';
 import { FaCalendarAlt, FaInstagram } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
-import { auth } from '@/auth';
 import { ArtistDetailSection } from '@/features/artist/components/ArtistDetailSection';
 import { ArtistCard } from '@/features/top/components/ArtistCard';
 import { getArtistById } from '@/service/artist';
 import { getCurrentUser } from '@/service/user';
-import { getUserArtistFollow } from '@/service/userArtistFollow';
 
 type Props = {
   params: {
