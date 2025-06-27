@@ -21,7 +21,6 @@ export const useFollow = (artistId: string) => {
     const fetchUserArtistFollow = async () => {
       try {
         const userArtistFollow = await getUserArtistFollow(backendToken, artistId);
-        console.log('userArtistFollow', userArtistFollow);
         setIsFollowing(!!userArtistFollow);
       } catch (error) {
         console.error('Error fetching follow status:', error);
