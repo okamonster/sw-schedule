@@ -22,22 +22,22 @@ model User {
   updatedAt DateTime @updatedAt
 
   profile          UserProfile?
-  // フォローしているアーティストとの関係
+  // 推しているアーティストとの関係
   followingArtists UserArtistFollow[]
 
   @@map("users")
 }
 
 model UserProfile {
-  id              String   @id @default(uuid())
-  userId          String   @unique @map("user_id")
-  user            User     @relation(fields: [userId], references: [id])
-  userName        String?  @map("user_name")
-  userImageUrl    String?  @map("user_image_url")
-  userDescription String?  @map("user_description")
-  mainActivityRegion String  @map("main_activity_region")
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id                 String   @id @default(uuid())
+  userId             String   @unique @map("user_id")
+  user               User     @relation(fields: [userId], references: [id])
+  userName           String   @map("user_name")
+  userImageUrl       String?  @map("user_image_url")
+  userDescription    String?  @map("user_description")
+  mainActivityRegion String   @map("main_activity_region")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 }
 
 // アーティスト（出演者）
@@ -46,11 +46,16 @@ model Artist {
   artistName        String             @map("artist_name")
   artistImageUrl    String?            @map("artist_image_url")
   artistDescription String?            @map("artist_description")
+  genre             String // ジャンル（アイドル、ロック、ポップスなど）
+  region            String // 活動地域（東京、大阪、愛知など）
+  twitterId         String?            @map("twitter_id")
+  instagramId       String?            @map("instagram_id")
+  youtubeUrl        String?            @map("youtube_url")
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
   // アーティスト本人のアカウント
   artistUser        ArtistUser?
-  // フォロワーとの関係
+  // 推しファンとの関係
   followers         UserArtistFollow[]
   // 出演イベントとの関係
   events            ArtistEvent[]
@@ -94,7 +99,7 @@ model Event {
   @@map("events")
 }
 
-// User-Artist間のフォロー関係（多対多）
+// User-Artist間の推し関係（多対多）
 model UserArtistFollow {
   id        String   @id @default(uuid())
   userId    String   @map("user_id")

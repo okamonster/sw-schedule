@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { SUPABASE_BUCKETS, SUPABASE_UPLOAD_PATHS } from '@/constants';
 import { uploadImage } from '@/libs/storage';
 
 export const useUploadImage = (
+  buketName: string,
+  uploadPath: string,
   onChange: (value: string) => void
 ): {
   isUploading: boolean;
@@ -17,7 +18,7 @@ export const useUploadImage = (
 
     try {
       setIsUploading(true);
-      const imageUrl = await uploadImage(SUPABASE_BUCKETS.USERS, SUPABASE_UPLOAD_PATHS.USERS, file);
+      const imageUrl = await uploadImage(buketName, uploadPath, file);
 
       if (!imageUrl) {
         throw new Error('画像のアップロードに失敗しました');

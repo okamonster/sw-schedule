@@ -6,8 +6,8 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { FaCheck } from 'react-icons/fa';
+import { JAPAN_REGIONS } from '@/constants';
 import {
-  JAPAN_REGIONS,
   type ProfileFormType,
   type SecondProfileEditFormType,
   secondProfileEditFormSchema,

@@ -5,6 +5,7 @@ import { Button, Divider, Textarea, TextInput } from '@mantine/core';
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { ImageInput } from '@/components/Inputs/ImageInput';
+import { SUPABASE_BUCKETS, SUPABASE_UPLOAD_PATHS } from '@/constants';
 import { type FirstProfileEditFormType, firstProfileEditFormSchema } from '@/entities/profile';
 
 type Props = {
@@ -60,6 +61,8 @@ export const FirstProfileEditFormContent = ({
         name="userImageUrl"
         render={({ field }) => (
           <ImageInput
+            buketName={SUPABASE_BUCKETS.USERS}
+            uploadPath={SUPABASE_UPLOAD_PATHS.USERS}
             value={field.value ?? ''}
             onChange={field.onChange}
             error={errors.userImageUrl?.message}

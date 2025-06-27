@@ -6,14 +6,22 @@ import { FaCamera, FaTrash, FaUser } from 'react-icons/fa';
 import { useUploadImage } from './hooks/useUploadImage';
 
 type Props = {
+  buketName: string;
+  uploadPath: string;
   value: string;
   error?: string;
   onChange: (value: string) => void;
 };
 
-export const ImageInput = ({ value, onChange, error }: Props): React.ReactNode => {
+export const ImageInput = ({
+  buketName,
+  uploadPath,
+  value,
+  onChange,
+  error,
+}: Props): React.ReactNode => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { isUploading, handleUpload } = useUploadImage(onChange);
+  const { isUploading, handleUpload } = useUploadImage(buketName, uploadPath, onChange);
 
   const handleDelete = () => {
     // ファイル入力もクリア

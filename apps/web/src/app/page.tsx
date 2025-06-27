@@ -4,6 +4,7 @@ import { TopHeader } from '@/components/Navigations/TopHeader';
 import { ArtistCard } from '@/features/top/components/ArtistCard';
 import { EventCard } from '@/features/top/components/EventCard';
 import { UnloginHeroSection } from '@/features/top/components/UnloginHeroSection';
+import { getArtistListByQuery } from '@/service/artist';
 
 export default async function Home() {
   // モックデータ
@@ -34,37 +35,6 @@ export default async function Home() {
     },
   ];
 
-  const popularArtists = [
-    {
-      id: '1',
-      name: 'AKB48',
-      followers: 125000,
-      imageUrl: '',
-      isFollowing: true,
-    },
-    {
-      id: '2',
-      name: '乃木坂46',
-      followers: 98000,
-      imageUrl: '',
-      isFollowing: false,
-    },
-    {
-      id: '3',
-      name: '櫻坂46',
-      followers: 75000,
-      imageUrl: '',
-      isFollowing: true,
-    },
-    {
-      id: '4',
-      name: '日向坂46',
-      followers: 68000,
-      imageUrl: '',
-      isFollowing: false,
-    },
-  ];
-
   const upcomingEvents = [
     {
       id: '1',
@@ -92,6 +62,8 @@ export default async function Home() {
     },
   ];
 
+  const popularArtists = await getArtistListByQuery('', 'followers', 'desc', 10, 0);
+
   return (
     <div>
       <TopHeader />
@@ -112,12 +84,7 @@ export default async function Home() {
           {/* はみ出したらスクロールできるようにする */}
           <div className="flex items-center gap-2 overflow-x-auto shrink-0 px-4">
             {popularArtists.map((artist) => (
-              <ArtistCard
-                key={artist.id}
-                imageUrl={artist.imageUrl}
-                artistName={artist.name}
-                followersCount={artist.followers}
-              />
+              <ArtistCard key={artist.id} artist={artist} />
             ))}
           </div>
           <div className="text-center">
