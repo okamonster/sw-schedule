@@ -3,14 +3,14 @@ import { ArtistList } from '@/features/artist/components/ArtistList';
 import { ArtistSearchSection } from '@/features/artist/components/ArtistSearchSection';
 import { ArtistSortSelect } from '@/features/artist/components/ArtistSortSelect';
 
-export default async function ArtistsPage({
-  searchParams,
-}: {
-  searchParams: {
+type Props = {
+  searchParams: Promise<{
     query: string;
     sort: string;
-  };
-}) {
+  }>;
+};
+
+export default async function ArtistsPage({ searchParams }: Props) {
   const params = await searchParams;
 
   return (
