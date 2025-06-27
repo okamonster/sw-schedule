@@ -1,5 +1,9 @@
 import type { Artist, Prisma } from '@prisma/client';
-import type { CreateArtistRequest, SearchArtistRequest } from '~/entities/artist.js';
+import type {
+  CreateArtistRequest,
+  SearchArtistRequest,
+  UpdateArtistRequest,
+} from '~/entities/artist.js';
 import { prismaClient } from '~/libs/prisma.js';
 
 export const createArtistOperation = async (dto: CreateArtistRequest): Promise<Artist> => {
@@ -14,6 +18,17 @@ export const createArtistOperation = async (dto: CreateArtistRequest): Promise<A
 export const getArtistsOperation = async (): Promise<Artist[]> => {
   const artists = await prismaClient.artist.findMany();
   return artists;
+};
+
+export const updateArtistOperation = async (
+  id: string,
+  dto: UpdateArtistRequest
+): Promise<Artist> => {
+  const artist = await prismaClient.artist.update({
+    where: { id },
+    data: dto,
+  });
+  return artist;
 };
 
 export const searchArtistsOperation = async (query: SearchArtistRequest): Promise<Artist[]> => {

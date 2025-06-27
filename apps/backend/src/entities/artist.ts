@@ -13,6 +13,16 @@ export const createArtistRequestSchema = z.object({
 
 export type CreateArtistRequest = z.infer<typeof createArtistRequestSchema>;
 
+export const updateArtistRequestSchema = z.object({
+  artistName: z.string().min(1, 'アーティスト名を入力してください'),
+  artistImageUrl: z.string().nullable(),
+  artistDescription: z.string().nullable(),
+  genre: z.string().min(1, 'ジャンルを選択してください'),
+  region: z.string().min(1, '活動地域を選択してください'),
+});
+
+export type UpdateArtistRequest = z.infer<typeof updateArtistRequestSchema>;
+
 export const searchArtistRequestSchema = z.object({
   query: z.string(),
   sort: z.enum(['followers', 'createdAt']).default('followers'),

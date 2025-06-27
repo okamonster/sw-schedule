@@ -1,12 +1,12 @@
 import { Hono } from 'hono';
 import { jwt } from 'hono/jwt';
 import { createArtistRequestSchema, searchArtistRequestSchema } from '~/entities/artist.js';
-import { createUserArtistFollowRequestSchema } from '~/entities/userArtistFollow.js';
 import {
   createArtistOperation,
   getArtistByIdOperation,
   getArtistsOperation,
   searchArtistsOperation,
+  updateArtistOperation,
 } from '~/infrastructures/artistOperations.js';
 import {
   createUserArtistFollowOperation,
@@ -30,6 +30,29 @@ app.post('/', jwt({ secret: process.env.JWT_SECRET || '' }), async (c) => {
     }
 
     const artist = await createArtistOperation(result.data);
+    return c.json(artist, 201);
+  } catch (error) {
+    console.error('Error creating artist:', error);
+    return c.json({ error: 'Internal server error' }, 500);
+  }
+});
+
+app.put('/:id', jwt({ secret: process.env.JWT_SECRET || '' }), async (c) => {
+  const jwtPayload = c.get('jwtPayload');
+  if (!jwtPayload) {
+    return c.json({ error: 'Unauthorized' }, 403);
+  }
+
+  const { id } = c.req.param();
+
+  const body = await c.req.json();
+  const result = createArtistRequestSchema.safeParse(body);
+  try {
+    if (!result.success) {
+      return c.json({ error: 'Invalid request format' }, 400);
+    }
+
+    const artist = await updateArtistOperation(id, result.data);
     return c.json(artist, 201);
   } catch (error) {
     console.error('Error creating artist:', error);
