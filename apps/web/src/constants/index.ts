@@ -42,3 +42,6 @@ export type ArtistGenre = (typeof ARTIST_GENRES)[number]['value'];
 export const getGenreLabel = (value: string) => {
   return ARTIST_GENRES.find((genre) => genre.value === value)?.label || value;
 };
+
+export const ARTIST_SORT_ORDER = 'desc';
+export const ARTIST_LIMIT = 10;

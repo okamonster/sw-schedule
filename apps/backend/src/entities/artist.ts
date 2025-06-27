@@ -1,3 +1,4 @@
+import type { Prisma } from '@prisma/client';
 import { z } from 'zod';
 
 export const createArtistRequestSchema = z.object({
@@ -12,3 +13,13 @@ export const createArtistRequestSchema = z.object({
 });
 
 export type CreateArtistRequest = z.infer<typeof createArtistRequestSchema>;
+
+export const searchArtistRequestSchema = z.object({
+  query: z.string(),
+  sort: z.enum(['followers', 'createdAt']).default('followers'),
+  order: z.enum(['asc', 'desc']).default('desc'),
+  limit: z.string().default('10'),
+  offset: z.string().default('0'),
+});
+
+export type SearchArtistRequest = z.infer<typeof searchArtistRequestSchema>;

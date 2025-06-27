@@ -40,3 +40,34 @@ export const getArtistList = async (): Promise<Artist[]> => {
 
   return data as Artist[];
 };
+
+export const getArtistListByQuery = async (
+  query = '',
+  sort = 'followers',
+  order = 'desc',
+  limit = 10,
+  offset = 0
+) => {
+  const searchQuery = new URLSearchParams({
+    query,
+    sort,
+    order,
+    limit: limit.toString(),
+    offset: offset.toString(),
+  }).toString();
+
+  const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/artist/search?${searchQuery}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'GET',
+  });
+
+  if (!result.ok) {
+    return [];
+  }
+
+  const data = await result.json();
+
+  return data as Artist[];
+};

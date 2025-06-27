@@ -1,12 +1,17 @@
-import { Button } from '@mantine/core';
 import { LinkButton } from '@/components/Buttons/LinkButton';
-import { ArtistListCard } from '@/features/artist/components/ArtistListCard';
+import { ArtistList } from '@/features/artist/components/ArtistList';
 import { ArtistSearchSection } from '@/features/artist/components/ArtistSearchSection';
-import { getArtistList } from '@/service/artist';
+import { ArtistSortSelect } from '@/features/artist/components/ArtistSortSelect';
 
-export default async function ArtistsPage() {
-  const artists = await getArtistList();
-  console.log(artists);
+export default async function ArtistsPage({
+  searchParams,
+}: {
+  searchParams: {
+    query: string;
+    sort: string;
+  };
+}) {
+  const params = await searchParams;
 
   return (
     <div className="px-4 py-6 grid gap-4">
@@ -15,6 +20,7 @@ export default async function ArtistsPage() {
 
       {/* 検索・フィルター */}
       <ArtistSearchSection />
+      <ArtistSortSelect />
 
       {/* アーティスト追加バナー */}
       <div className="mb-8 p-6 bg-gradient-to-r from-pink-50 to-purple-50 border border-pink-200 rounded-lg">
@@ -37,16 +43,7 @@ export default async function ArtistsPage() {
       </div>
 
       {/* アーティスト一覧 */}
-      <div className="grid gap-4">
-        {artists.map((artist) => (
-          <ArtistListCard key={artist.id} artist={artist} isFollowing={false} />
-        ))}
-        <div className="flex justify-center">
-          <Button radius="lg" variant="outline" w="fit-content" color="var(--color-button-primary)">
-            もっと見る
-          </Button>
-        </div>
-      </div>
+      <ArtistList query={params.query} sort={params.sort} />
     </div>
   );
 }

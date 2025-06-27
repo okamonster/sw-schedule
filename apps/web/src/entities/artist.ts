@@ -26,3 +26,9 @@ export const createArtistSchema = z.object({
 });
 
 export type CreateArtistSchemaType = z.infer<typeof createArtistSchema>;
+
+export const searchArtistSchema = z.object({
+  query: z.string(),
+});
+
+export type SearchArtistSchemaType = z.infer<typeof searchArtistSchema>;
