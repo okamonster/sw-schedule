@@ -50,7 +50,7 @@ export const DefaultHeader = ({ user, showBackButton = true, title }: Props): Re
           <Avatar
             src={user.profile?.userImageUrl}
             size="md"
-            alt={`${user.profile?.userName || 'User'} profile`}
+            alt={'profile'}
             className="border-2 border-text-gray"
           />
         </Link>
