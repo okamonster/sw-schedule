@@ -148,5 +148,11 @@ pnpm lint
 - [Next.js ドキュメント](https://nextjs.org/docs)
 - [TypeScript ドキュメント](https://www.typescriptlang.org/docs)
 
+### 2024-06-XX
+- アーティスト一覧ページの実装完了
+  - 検索機能、無限スクロール、クエリパラメータ連動、/artist/search API連携を実装
+- アーティスト作成機能の実装完了
+  - フォーム、バリデーション、API連携を実装
+
 ---
 最終更新: 2024年12月19日 
