@@ -51,6 +51,6 @@ export const deleteUserArtistFollow = async (
   });
 
   if (!response.ok) {
-    throw new Error('Failed to create user artist follow');
+    throw new Error('Failed to delete user artist follow');
   }
 };
