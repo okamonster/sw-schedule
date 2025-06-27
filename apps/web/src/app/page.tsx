@@ -84,12 +84,7 @@ export default async function Home() {
           {/* はみ出したらスクロールできるようにする */}
           <div className="flex items-center gap-2 overflow-x-auto shrink-0 px-4">
             {popularArtists.map((artist) => (
-              <ArtistCard
-                key={artist.id}
-                imageUrl={artist.artistImageUrl}
-                artistName={artist.artistName}
-                followersCount={100}
-              />
+              <ArtistCard key={artist.id} artist={artist} />
             ))}
           </div>
           <div className="text-center">
