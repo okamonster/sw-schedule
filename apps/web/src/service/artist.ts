@@ -71,3 +71,21 @@ export const getArtistListByQuery = async (
 
   return data as Artist[];
 };
+
+export const getArtistById = async (id: string): Promise<Artist | null> => {
+  const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/artist/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!result.ok) {
+    return null;
+  }
+
+  const data = await result.json();
+
+  return {
+    ...data,
+  } as Artist;
+};

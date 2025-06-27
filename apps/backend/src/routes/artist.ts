@@ -3,6 +3,7 @@ import { jwt } from 'hono/jwt';
 import { createArtistRequestSchema, searchArtistRequestSchema } from '~/entities/artist.js';
 import {
   createArtistOperation,
+  getArtistByIdOperation,
   getArtistsOperation,
   searchArtistsOperation,
 } from '~/infrastructures/artistOperations.js';
@@ -56,6 +57,21 @@ app.get('/search', async (c) => {
     return c.json(artists, 200);
   } catch (error) {
     console.error('Error searching artists:', error);
+    return c.json({ error: 'Internal server error' }, 500);
+  }
+});
+
+app.get('/:id', async (c) => {
+  const { id } = c.req.param();
+  try {
+    const artist = await getArtistByIdOperation(id);
+    if (!artist) {
+      return c.json({ error: 'Artist not found' }, 404);
+    }
+
+    return c.json(artist, 200);
+  } catch (error) {
+    console.error('Error getting artist by id:', error);
     return c.json({ error: 'Internal server error' }, 500);
   }
 });

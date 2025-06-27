@@ -12,6 +12,7 @@
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
     "@mantine/core": "^8.1.1",
+    "@mantine/dates": "^8.1.2",
     "@mantine/hooks": "^8.1.1",
     "@repo/ui": "workspace:*",
     "@supabase/supabase-js": "^2.50.1",
