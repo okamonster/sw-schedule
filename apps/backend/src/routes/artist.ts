@@ -161,7 +161,7 @@ app.delete('/:id/follow', jwt({ secret: process.env.JWT_SECRET || '' }), async (
 
     return c.json({ message: 'User artist follow deleted' }, 201);
   } catch (error) {
-    console.error('Error creating user artist follow:', error);
+    console.error('Error deleting user artist follow:', error);
     return c.json({ error: 'Internal server error' }, 500);
   }
 });
