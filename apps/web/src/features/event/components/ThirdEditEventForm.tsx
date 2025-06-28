@@ -1,5 +1,11 @@
 "use client";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Paper } from "@mantine/core";
+import { Controller, useForm } from "react-hook-form";
+import {
+	ThirdEditEventSchema,
+	type ThirdEditEventSchemaType,
+} from "@/entities/event";
 import { EventArtistInput } from "./EventArtistInput";
 
 type Props = {
@@ -8,18 +14,38 @@ type Props = {
 };
 
 export const ThirdEditEventForm = ({ onPrev, onSubmit }: Props) => {
-	const handleSubmit = (e: React.FormEvent) => {
-		e.preventDefault();
-		onSubmit();
-	};
+	const {
+		control,
+		handleSubmit,
+		watch,
+		formState: { errors, isValid },
+	} = useForm<ThirdEditEventSchemaType>({
+		mode: "all",
+		resolver: zodResolver(ThirdEditEventSchema),
+		defaultValues: {
+			eventArtists: [],
+		},
+	});
+
+	console.log(watch());
 
 	return (
-		<form className="grid gap-4" onSubmit={handleSubmit}>
+		<form className="grid gap-4" onSubmit={handleSubmit(onSubmit)}>
 			<Paper className="p-4 grid gap-4" shadow="md" radius="md" withBorder>
 				<h2 className="text-lg font-bold text-text-black">出演者情報</h2>
 
 				<div className="grid gap-2">
-					<EventArtistInput value={[]} onChange={() => {}} error={undefined} />
+					<Controller
+						control={control}
+						name="eventArtists"
+						render={({ field }) => (
+							<EventArtistInput
+								onChange={field.onChange}
+								value={field.value}
+								error={errors.eventArtists?.message}
+							/>
+						)}
+					/>
 				</div>
 			</Paper>
 			<div className="flex justify-between">
@@ -31,7 +57,12 @@ export const ThirdEditEventForm = ({ onPrev, onSubmit }: Props) => {
 				>
 					戻る
 				</Button>
-				<Button color="var(--color-text-primary)" radius="lg" type="submit">
+				<Button
+					color="var(--color-text-primary)"
+					radius="lg"
+					type="submit"
+					disabled={!isValid}
+				>
 					作成する
 				</Button>
 			</div>

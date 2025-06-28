@@ -26,7 +26,7 @@ export const SearchEventRequestSchema = z.object({
   sort: z.enum(['eventDate', 'createdAt']),
 });
 
-export const createFirstEditEventSchema = z.object({
+export const FirstEditEventSchema = z.object({
   eventImageUrl: z.string().url('イベント画像を入力してください'),
   eventName: z.string().min(1, 'イベント名を入力してください'),
   eventDescription: z.string().nullable(),
@@ -40,4 +40,17 @@ export const createFirstEditEventSchema = z.object({
   isNeedDrink: z.boolean(),
 });
 
-export type CreateFirstEditEventSchemaType = z.infer<typeof createFirstEditEventSchema>;
+export type FirstEditEventSchemaType = z.infer<typeof FirstEditEventSchema>;
+
+export const SecondEditEventSchema = z.object({
+  eventLocationName: z.string().min(1, '会場を入力してください'),
+  eventLocationAddress: z.string().min(1, '会場の住所を入力してください'),
+});
+
+export type SecondEditEventSchemaType = z.infer<typeof SecondEditEventSchema>;
+
+export const ThirdEditEventSchema = z.object({
+  eventArtists: z.array(z.string()).min(1, '出演アーティストを選択してください'),
+});
+
+export type ThirdEditEventSchemaType = z.infer<typeof ThirdEditEventSchema>;
