@@ -1,11 +1,11 @@
 export const SUPABASE_BUCKETS = {
-  USERS: 'users',
-  ARTISTS: 'artists',
+  IMAGES: 'images',
 } as const satisfies Record<string, string>;
 
 export const SUPABASE_UPLOAD_PATHS = {
   USERS: 'profileImages',
   ARTISTS: 'artistImages',
+  EVENTS: 'eventImages',
 } as const satisfies Record<string, string>;
 
 // 日本の地方データ

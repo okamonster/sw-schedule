@@ -61,7 +61,7 @@ export const FirstProfileEditFormContent = ({
         name="userImageUrl"
         render={({ field }) => (
           <ImageInput
-            buketName={SUPABASE_BUCKETS.USERS}
+            buketName={SUPABASE_BUCKETS.IMAGES}
             uploadPath={SUPABASE_UPLOAD_PATHS.USERS}
             value={field.value ?? ''}
             onChange={field.onChange}

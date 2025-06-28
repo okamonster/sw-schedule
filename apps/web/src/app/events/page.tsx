@@ -80,7 +80,7 @@ export default async function EventsPage({ searchParams }: Props) {
       {/* 検索・フィルター */}
       <EventSearchSection />
       <EventSortSelect />
-      {/* アーティスト追加バナー */}
+      {/* イベント追加バナー */}
       <div className="mb-8 p-6 bg-gradient-to-r from-pink-50 to-purple-50 border border-pink-200 rounded-lg">
         <div className="grid gap-2">
           <div className="flex-1">
@@ -89,7 +89,7 @@ export default async function EventsPage({ searchParams }: Props) {
             </h2>
           </div>
           <LinkButton
-            href="/artists/new"
+            href="/events/new"
             color="var(--color-button-primary)"
             radius="lg"
             w="fit-content"
