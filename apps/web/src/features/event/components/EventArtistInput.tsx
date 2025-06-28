@@ -13,7 +13,11 @@ type Props = {
 	error?: string;
 };
 
-export const EventArtistInput = ({ value, onChange, error }: Props) => {
+export const EventArtistInput = ({
+	value,
+	onChange,
+	error,
+}: Props): React.ReactNode => {
 	const [search, setSearch] = useState("");
 	const [artistList, setArtistList] = useState<Artist[]>([]);
 	const [selectedArtistList, setSelectedArtistList] = useState<Artist[]>([]);
