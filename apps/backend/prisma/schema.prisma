@@ -85,6 +85,7 @@ model Event {
   eventDate             DateTime      @map("event_date")
   openDateTime          DateTime      @map("open_date_time")
   startDateTime         DateTime      @map("start_date_time")
+  locatePrefecture      String        @map("locate_prefecture")
   eventLocationName     String?       @map("event_location_name")
   eventLocationAddress  String?       @map("event_location_url")
   ticketReleaseDateTime DateTime      @map("ticket_release_date_time")
