@@ -17,7 +17,6 @@ export const ThirdEditEventForm = ({ onPrev, onSubmit }: Props) => {
 	const {
 		control,
 		handleSubmit,
-		watch,
 		formState: { errors, isValid },
 	} = useForm<ThirdEditEventSchemaType>({
 		mode: "all",
@@ -26,8 +25,6 @@ export const ThirdEditEventForm = ({ onPrev, onSubmit }: Props) => {
 			eventArtists: [],
 		},
 	});
-
-	console.log(watch());
 
 	return (
 		<form className="grid gap-4" onSubmit={handleSubmit(onSubmit)}>
