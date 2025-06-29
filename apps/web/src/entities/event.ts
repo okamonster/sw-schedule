@@ -81,3 +81,8 @@ export const EditEventRequestSchema = z.object({
 });
 
 export type EditEventRequestType = z.infer<typeof EditEventRequestSchema>;
+
+export type GroupedEvents = {
+  date: string;
+  events: Event[];
+};
