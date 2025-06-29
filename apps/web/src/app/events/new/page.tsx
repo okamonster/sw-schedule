@@ -1,12 +1,55 @@
 'use client';
 import { APIProvider } from '@vis.gl/react-google-maps';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import type {
+  EditEventRequestType,
+  FirstEditEventSchemaType,
+  SecondEditEventSchemaType,
+  ThirdEditEventSchemaType,
+} from '@/entities/event';
 import { FirstEditEventForm } from '@/features/event/components/FirstEditEventForm';
 import { SecondEditEventForm } from '@/features/event/components/SecondEditEventForm';
 import { ThirdEditEventForm } from '@/features/event/components/ThirdEditEventForm';
 import { useSteps } from '@/features/event/hooks/useSteps';
+import { createEvent } from '@/service/event';
 
 export default function CreateArtistPage() {
+  const { push } = useRouter();
+
   const { step, nextStep, prevStep } = useSteps();
+  const [firstEditEventFormValue, setFirstEditEventFormValue] = useState<FirstEditEventSchemaType>({
+    eventImageUrl: '',
+    eventName: '',
+    eventDescription: '',
+    eventDate: '',
+    openTime: '',
+    startTime: '',
+    ticketLink: '',
+    ticketReleaseDateTime: '',
+    ticketPrice: 0,
+    sameDayTicketPrice: 0,
+    isNeedDrink: 'false',
+  });
+
+  const [secondEditEventFormValue, setSecondEditEventFormValue] =
+    useState<SecondEditEventSchemaType>({
+      eventLocationName: '',
+      eventLocationAddress: '',
+    });
+
+  const [thirdEditEventFormValue, setThirdEditEventFormValue] = useState<ThirdEditEventSchemaType>({
+    eventArtists: [],
+  });
+
+  const onSaveEvent = async (data: EditEventRequestType) => {
+    try {
+      const event = await createEvent(data);
+      push(`/events/${event.id}`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="px-4 py-6">
@@ -17,13 +60,33 @@ export default function CreateArtistPage() {
       </div>
 
       {/* 作成フォーム */}
-      {step === 1 && <FirstEditEventForm onNext={nextStep} />}
+      {step === 1 && (
+        <FirstEditEventForm
+          firstStepValues={firstEditEventFormValue}
+          onChangeFirstStep={setFirstEditEventFormValue}
+          onNext={nextStep}
+        />
+      )}
       {step === 2 && (
         <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY ?? ''}>
-          <SecondEditEventForm onPrev={prevStep} onNext={nextStep} />
+          <SecondEditEventForm
+            secondStepValues={secondEditEventFormValue}
+            onChangeSecondStep={setSecondEditEventFormValue}
+            onPrev={prevStep}
+            onNext={nextStep}
+          />
         </APIProvider>
       )}
-      {step === 3 && <ThirdEditEventForm onPrev={prevStep} onSubmit={() => {}} />}
+      {step === 3 && (
+        <ThirdEditEventForm
+          firstStepValues={firstEditEventFormValue}
+          secondStepValues={secondEditEventFormValue}
+          thirdStepValues={thirdEditEventFormValue}
+          onPrev={prevStep}
+          onSubmit={onSaveEvent}
+          onChangeThirdStep={setThirdEditEventFormValue}
+        />
+      )}
     </div>
   );
 }

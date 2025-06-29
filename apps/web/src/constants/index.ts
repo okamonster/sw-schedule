@@ -45,6 +45,8 @@ export const getGenreLabel = (value: string) => {
 
 export const ARTIST_SORT_ORDER = 'desc';
 export const ARTIST_LIMIT = 10;
+export const EVENT_SORT_ORDER = 'desc';
+export const EVENT_LIMIT = 10;
 
 export const AREAS = [
   { value: '', label: 'すべて' },

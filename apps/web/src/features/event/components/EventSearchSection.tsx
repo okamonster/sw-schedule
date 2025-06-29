@@ -5,14 +5,14 @@ import { DebouncedInput } from '@/components/Inputs/DebouncedInput';
 import { AREAS } from '@/constants';
 
 export const EventSearchSection = (): React.ReactNode => {
-  const [query, setQuery] = useState('');
+  const [keyword, setKeyword] = useState('');
   return (
     <section className="grid gap-2">
       <div className="flex gap-2">
         <DebouncedInput
           placeholder="イベントを検索"
-          value={query}
-          onChange={(e) => setQuery(e)}
+          value={keyword}
+          onChange={(e) => setKeyword(e)}
           delay={500}
           className="flex-1"
         />

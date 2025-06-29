@@ -1,10 +1,27 @@
+import type { EditEventRequestType, Event } from '@/entities/event';
+
+export const createEvent = async (dto: EditEventRequestType): Promise<Event> => {
+  const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/event`, {
+    method: 'POST',
+    body: JSON.stringify({ ...dto }),
+  });
+
+  const data = await result.json();
+
+  if (!result.ok || !data) {
+    throw new Error('Failed to create event');
+  }
+
+  return { ...data } as Event;
+};
+
 export const searchEvents = async (
   keyword: string,
   sort: string,
   order: string,
   limit: number,
   offset: number
-) => {
+): Promise<Event[]> => {
   const searchQuery = new URLSearchParams({
     keyword,
     sort,
@@ -13,11 +30,18 @@ export const searchEvents = async (
     offset: offset.toString(),
   }).toString();
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/event/search?${searchQuery}`, {
+  const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/event/search?${searchQuery}`, {
     headers: {
       'Content-Type': 'application/json',
     },
     method: 'GET',
   });
-  return response.json();
+
+  const data = await result.json();
+
+  if (!result.ok || !data) {
+    return [];
+  }
+
+  return data as Event[];
 };

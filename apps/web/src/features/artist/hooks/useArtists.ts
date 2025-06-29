@@ -6,7 +6,7 @@ export const useArtists = (
   query = '',
   sort = 'followers',
   order = 'desc',
-  limit = 1
+  limit = 10
 ): {
   artists: Artist[];
   fetchArtists: () => Promise<void>;

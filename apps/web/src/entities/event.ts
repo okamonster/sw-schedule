@@ -37,7 +37,7 @@ export const FirstEditEventSchema = z.object({
   ticketReleaseDateTime: z.string().nullable(),
   ticketPrice: z.number().min(0, 'チケット価格を入力してください'),
   sameDayTicketPrice: z.number().min(0, '当日チケット価格を入力してください'),
-  isNeedDrink: z.boolean(),
+  isNeedDrink: z.string(),
 });
 
 export type FirstEditEventSchemaType = z.infer<typeof FirstEditEventSchema>;
@@ -54,3 +54,23 @@ export const ThirdEditEventSchema = z.object({
 });
 
 export type ThirdEditEventSchemaType = z.infer<typeof ThirdEditEventSchema>;
+
+export const EditEventRequestSchema = z.object({
+  eventName: z.string(),
+  eventDescription: z.string().optional(),
+  eventImageUrl: z.string().optional(),
+  eventDate: z.string(),
+  openDateTime: z.string(),
+  startDateTime: z.string(),
+  locatePrefecture: z.string(),
+  eventLocationName: z.string().optional(),
+  eventLocationAddress: z.string().optional(),
+  ticketReleaseDateTime: z.string().optional(),
+  ticketPrice: z.string(),
+  sameDayTicketPrice: z.string(),
+  ticketUrl: z.string().optional(),
+  isNeedDrink: z.string(),
+  artists: z.array(z.string()),
+});
+
+export type EditEventRequestType = z.infer<typeof EditEventRequestSchema>;
