@@ -1,3 +1,4 @@
+'use client';
 import { APIProvider } from '@vis.gl/react-google-maps';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
