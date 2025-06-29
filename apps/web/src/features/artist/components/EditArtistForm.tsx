@@ -71,7 +71,7 @@ export const EditArtistForm = ({ artist }: Props) => {
               name="artistImageUrl"
               render={({ field }) => (
                 <ImageInput
-                  buketName={SUPABASE_BUCKETS.ARTISTS}
+                  buketName={SUPABASE_BUCKETS.IMAGES}
                   uploadPath={SUPABASE_UPLOAD_PATHS.ARTISTS}
                   value={field.value ?? ''}
                   onChange={field.onChange}

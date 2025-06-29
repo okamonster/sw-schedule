@@ -11,6 +11,8 @@
   --color-background-blue: #f0f9ff;
   --color-background-light: #ffffff;
   --color-background-dark: #1e293b;
+  --color-border-gray: #e5e7eb;
+  --color-border-selected-light: #f472b6;
 }
 
 .bg-theme {

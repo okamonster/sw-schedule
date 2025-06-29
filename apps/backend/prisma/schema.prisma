@@ -85,13 +85,15 @@ model Event {
   eventDate             DateTime      @map("event_date")
   openDateTime          DateTime      @map("open_date_time")
   startDateTime         DateTime      @map("start_date_time")
+  locatePrefecture      String        @map("locate_prefecture")
   eventLocationName     String?       @map("event_location_name")
-  eventLocationAddress  String?       @map("event_location_url")
-  ticketReleaseDateTime DateTime      @map("ticket_release_date_time")
+  eventLocationAddress  String?       @map("event_location_address")
+  ticketReleaseDateTime DateTime?     @map("ticket_release_date_time")
   ticketPrice           Int           @map("ticket_price")
   sameDayTicketPrice    Int           @map("same_day_ticket_price")
   ticketUrl             String?       @map("ticket_url")
   isNeedDrink           Boolean       @map("is_need_drink")
+  createdAt             DateTime      @default(now())
   updatedAt             DateTime      @updatedAt
   // 出演アーティストとの関係
   artists               ArtistEvent[]
