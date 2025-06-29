@@ -1,5 +1,6 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { EVENT_LIMIT, EVENT_SORT_ORDER } from "@/constants";
 import { useInfiniteScroll } from "@/features/artist/hooks/useInfiniteScroll";
 import { EventListCard } from "@/features/event/components/EventListCard";
@@ -14,6 +15,9 @@ export const EventList = ({
 	keyword = "",
 	sort = "eventDate",
 }: EventListProps) => {
+	const searchParams = useSearchParams();
+	const area = searchParams.get("area");
+
 	const { events, fetchEvents, hasMore } = useEvents(
 		keyword,
 		sort,
@@ -27,9 +31,11 @@ export const EventList = ({
 
 	return (
 		<div className="grid gap-2">
-			{events.map((event) => (
-				<EventListCard key={event.id} event={event} />
-			))}
+			{events
+				.filter((event) => (area ? event.locatePrefecture === area : true))
+				.map((event) => (
+					<EventListCard key={event.id} event={event} />
+				))}
 			{hasMore && <div ref={loaderRef} />}
 		</div>
 	);

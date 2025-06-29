@@ -21,6 +21,13 @@ export type Event = {
   artists: ArtistEvent[];
 };
 
+export const searchEventSchema = z.object({
+  area: z.string(),
+  keyword: z.string(),
+});
+
+export type SearchEventSchemaType = z.infer<typeof searchEventSchema>;
+
 export const SearchEventRequestSchema = z.object({
   keyword: z.string().optional(),
   sort: z.enum(['eventDate', 'createdAt']),

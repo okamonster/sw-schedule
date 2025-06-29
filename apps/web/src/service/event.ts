@@ -1,47 +1,52 @@
-import type { EditEventRequestType, Event } from '@/entities/event';
+import type { EditEventRequestType, Event } from "@/entities/event";
 
-export const createEvent = async (dto: EditEventRequestType): Promise<Event> => {
-  const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/event`, {
-    method: 'POST',
-    body: JSON.stringify({ ...dto }),
-  });
+export const createEvent = async (
+	dto: EditEventRequestType,
+): Promise<Event> => {
+	const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/event`, {
+		method: "POST",
+		body: JSON.stringify({ ...dto }),
+	});
 
-  const data = await result.json();
+	const data = await result.json();
 
-  if (!result.ok || !data) {
-    throw new Error('Failed to create event');
-  }
+	if (!result.ok || !data) {
+		throw new Error("Failed to create event");
+	}
 
-  return { ...data } as Event;
+	return { ...data } as Event;
 };
 
 export const searchEvents = async (
-  keyword: string,
-  sort: string,
-  order: string,
-  limit: number,
-  offset: number
+	keyword: string,
+	sort: string,
+	order: string,
+	limit: number,
+	offset: number,
 ): Promise<Event[]> => {
-  const searchQuery = new URLSearchParams({
-    keyword,
-    sort,
-    order,
-    limit: limit.toString(),
-    offset: offset.toString(),
-  }).toString();
+	const searchQuery = new URLSearchParams({
+		keyword,
+		sort,
+		order,
+		limit: limit.toString(),
+		offset: offset.toString(),
+	}).toString();
 
-  const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/event/search?${searchQuery}`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'GET',
-  });
+	const result = await fetch(
+		`${process.env.NEXT_PUBLIC_API_URL}/event/search?${searchQuery}`,
+		{
+			headers: {
+				"Content-Type": "application/json",
+			},
+			method: "GET",
+		},
+	);
 
-  const data = await result.json();
+	const data = await result.json();
 
-  if (!result.ok || !data) {
-    return [];
-  }
+	if (!result.ok || !data) {
+		return [];
+	}
 
-  return data as Event[];
+	return data as Event[];
 };
