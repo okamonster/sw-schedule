@@ -1,5 +1,5 @@
 import type { Artist } from '@/entities/artist';
-import { EventListCard } from '@/features/event/components/EventListCard';
+import { EventCard } from '@/features/artist/components/EventCard';
 import dayjs from '@/libs/dayjs';
 
 type Props = {
@@ -31,7 +31,7 @@ export const NearestEventSection = ({ artist }: Props): React.ReactNode => {
           <p className="text-sm text-text-gray">
             {dayjs(nearestEvent.eventDate).format('YYYY/MM/DD(ddd)')}
           </p>
-          <EventListCard event={nearestEvent} />
+          <EventCard event={nearestEvent} />
         </div>
       ) : (
         <p className="text-sm text-text-gray">イベントがありません</p>

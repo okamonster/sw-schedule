@@ -1,7 +1,7 @@
 'use client';
 import { Calendar } from '@mantine/dates';
 import type { Artist } from '@/entities/artist';
-import { EventListCard } from '@/features/event/components/EventListCard';
+import { EventCard } from '@/features/artist/components/EventCard';
 import dayjs from '@/libs/dayjs';
 import { useCalenderSchedule } from '../hooks/useCalenderSchedule';
 
@@ -59,7 +59,7 @@ export const ArtistScheduleCalender = ({ artist }: Props): React.ReactNode => {
                   {dayjs(group.date).format('YYYY/MM/DD(ddd)')}
                 </p>
                 {group.events.map((event) => (
-                  <EventListCard key={event.id} event={event} />
+                  <EventCard key={event.id} event={event} />
                 ))}
               </div>
             ))
