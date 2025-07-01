@@ -12,9 +12,9 @@ import {
   ThirdEditEventSchema,
   type ThirdEditEventSchemaType,
 } from '@/entities/event';
+import { EventArtistInput } from '@/features/event/components/EventArtistInput';
 import { extractPrefecture } from '@/utils/area';
 import { parseTimeString } from '@/utils/date';
-import { EventArtistInput } from './EventArtistInput';
 
 type Props = {
   firstStepValues: FirstEditEventSchemaType;
