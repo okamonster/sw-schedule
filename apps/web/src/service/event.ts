@@ -30,7 +30,7 @@ export const updateEvent = async (id: string, dto: EditEventRequestType): Promis
   const data = await result.json();
 
   if (!result.ok || !data) {
-    throw new Error('Failed to create event');
+    throw new Error('Failed to update event');
   }
 
   return { ...data } as Event;
