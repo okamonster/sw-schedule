@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs from '@/libs/dayjs';
 import { LinkButton } from '@/components/Buttons/LinkButton';
 import { Footer } from '@/components/Navigations/Footer';
 import { TopHeader } from '@/components/Navigations/TopHeader';
