@@ -38,7 +38,7 @@ export default async function EventsPage({ searchParams }: Props) {
               radius="lg"
               w="fit-content"
             >
-              イベントを作成
+              掲載はこちら！
             </LinkButton>
           ) : (
             <LinkButton
