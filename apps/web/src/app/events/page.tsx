@@ -30,6 +30,7 @@ export default async function EventsPage({ searchParams }: Props) {
             <h2 className="text-lg font-bold text-text-black mb-2">
               探しているイベントがない時は...？
             </h2>
+            <p className="text-sm text-text-gray">イベントの掲載追加にご協力ください！</p>
           </div>
           {currentUser ? (
             <LinkButton

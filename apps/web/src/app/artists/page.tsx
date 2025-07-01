@@ -34,7 +34,7 @@ export default async function ArtistsPage({ searchParams }: Props) {
 							あなたの推しがいない時は...？ ✨
 						</h2>
 						<p className="text-sm text-text-gray">
-							好きなアーティストを掲載しよう！
+							アーティストの掲載追加にご協力ください！
 						</p>
 					</div>
 					{currentUser ? (
