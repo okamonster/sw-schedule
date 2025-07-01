@@ -65,3 +65,21 @@ export const searchEvents = async (
 
   return data as Event[];
 };
+
+export const getFollowingArtistsEvents = async (backendToken: string): Promise<Event[]> => {
+  const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/event/following-artists-events`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${backendToken}`,
+    },
+    method: 'GET',
+  });
+
+  const data = await result.json();
+
+  if (!result.ok || !data) {
+    throw new Error('Failed to get following artists events');
+  }
+
+  return data as Event[];
+};

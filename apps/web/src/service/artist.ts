@@ -113,3 +113,26 @@ export const getArtistById = async (id: string): Promise<Artist | null> => {
     ...data,
   } as Artist;
 };
+
+export const getFollowingArtists = async (backendToken: string): Promise<Artist[]> => {
+  try {
+    const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/artist/following-artists`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${backendToken}`,
+      },
+      method: 'GET',
+    });
+
+    const data = await result.json();
+
+    if (!result.ok || !data) {
+      throw new Error(`Failed to get following artists: ${result.status}`);
+    }
+
+    return data as Artist[];
+  } catch (error) {
+    console.error('getFollowingArtists exception:', error);
+    throw error;
+  }
+};

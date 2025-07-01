@@ -40,6 +40,46 @@ export const createEventOperation = async (
   return event;
 };
 
+export const updateEventOperation = async (
+  id: string,
+  request: EditEventRequestType
+): Promise<Event | null> => {
+  const event = await prismaClient.event.update({
+    where: { id },
+    data: {
+      eventName: request.eventName,
+      eventDescription: request.eventDescription,
+      eventImageUrl: request.eventImageUrl,
+      eventDate: new Date(request.eventDate),
+      openDateTime: new Date(request.openDateTime),
+      startDateTime: new Date(request.startDateTime),
+      locatePrefecture: request.locatePrefecture,
+      eventLocationName: request.eventLocationName,
+      eventLocationAddress: request.eventLocationAddress,
+      ticketReleaseDateTime: request.ticketReleaseDateTime
+        ? new Date(request.ticketReleaseDateTime)
+        : null,
+      ticketPrice: Number.parseInt(request.ticketPrice),
+      sameDayTicketPrice: Number.parseInt(request.sameDayTicketPrice),
+      ticketUrl: request.ticketUrl,
+      isNeedDrink: request.isNeedDrink,
+      artists: {
+        create: request.artists.map((artistId) => ({
+          artist: {
+            connect: { id: artistId },
+          },
+        })),
+      },
+    },
+  });
+
+  if (!event) {
+    return null;
+  }
+
+  return event;
+};
+
 export const getEventByIdOperation = async (id: string): Promise<Event | null> => {
   const event = await prismaClient.event.findUnique({
     where: { id },
@@ -53,6 +93,18 @@ export const getEventByIdOperation = async (id: string): Promise<Event | null> =
   });
 
   return event;
+};
+
+export const getEventsByArtistIdsOperation = async (artistIds: string[]): Promise<Event[]> => {
+  const events = await prismaClient.event.findMany({
+    where: {
+      artists: { some: { artistId: { in: artistIds } } },
+      eventDate: {
+        gte: new Date(),
+      },
+    },
+  });
+  return events;
 };
 
 export const getEventsBySearchQueryOperation = async (

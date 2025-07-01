@@ -20,6 +20,17 @@ export const getArtistsOperation = async (): Promise<Artist[]> => {
   return artists;
 };
 
+export const getArtistsByIdsOperation = async (ids: string[]): Promise<Artist[]> => {
+  const artists = await prismaClient.artist.findMany({
+    where: { id: { in: ids } },
+    include: {
+      followers: true,
+    },
+  });
+
+  return artists;
+};
+
 export const updateArtistOperation = async (
   id: string,
   dto: UpdateArtistRequest

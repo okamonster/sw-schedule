@@ -8,6 +8,7 @@ import {
 import {
   createArtistOperation,
   getArtistByIdOperation,
+  getArtistsByIdsOperation,
   getArtistsOperation,
   searchArtistsOperation,
   updateArtistOperation,
@@ -16,6 +17,7 @@ import {
   createUserArtistFollowOperation,
   deleteUserArtistFollowOperation,
   getUserArtistFollowByUserAndArtistIdOperation,
+  getUserArtistFollowsByUserIdOperation,
 } from '~/infrastructures/userArtistFollowOperations.js';
 
 const app = new Hono();
@@ -37,6 +39,30 @@ app.post('/', jwt({ secret: process.env.JWT_SECRET || '' }), async (c) => {
     return c.json(artist, 201);
   } catch (error) {
     console.error('Error creating artist:', error);
+    return c.json({ error: 'Internal server error' }, 500);
+  }
+});
+
+app.get('/following-artists', jwt({ secret: process.env.JWT_SECRET || '' }), async (c) => {
+  const jwtPayload = c.get('jwtPayload');
+
+  try {
+    if (!jwtPayload) {
+      return c.json({ error: 'Unauthorized' }, 403);
+    }
+    const { userId } = jwtPayload;
+
+    const followingUserArtistFollows = await getUserArtistFollowsByUserIdOperation(userId);
+    const followingArtistIds = followingUserArtistFollows.map((follow) => follow.artistId);
+    const artists = await getArtistsByIdsOperation(followingArtistIds);
+
+    if (!artists) {
+      return c.json({ error: 'Artists not found' }, 404);
+    }
+
+    return c.json(artists, 200);
+  } catch (error) {
+    console.error('Error getting following user artist follows:', error);
     return c.json({ error: 'Internal server error' }, 500);
   }
 });
@@ -169,4 +195,5 @@ app.delete('/:id/follow', jwt({ secret: process.env.JWT_SECRET || '' }), async (
     return c.json({ error: 'Internal server error' }, 500);
   }
 });
+
 export default app;
