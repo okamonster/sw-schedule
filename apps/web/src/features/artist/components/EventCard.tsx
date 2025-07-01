@@ -10,7 +10,7 @@ type Props = {
   event: Event;
 };
 
-export const EventListCard = ({ event }: Props): React.ReactNode => {
+export const EventCard = ({ event }: Props): React.ReactNode => {
   const diffDays = dayjs(event.eventDate).diff(dayjs(), 'day');
 
   return (

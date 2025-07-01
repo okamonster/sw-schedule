@@ -1,48 +1,46 @@
-import type { UserArtistFollow } from '@prisma/client';
-import { prismaClient } from '~/libs/prisma.js';
+import type { UserArtistFollow } from "@prisma/client";
+import { prismaClient } from "~/libs/prisma.js";
 
 export const getUserArtistFollowByUserAndArtistIdOperation = async (
-  userId: string,
-  artistId: string
+	userId: string,
+	artistId: string,
 ): Promise<UserArtistFollow | null> => {
-  const userArtistFollow = await prismaClient.userArtistFollow.findUnique({
-    where: { userId_artistId: { userId, artistId } },
-  });
+	const userArtistFollow = await prismaClient.userArtistFollow.findUnique({
+		where: { userId_artistId: { userId, artistId } },
+	});
 
-  if (!userArtistFollow) {
-    return null;
-  }
+	if (!userArtistFollow) {
+		return null;
+	}
 
-  return userArtistFollow;
+	return userArtistFollow;
 };
 
 export const createUserArtistFollowOperation = async (
-  userId: string,
-  artistId: string
+	userId: string,
+	artistId: string,
 ): Promise<UserArtistFollow> => {
-  const userArtistFollow = await prismaClient.userArtistFollow.create({
-    data: { userId, artistId },
-  });
+	const userArtistFollow = await prismaClient.userArtistFollow.create({
+		data: { userId, artistId },
+	});
 
-  if (!userArtistFollow) {
-    throw new Error('Failed to create user artist follow');
-  }
+	if (!userArtistFollow) {
+		throw new Error("Failed to create user artist follow");
+	}
 
-  return userArtistFollow;
+	return userArtistFollow;
 };
 
 export const deleteUserArtistFollowOperation = async (
-  userId: string,
-  artistId: string
+	userId: string,
+	artistId: string,
 ): Promise<void> => {
-  console.log('userId', userId);
-  console.log('artistId', artistId);
-  await prismaClient.userArtistFollow.delete({
-    where: {
-      userId_artistId: {
-        userId,
-        artistId,
-      },
-    },
-  });
+	await prismaClient.userArtistFollow.delete({
+		where: {
+			userId_artistId: {
+				userId,
+				artistId,
+			},
+		},
+	});
 };

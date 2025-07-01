@@ -1,9 +1,11 @@
 'use client';
-import { APIProvider } from '@vis.gl/react-google-maps';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { GoogleMapContainer } from '@/components/Container/GoogleMapContainer';
 import type {
   EditEventRequestType,
+  Event,
   FirstEditEventSchemaType,
   SecondEditEventSchemaType,
   ThirdEditEventSchemaType,
@@ -14,32 +16,38 @@ import { FirstEditEventForm } from './FirstEditEventForm';
 import { SecondEditEventForm } from './SecondEditEventForm';
 import { ThirdEditEventForm } from './ThirdEditEventForm';
 
-export const EditEventForm = (): React.ReactNode => {
+type Props = {
+  event?: Event;
+};
+
+export const EditEventForm = ({ event }: Props): React.ReactNode => {
   const { push } = useRouter();
 
   const { step, nextStep, prevStep } = useSteps();
   const [firstEditEventFormValue, setFirstEditEventFormValue] = useState<FirstEditEventSchemaType>({
-    eventImageUrl: '',
-    eventName: '',
-    eventDescription: '',
-    eventDate: '',
-    openTime: '',
-    startTime: '',
-    ticketLink: '',
-    ticketReleaseDateTime: '',
-    ticketPrice: 0,
-    sameDayTicketPrice: 0,
-    isNeedDrink: 'false',
+    eventImageUrl: event?.eventImageUrl ?? '',
+    eventName: event?.eventName ?? '',
+    eventDescription: event?.eventDescription ?? '',
+    eventDate: event?.eventDate ? dayjs(event.eventDate).toISOString() : '',
+    openTime: event?.openDateTime ? dayjs(event.openDateTime).format('HH:mm') : '',
+    startTime: event?.startDateTime ? dayjs(event.startDateTime).format('HH:mm') : '',
+    ticketLink: event?.ticketUrl ?? '',
+    ticketReleaseDateTime: event?.ticketReleaseDateTime
+      ? dayjs(event.ticketReleaseDateTime).toISOString()
+      : '',
+    ticketPrice: event?.ticketPrice ?? 0,
+    sameDayTicketPrice: event?.sameDayTicketPrice ?? 0,
+    isNeedDrink: event?.isNeedDrink ? 'true' : 'false',
   });
 
   const [secondEditEventFormValue, setSecondEditEventFormValue] =
     useState<SecondEditEventSchemaType>({
-      eventLocationName: '',
-      eventLocationAddress: '',
+      eventLocationName: event?.eventLocationName ?? '',
+      eventLocationAddress: event?.eventLocationAddress ?? '',
     });
 
   const [thirdEditEventFormValue, setThirdEditEventFormValue] = useState<ThirdEditEventSchemaType>({
-    eventArtists: [],
+    eventArtists: event?.artists.map((artistEvent) => artistEvent.artist.id) ?? [],
   });
 
   const onSaveEvent = async (data: EditEventRequestType) => {
@@ -68,14 +76,14 @@ export const EditEventForm = (): React.ReactNode => {
         />
       )}
       {step === 2 && (
-        <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY ?? ''}>
+        <GoogleMapContainer>
           <SecondEditEventForm
             secondStepValues={secondEditEventFormValue}
             onChangeSecondStep={setSecondEditEventFormValue}
             onPrev={prevStep}
             onNext={nextStep}
           />
-        </APIProvider>
+        </GoogleMapContainer>
       )}
       {step === 3 && (
         <ThirdEditEventForm

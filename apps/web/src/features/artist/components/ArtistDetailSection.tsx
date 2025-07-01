@@ -43,7 +43,9 @@ export const ArtistDetailSection = ({ artist, user }: Props): React.ReactNode =>
       <Divider />
       <div className="grid gap-2">
         <p className="text-sm font-bold">基本情報</p>
-        <p className="text-sm text-text-gray">{artist.artistDescription}</p>
+        <p className="text-sm text-text-gray overflow-hidden break-words whitespace-pre-wrap">
+          {artist.artistDescription}
+        </p>
       </div>
       {isFollowing && (
         <div className="grid gap-1">

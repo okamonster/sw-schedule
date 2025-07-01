@@ -38,7 +38,6 @@ export const usePlacesAutocomplete = () => {
     try {
       if (autocompleteService) {
         sessionToken.current = new autocompleteService.AutocompleteSessionToken();
-        console.log('AutocompleteSessionToken initialized');
       }
     } catch (err) {
       console.error('Failed to initialize AutocompleteSessionToken:', err);
@@ -65,7 +64,6 @@ export const usePlacesAutocomplete = () => {
       setError(null);
 
       try {
-        console.log('Searching for venues with input:', input);
         const service = new autocompleteService.AutocompleteService();
         const request: google.maps.places.AutocompletionRequest = {
           input,
@@ -75,7 +73,6 @@ export const usePlacesAutocomplete = () => {
         };
 
         const response = await service.getPlacePredictions(request);
-        console.log('Places API response:', response);
         setPredictions(response.predictions || []);
       } catch (error) {
         console.error('Places Autocomplete error:', error);
@@ -97,7 +94,6 @@ export const usePlacesAutocomplete = () => {
       }
 
       try {
-        console.log('Getting place details for:', placeId);
         const service = new placesService.PlacesService(document.createElement('div'));
         const request: google.maps.places.PlaceDetailsRequest = {
           placeId,
@@ -107,7 +103,6 @@ export const usePlacesAutocomplete = () => {
 
         return new Promise((resolve, reject) => {
           service.getDetails(request, (place, status) => {
-            console.log('Place details response:', { place, status });
             if (status === google.maps.places.PlacesServiceStatus.OK && place) {
               const details: PlaceDetails = {
                 place_id: place.place_id || '',

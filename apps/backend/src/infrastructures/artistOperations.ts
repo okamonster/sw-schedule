@@ -68,6 +68,11 @@ export const getArtistByIdOperation = async (id: string): Promise<Artist | null>
     where: { id },
     include: {
       followers: true,
+      events: {
+        include: {
+          event: true,
+        },
+      },
     },
   });
 
