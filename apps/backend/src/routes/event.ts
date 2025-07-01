@@ -56,6 +56,24 @@ app.get('/following-artists-events', jwt({ secret: process.env.JWT_SECRET || '' 
   }
 });
 
+app.get('/search', async (c) => {
+  const request = await c.req.query();
+  const searchEventRequest = await SearchEventRequestSchema.safeParse(request);
+
+  try {
+    if (!searchEventRequest.success) {
+      return c.json({ error: 'Invalid request format' }, 400);
+    }
+
+    const events = await getEventsBySearchQueryOperation({ ...searchEventRequest.data });
+
+    return c.json(events, 200);
+  } catch (error) {
+    console.error('Error searching events:', error);
+    return c.json({ error: 'Internal server error' }, 500);
+  }
+});
+
 app.put('/:id', async (c) => {
   const { id } = c.req.param();
   const body = await c.req.json();
@@ -73,24 +91,6 @@ app.put('/:id', async (c) => {
     return c.json({ ...event }, 200);
   } catch (error) {
     console.error('Error creating event:', error);
-    return c.json({ error: 'Internal server error' }, 500);
-  }
-});
-
-app.get('/search', async (c) => {
-  const request = await c.req.query();
-  const searchEventRequest = await SearchEventRequestSchema.safeParse(request);
-
-  try {
-    if (!searchEventRequest.success) {
-      return c.json({ error: 'Invalid request format' }, 400);
-    }
-
-    const events = await getEventsBySearchQueryOperation({ ...searchEventRequest.data });
-
-    return c.json(events, 200);
-  } catch (error) {
-    console.error('Error searching events:', error);
     return c.json({ error: 'Internal server error' }, 500);
   }
 });
