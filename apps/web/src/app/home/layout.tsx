@@ -6,20 +6,20 @@ import { DefaultFooter } from '@/components/Navigations/DefaultFooter';
 import { DefaultHeader } from '@/components/Navigations/DefaultHeader';
 import { getCurrentUser } from '@/service/user';
 
-export default async function RootLayout({
+export default async function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const user = await getCurrentUser();
 
-  if (!user) {
-    redirect('/login');
+  if (!user?.profile) {
+    redirect('/entry');
   }
 
   return (
     <div>
-      <DefaultHeader user={user} title="プロフィール" />
+      <DefaultHeader user={user} title="ホーム" showBackButton={false} />
       <div className="pt-14">{children}</div>
       <DefaultFooter />
     </div>

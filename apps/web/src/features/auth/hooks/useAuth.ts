@@ -9,7 +9,7 @@ export const useAuth = (): {
   const handleGoogleLogin = async () => {
     try {
       await signIn('google', {
-        redirectTo: '/',
+        redirectTo: '/home',
       });
     } catch (e) {
       console.error('An unexpected error occurred during sign in:', e);
@@ -28,7 +28,7 @@ export const useAuth = (): {
       }
 
       await signIn('credentials', {
-        redirectTo: '/',
+        redirectTo: '/home',
         email,
         password,
       });
@@ -40,7 +40,7 @@ export const useAuth = (): {
   const handleLogin = async (email: string, password: string) => {
     try {
       await signIn('credentials', {
-        redirectTo: '/',
+        redirectTo: '/home',
         email,
         password,
       });

@@ -1,10 +1,10 @@
-import dayjs from '@/libs/dayjs';
 import { LinkButton } from '@/components/Buttons/LinkButton';
 import { Footer } from '@/components/Navigations/Footer';
 import { TopHeader } from '@/components/Navigations/TopHeader';
 import { ArtistCard } from '@/features/top/components/ArtistCard';
 import { EventCard } from '@/features/top/components/EventCard';
 import { UnloginHeroSection } from '@/features/top/components/UnloginHeroSection';
+import dayjs from '@/libs/dayjs';
 import { getArtistListByQuery } from '@/service/artist';
 import { searchEvents } from '@/service/event';
 
@@ -22,7 +22,7 @@ export default async function Home() {
   });
 
   return (
-    <div>
+    <div className="pt-14">
       <TopHeader />
 
       {/* ヒーローセクション */}

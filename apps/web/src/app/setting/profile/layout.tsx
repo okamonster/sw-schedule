@@ -14,7 +14,7 @@ export default async function RootLayout({
   return (
     <div>
       {user && <DefaultHeader user={user} />}
-      {children}
+      <div className="pt-14">{children}</div>
     </div>
   );
 }
