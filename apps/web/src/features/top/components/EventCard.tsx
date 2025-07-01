@@ -1,5 +1,5 @@
 'use client';
-import { Card, Image, Skeleton } from '@mantine/core';
+import { Card, Image } from '@mantine/core';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { DEFAULT_IMAGE_URL } from '@/constants';
