@@ -90,7 +90,7 @@ app.put('/:id', jwt({ secret: process.env.JWT_SECRET || '' }), async (c) => {
 
     return c.json({ ...event }, 200);
   } catch (error) {
-    console.error('Error creating event:', error);
+    console.error('Error updating event:', error);
     return c.json({ error: 'Internal server error' }, 500);
   }
 });
