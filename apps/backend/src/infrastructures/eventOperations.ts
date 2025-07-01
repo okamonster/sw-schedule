@@ -40,6 +40,21 @@ export const createEventOperation = async (
   return event;
 };
 
+export const getEventByIdOperation = async (id: string): Promise<Event | null> => {
+  const event = await prismaClient.event.findUnique({
+    where: { id },
+    include: {
+      artists: {
+        include: {
+          artist: true,
+        },
+      },
+    },
+  });
+
+  return event;
+};
+
 export const getEventsBySearchQueryOperation = async (
   request: SearchEventRequest
 ): Promise<Event[]> => {

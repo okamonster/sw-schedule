@@ -47,7 +47,6 @@ export const VenueSearchInput = ({
   // 場所を選択
   const handlePlaceSelect = async (prediction: PlaceResult) => {
     try {
-      console.log('Selecting place:', prediction);
       const details = await getPlaceDetails(prediction.place_id);
       if (details) {
         onChange(details.name);

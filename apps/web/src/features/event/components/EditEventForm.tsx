@@ -2,6 +2,7 @@
 import { APIProvider } from '@vis.gl/react-google-maps';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { GoogleMapContainer } from '@/components/Container/GoogleMapContainer';
 import type {
   EditEventRequestType,
   FirstEditEventSchemaType,
@@ -68,14 +69,14 @@ export const EditEventForm = (): React.ReactNode => {
         />
       )}
       {step === 2 && (
-        <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY ?? ''}>
+        <GoogleMapContainer>
           <SecondEditEventForm
             secondStepValues={secondEditEventFormValue}
             onChangeSecondStep={setSecondEditEventFormValue}
             onPrev={prevStep}
             onNext={nextStep}
           />
-        </APIProvider>
+        </GoogleMapContainer>
       )}
       {step === 3 && (
         <ThirdEditEventForm

@@ -18,7 +18,7 @@ export default async function Home() {
   });
 
   const upcomingEvents = events.filter((event) => {
-    return dayjs(event.eventDate).isSame(dayjs().add(1, 'month'), 'month');
+    return dayjs(event.eventDate).isSame(dayjs(), 'month');
   });
 
   return (

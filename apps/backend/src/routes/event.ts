@@ -2,6 +2,7 @@ import { Hono } from 'hono';
 import { EditEventRequestSchema, SearchEventRequestSchema } from '~/entities/event.js';
 import {
   createEventOperation,
+  getEventByIdOperation,
   getEventsBySearchQueryOperation,
 } from '~/infrastructures/eventOperations.js';
 
@@ -31,18 +32,32 @@ app.get('/search', async (c) => {
   const request = await c.req.query();
   const searchEventRequest = await SearchEventRequestSchema.safeParse(request);
 
-  console.log('searchEventRequest', searchEventRequest.data);
   try {
     if (!searchEventRequest.success) {
-      console.log('Invalid request format');
       return c.json({ error: 'Invalid request format' }, 400);
     }
 
-    const events = await getEventsBySearchQueryOperation(searchEventRequest.data);
+    const events = await getEventsBySearchQueryOperation({ ...searchEventRequest.data });
 
     return c.json(events, 200);
   } catch (error) {
     console.error('Error searching events:', error);
+    return c.json({ error: 'Internal server error' }, 500);
+  }
+});
+
+app.get('/:id', async (c) => {
+  const { id } = c.req.param();
+  try {
+    const event = await getEventByIdOperation(id);
+
+    if (!event) {
+      return c.json({ error: 'Event not found' }, 404);
+    }
+
+    return c.json({ ...event }, 200);
+  } catch (error) {
+    console.error('Error getting event by id:', error);
     return c.json({ error: 'Internal server error' }, 500);
   }
 });
