@@ -18,6 +18,29 @@ export const createEvent = async (dto: EditEventRequestType): Promise<Event> => 
   return { ...data } as Event;
 };
 
+export const updateEvent = async (
+  id: string,
+  dto: EditEventRequestType,
+  backendToken: string
+): Promise<Event> => {
+  const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/event/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${backendToken}`,
+    },
+    method: 'PUT',
+    body: JSON.stringify({ ...dto }),
+  });
+
+  const data = await result.json();
+
+  if (!result.ok || !data) {
+    throw new Error('Failed to update event');
+  }
+
+  return { ...data } as Event;
+};
+
 export const getEventById = async (id: string): Promise<Event> => {
   const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/event/${id}`, {
     headers: {
@@ -61,6 +84,24 @@ export const searchEvents = async (
 
   if (!result.ok || !data) {
     return [];
+  }
+
+  return data as Event[];
+};
+
+export const getFollowingArtistsEvents = async (backendToken: string): Promise<Event[]> => {
+  const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/event/following-artists-events`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${backendToken}`,
+    },
+    method: 'GET',
+  });
+
+  const data = await result.json();
+
+  if (!result.ok || !data) {
+    throw new Error('Failed to get following artists events');
   }
 
   return data as Event[];

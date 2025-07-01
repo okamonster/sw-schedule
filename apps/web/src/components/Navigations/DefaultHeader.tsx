@@ -20,7 +20,7 @@ export const DefaultHeader = ({ user, showBackButton = true, title }: Props): Re
   };
 
   return (
-    <header className="flex justify-between items-center px-4 shadow-sm h-14 bg-white">
+    <header className="fixed top-0 left-1/2 transform -translate-x-1/2 z-50 flex justify-between items-center px-4 shadow-sm h-[56px] bg-white max-w-[500px] w-full">
       {/* 左側: 戻るボタンまたはタイトル */}
       <div className="flex items-center">
         {showBackButton ? (

@@ -11,7 +11,7 @@ export default function RootLayout({
   return (
     <div>
       <SimpleHeader />
-      {children}
+      <div className="pt-14">{children}</div>
     </div>
   );
 }

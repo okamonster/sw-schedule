@@ -1,19 +1,20 @@
 import { Avatar, Badge, Paper } from '@mantine/core';
 import { FaCheck, FaMapMarkerAlt, FaUser } from 'react-icons/fa';
-import { getRegionLabel } from '@/constants';
+import { DEFAULT_IMAGE_URL, getRegionLabel } from '@/constants';
 import type { ProfileFormType } from '@/entities/profile';
 
 type Props = {
   profileValues: ProfileFormType;
 };
 export const ProfilePreview = ({ profileValues }: Props) => {
+  const imageUrl = profileValues.userImageUrl ? profileValues.userImageUrl : DEFAULT_IMAGE_URL;
   return (
     <div className="grid gap-2">
       <div className="grid gap-1">
         <h2 className="text-lg font-bold text-text-black">プレビュー</h2>
         <Paper p="lg" bg="var(--color-background-light-gray)" radius="md">
           <div className="flex gap-4">
-            <Avatar size={80} src={profileValues.userImageUrl}>
+            <Avatar size={80} src={imageUrl}>
               <FaUser size={40} />
             </Avatar>
             <div className="flex-1">

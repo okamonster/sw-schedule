@@ -1,6 +1,7 @@
 import '@mantine/core/styles.css';
 import '@/styles/globals.css';
 import '@/styles/variables.css';
+import { DefaultFooter } from '@/components/Navigations/DefaultFooter';
 import { DefaultHeader } from '@/components/Navigations/DefaultHeader';
 import { Footer } from '@/components/Navigations/Footer';
 import { TopHeader } from '@/components/Navigations/TopHeader';
@@ -16,8 +17,8 @@ export default async function RootLayout({
   return (
     <div>
       {user ? <DefaultHeader user={user} title="アーティスト" /> : <TopHeader />}
-      {children}
-      {!user && <Footer />}
+      <div className={`pt-14 ${user && 'pb-14'}`}>{children}</div>
+      {user ? <DefaultFooter /> : <Footer />}
     </div>
   );
 }

@@ -2,7 +2,7 @@
 
 import { Button } from '@mantine/core';
 import { useRouter } from 'next/navigation';
-import { FaCalendarAlt, FaCog, FaEdit, FaSignOutAlt } from 'react-icons/fa';
+import { FaEdit, FaSignOutAlt } from 'react-icons/fa';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 
 export const ProfileActions = () => {
@@ -25,29 +25,6 @@ export const ProfileActions = () => {
           プロフィール編集
         </Button>
 
-        <Button
-          variant="light"
-          fullWidth
-          justify="flex-start"
-          leftSection={<FaCalendarAlt size={16} />}
-          onClick={() => push('/my-events')}
-          radius="lg"
-          color="var(--color-text-primary)"
-        >
-          マイイベント
-        </Button>
-
-        <Button
-          variant="light"
-          fullWidth
-          justify="flex-start"
-          leftSection={<FaCog size={16} />}
-          onClick={() => push('/setting')}
-          radius="lg"
-          color="var(--color-text-primary)"
-        >
-          アカウント設定
-        </Button>
         <Button
           variant="light"
           fullWidth

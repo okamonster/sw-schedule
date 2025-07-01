@@ -1,6 +1,7 @@
 'use client';
-import { Card, Image, Skeleton } from '@mantine/core';
+import { Card, Image } from '@mantine/core';
 import Link from 'next/link';
+import { DEFAULT_IMAGE_URL } from '@/constants';
 import type { Artist } from '@/entities/artist';
 
 type Props = {
@@ -8,15 +9,12 @@ type Props = {
 };
 
 export const ArtistCard = ({ artist }: Props): React.ReactNode => {
+  const imageUrl = artist.artistImageUrl ? artist.artistImageUrl : DEFAULT_IMAGE_URL;
   return (
     <Link href={`/artists/${artist.id}`}>
       <Card shadow="sm" padding="lg" radius="md" withBorder w={280} className="shrink-0">
         <Card.Section className="bg-theme h-[160px] bg-cover bg-center bg-opacity-10">
-          {artist.artistImageUrl ? (
-            <Image src={artist.artistImageUrl} h="100%" alt={artist.artistName} fit="contain" />
-          ) : (
-            <Skeleton height="100%" />
-          )}
+          <Image src={imageUrl} h="100%" alt={artist.artistName} fit="contain" />
         </Card.Section>
 
         <p className="text-md font-bold">{artist.artistName}</p>

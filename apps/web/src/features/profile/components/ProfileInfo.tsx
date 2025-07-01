@@ -1,6 +1,6 @@
 import { Avatar, Badge } from '@mantine/core';
 import { FaMapMarkerAlt, FaUser } from 'react-icons/fa';
-import { getRegionLabel } from '@/constants';
+import { DEFAULT_IMAGE_URL, getRegionLabel } from '@/constants';
 import type { Profile } from '@/entities/profile';
 
 type Props = {
@@ -8,10 +8,11 @@ type Props = {
 };
 
 export const ProfileInfo = ({ profile }: Props): React.ReactNode => {
+  const imageUrl = profile.userImageUrl ? profile.userImageUrl : DEFAULT_IMAGE_URL;
   return (
     <section className="grid justify-center gap-2">
       <div className="flex justify-center">
-        <Avatar src={profile?.userImageUrl} size="xl" radius="xl" className="shadow-lg">
+        <Avatar src={imageUrl} size="xl" radius="xl" className="shadow-lg">
           <FaUser size={40} />
         </Avatar>
       </div>
