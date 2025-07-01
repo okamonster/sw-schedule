@@ -1,4 +1,4 @@
-import type { Artist, Event, Prisma, UserArtistFollow } from '@prisma/client';
+import type { UserArtistFollow } from '@prisma/client';
 import { prismaClient } from '~/libs/prisma.js';
 
 export const getUserArtistFollowByUserAndArtistIdOperation = async (
