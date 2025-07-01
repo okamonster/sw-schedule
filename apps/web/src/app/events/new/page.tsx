@@ -1,5 +1,5 @@
-import { EditEventForm } from "@/features/event/components/EditEventForm";
+import { EditEventForm } from '@/features/event/components/EditEventForm';
 
 export default function CreateArtistPage() {
-	return <EditEventForm />;
+  return <EditEventForm />;
 }
