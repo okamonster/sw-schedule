@@ -104,3 +104,7 @@ export type Area = (typeof AREAS)[number]['value'];
 export const getAreaLabel = (value: string) => {
   return AREAS.find((area) => area.value === value)?.label || value;
 };
+
+export const DEFAULT_IMAGE_URL = '/images/placeholder.png';
+
+export const MAX_FOLLOWING_ARTISTS_FREE_PLAN = 3;

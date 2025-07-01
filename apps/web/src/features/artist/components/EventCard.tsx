@@ -2,7 +2,7 @@
 import { Badge, Image } from '@mantine/core';
 import Link from 'next/link';
 import { FaMapMarkerAlt } from 'react-icons/fa';
-import { getAreaLabel } from '@/constants';
+import { DEFAULT_IMAGE_URL, getAreaLabel } from '@/constants';
 import type { Event } from '@/entities/event';
 import dayjs from '@/libs/dayjs';
 
@@ -13,11 +13,13 @@ type Props = {
 export const EventCard = ({ event }: Props): React.ReactNode => {
   const diffDays = dayjs(event.eventDate).diff(dayjs(), 'day');
 
+  const imageUrl = event.eventImageUrl ? event.eventImageUrl : DEFAULT_IMAGE_URL;
+
   return (
     <Link href={`/events/${event.id}`}>
       <div className="flex rounded-md border border-border-gray">
         <div className="w-[100px] h-[100px] bg-theme">
-          <Image src={event.eventImageUrl} alt="イベント画像" w={100} h={100} fit="cover" />
+          <Image src={imageUrl} alt="イベント画像" w={100} h={100} fit="cover" />
         </div>
         <div className="flex flex-1 p-2 justify-between">
           <div className="grid gap-1">

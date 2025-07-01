@@ -27,7 +27,7 @@ export const ArtistList = ({ query = '', sort = 'followers' }: Props) => {
   return (
     <div className="grid gap-4">
       {artists.map((artist) => (
-        <ArtistListCard key={artist.id} artist={artist} isFollowing={false} />
+        <ArtistListCard key={artist.id} artist={artist} />
       ))}
       {hasMore && <div ref={loaderRef} />}
     </div>
