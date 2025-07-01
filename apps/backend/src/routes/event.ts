@@ -74,7 +74,7 @@ app.get('/search', async (c) => {
   }
 });
 
-app.put('/:id', async (c) => {
+app.put('/:id', jwt({ secret: process.env.JWT_SECRET || '' }), async (c) => {
   const { id } = c.req.param();
   const body = await c.req.json();
   const createEventRequest = EditEventRequestSchema.safeParse(body);
