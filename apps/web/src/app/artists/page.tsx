@@ -2,6 +2,7 @@ import { LinkButton } from '@/components/Buttons/LinkButton';
 import { ArtistList } from '@/features/artist/components/ArtistList';
 import { ArtistSearchSection } from '@/features/artist/components/ArtistSearchSection';
 import { ArtistSortSelect } from '@/features/artist/components/ArtistSortSelect';
+import { getCurrentUser } from '@/service/user';
 
 type Props = {
   searchParams: Promise<{
@@ -12,6 +13,7 @@ type Props = {
 
 export default async function ArtistsPage({ searchParams }: Props) {
   const params = await searchParams;
+  const currentUser = await getCurrentUser();
 
   return (
     <div className="px-4 py-6 grid gap-4">
@@ -31,14 +33,25 @@ export default async function ArtistsPage({ searchParams }: Props) {
             </h2>
             <p className="text-sm text-text-gray">アーティストを追加しよう！</p>
           </div>
-          <LinkButton
-            href="/artists/new"
-            color="var(--color-button-primary)"
-            radius="lg"
-            w="fit-content"
-          >
-            アーティストを追加
-          </LinkButton>
+          {currentUser ? (
+            <LinkButton
+              href="/artists/new"
+              color="var(--color-button-primary)"
+              radius="lg"
+              w="fit-content"
+            >
+              アーティストを追加
+            </LinkButton>
+          ) : (
+            <LinkButton
+              href="/login"
+              color="var(--color-button-primary)"
+              radius="lg"
+              w="fit-content"
+            >
+              ログイン
+            </LinkButton>
+          )}
         </div>
       </div>
 

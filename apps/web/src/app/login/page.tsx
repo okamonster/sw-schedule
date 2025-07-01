@@ -11,9 +11,9 @@ export default function LoginPage() {
 
   return (
     <div className="grid gap-2 p-4">
-      <div className="flex justify-center mb-4">
+      <Link href="/" className="flex justify-center mb-4">
         <Image src="/images/logo.png" alt="gemba" width={130} height={50} />
-      </div>
+      </Link>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <Button leftSection={<FcGoogle />} variant="default" fullWidth onClick={handleGoogleLogin}>
