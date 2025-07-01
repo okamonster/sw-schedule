@@ -18,10 +18,15 @@ export const createEvent = async (dto: EditEventRequestType): Promise<Event> => 
   return { ...data } as Event;
 };
 
-export const updateEvent = async (id: string, dto: EditEventRequestType): Promise<Event> => {
+export const updateEvent = async (
+  id: string,
+  dto: EditEventRequestType,
+  backendToken: string
+): Promise<Event> => {
   const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/event/${id}`, {
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${backendToken}`,
     },
     method: 'PUT',
     body: JSON.stringify({ ...dto }),

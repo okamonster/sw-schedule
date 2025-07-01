@@ -1,6 +1,7 @@
 'use client';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { GoogleMapContainer } from '@/components/Container/GoogleMapContainer';
 import type {
@@ -22,6 +23,8 @@ type Props = {
 
 export const EditEventForm = ({ event }: Props): React.ReactNode => {
   const { push } = useRouter();
+  const session = useSession();
+  const backendToken = session.data?.backendToken;
 
   const { step, nextStep, prevStep } = useSteps();
   const [firstEditEventFormValue, setFirstEditEventFormValue] = useState<FirstEditEventSchemaType>({
@@ -52,7 +55,12 @@ export const EditEventForm = ({ event }: Props): React.ReactNode => {
 
   const onSaveEvent = async (data: EditEventRequestType) => {
     try {
-      const editedEvent = event ? await updateEvent(event.id, data) : await createEvent(data);
+      if (!backendToken) {
+        return;
+      }
+      const editedEvent = event
+        ? await updateEvent(event.id, data, backendToken)
+        : await createEvent(data);
       push(`/events/${editedEvent.id}`);
     } catch (error) {
       console.error(error);
