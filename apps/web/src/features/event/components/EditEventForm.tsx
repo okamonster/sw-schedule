@@ -10,7 +10,7 @@ import type {
   SecondEditEventSchemaType,
   ThirdEditEventSchemaType,
 } from '@/entities/event';
-import { createEvent } from '@/service/event';
+import { createEvent, updateEvent } from '@/service/event';
 import { useSteps } from '../hooks/useSteps';
 import { FirstEditEventForm } from './FirstEditEventForm';
 import { SecondEditEventForm } from './SecondEditEventForm';
@@ -52,8 +52,8 @@ export const EditEventForm = ({ event }: Props): React.ReactNode => {
 
   const onSaveEvent = async (data: EditEventRequestType) => {
     try {
-      const event = await createEvent(data);
-      push(`/events/${event.id}`);
+      const editedEvent = event ? await updateEvent(event.id, data) : await createEvent(data);
+      push(`/events/${editedEvent.id}`);
     } catch (error) {
       console.error(error);
     }

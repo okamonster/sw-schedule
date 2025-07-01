@@ -18,6 +18,24 @@ export const createEvent = async (dto: EditEventRequestType): Promise<Event> => 
   return { ...data } as Event;
 };
 
+export const updateEvent = async (id: string, dto: EditEventRequestType): Promise<Event> => {
+  const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/event/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'PUT',
+    body: JSON.stringify({ ...dto }),
+  });
+
+  const data = await result.json();
+
+  if (!result.ok || !data) {
+    throw new Error('Failed to create event');
+  }
+
+  return { ...data } as Event;
+};
+
 export const getEventById = async (id: string): Promise<Event> => {
   const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/event/${id}`, {
     headers: {
