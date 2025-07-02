@@ -20,5 +20,5 @@ app.route('/event', event);
 
 serve({
   fetch: app.fetch,
-  port: 8787,
+  port: 8080,
 });
