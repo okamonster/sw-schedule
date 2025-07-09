@@ -8,6 +8,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { ImageInput } from '@/components/Inputs/ImageInput';
 import { ARTIST_GENRES, JAPAN_REGIONS, SUPABASE_BUCKETS, SUPABASE_UPLOAD_PATHS } from '@/constants';
 import { type Artist, type CreateArtistSchemaType, createArtistSchema } from '@/entities/artist';
+import { useToast } from '@/hooks/useToast';
 import { createArtist, updateArtist } from '@/service/artist';
 
 type Props = {
@@ -16,6 +17,7 @@ type Props = {
 
 export const EditArtistForm = ({ artist }: Props) => {
   const { push } = useRouter();
+  const { showErrorToast, showSuccessToast } = useToast();
 
   const session = useSession();
 
@@ -30,10 +32,11 @@ export const EditArtistForm = ({ artist }: Props) => {
         ? await updateArtist(artist.id, data, backendToken)
         : await createArtist(data, backendToken);
 
-      console.log(newArtist);
+      showSuccessToast(artist ? 'アーティストを更新しました' : 'アーティストを作成しました');
 
       return push(`/artists/${newArtist.id}`);
     } catch (error) {
+      showErrorToast('アーティストの作成に失敗しました');
       console.error(error);
     }
   };
@@ -171,7 +174,7 @@ export const EditArtistForm = ({ artist }: Props) => {
           fullWidth
           disabled={!isValid}
         >
-          作成
+          {artist ? '更新' : '作成'}
         </Button>
       </div>
     </form>
