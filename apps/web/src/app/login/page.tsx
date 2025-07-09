@@ -7,7 +7,7 @@ import { LoginForm } from '@/features/auth/components/LoginForm';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 
 export default function LoginPage() {
-  const { handleGoogleLogin } = useAuth();
+  const { handleGoogleLogin, isLoading } = useAuth();
 
   return (
     <div className="grid gap-2 p-4">
@@ -16,7 +16,13 @@ export default function LoginPage() {
       </Link>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <Button leftSection={<FcGoogle />} variant="default" fullWidth onClick={handleGoogleLogin}>
+        <Button
+          leftSection={<FcGoogle />}
+          variant="default"
+          fullWidth
+          onClick={handleGoogleLogin}
+          loading={isLoading}
+        >
           Googleでログイン
         </Button>
 

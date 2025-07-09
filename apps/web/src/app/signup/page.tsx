@@ -7,7 +7,7 @@ import { SignupForm } from '@/features/auth/components/SignupForm';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 
 export default function SignupPage() {
-  const { handleGoogleLogin } = useAuth();
+  const { handleGoogleLogin, isLoading } = useAuth();
 
   return (
     <div className="grid gap-2 p-4">
@@ -16,7 +16,13 @@ export default function SignupPage() {
       </Link>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <Button leftSection={<FcGoogle />} variant="default" fullWidth onClick={handleGoogleLogin}>
+        <Button
+          leftSection={<FcGoogle />}
+          variant="default"
+          fullWidth
+          onClick={handleGoogleLogin}
+          loading={isLoading}
+        >
           Googleでサインアップ
         </Button>
 
