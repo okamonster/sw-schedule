@@ -26,13 +26,13 @@ export const EditArtistForm = ({ artist }: Props) => {
     }
 
     try {
-      if (!artist) {
-        const newArtist = await createArtist(data, backendToken);
-        return push(`/artists/${newArtist.id}`);
-      }
+      const newArtist = artist
+        ? await updateArtist(artist.id, data, backendToken)
+        : await createArtist(data, backendToken);
 
-      const updatedArtist = await updateArtist(artist.id, data, backendToken);
-      return push(`/artists/${updatedArtist.id}`);
+      console.log(newArtist);
+
+      return push(`/artists/${newArtist.id}`);
     } catch (error) {
       console.error(error);
     }

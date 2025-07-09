@@ -1,4 +1,3 @@
-
 // レート制限のための簡易的なストレージ
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
 
