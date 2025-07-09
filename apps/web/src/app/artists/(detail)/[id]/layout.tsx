@@ -3,7 +3,6 @@ import '@/styles/globals.css';
 import '@/styles/variables.css';
 import { ArtistDetailHeader } from '@/components/Navigations/ArtistDetailHeader';
 import { DefaultFooter } from '@/components/Navigations/DefaultFooter';
-import { DefaultHeader } from '@/components/Navigations/DefaultHeader';
 import { Footer } from '@/components/Navigations/Footer';
 import { TopHeader } from '@/components/Navigations/TopHeader';
 import { getCurrentUser } from '@/service/user';
