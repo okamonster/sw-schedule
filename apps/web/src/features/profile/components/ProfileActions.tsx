@@ -7,7 +7,7 @@ import { useAuth } from '@/features/auth/hooks/useAuth';
 
 export const ProfileActions = () => {
   const { push } = useRouter();
-  const { handleLogout } = useAuth();
+  const { handleLogout, isLoading } = useAuth();
 
   return (
     <section className="grid py-4 gap-2">
@@ -33,6 +33,7 @@ export const ProfileActions = () => {
           onClick={handleLogout}
           radius="lg"
           color="var(--color-text-primary)"
+          loading={isLoading}
         >
           ログアウト
         </Button>

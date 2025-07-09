@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Checkbox, PasswordInput, TextInput } from '@mantine/core';
 import { Controller, useForm } from 'react-hook-form';
 import { type LoginUserSchemaType, loginUserSchema } from '@/entities/user';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '@/features/auth/hooks/useAuth';
 
 export const LoginForm = (): React.ReactNode => {
   const {
@@ -20,7 +20,7 @@ export const LoginForm = (): React.ReactNode => {
     mode: 'all',
     resolver: zodResolver(loginUserSchema),
   });
-  const { handleLogin } = useAuth();
+  const { handleLogin, isLoading } = useAuth();
 
   const onSubmit = async (data: LoginUserSchemaType) => {
     await handleLogin(data.email, data.password);
@@ -54,7 +54,7 @@ export const LoginForm = (): React.ReactNode => {
           />
         )}
       />
-      <Button fullWidth color="var(--color-button-primary)" type="submit">
+      <Button fullWidth color="var(--color-button-primary)" type="submit" loading={isLoading}>
         ログイン
       </Button>
     </form>

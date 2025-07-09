@@ -12,6 +12,7 @@ import {
   type SecondProfileEditFormType,
   secondProfileEditFormSchema,
 } from '@/entities/profile';
+import { useToast } from '@/hooks/useToast';
 import { ProfilePreview } from './ProfilePreview';
 
 type Props = {
@@ -30,6 +31,7 @@ export const SecondProfileEditFormContent = ({
   saveProfile,
 }: Props) => {
   const { push } = useRouter();
+  const { showErrorToast, showSuccessToast } = useToast();
   const {
     control,
     handleSubmit,
@@ -52,8 +54,10 @@ export const SecondProfileEditFormContent = ({
   const onSubmit = async () => {
     try {
       await saveProfile({ ...profileValues });
+      showSuccessToast('プロフィールを作成しました');
       push('/home');
     } catch (error) {
+      showErrorToast('プロフィールの作成に失敗しました');
       console.error(error);
     }
   };

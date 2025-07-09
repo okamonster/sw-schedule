@@ -1,23 +1,38 @@
+import { useRouter } from 'next/navigation';
 import { signIn, signOut } from 'next-auth/react';
+import { useState } from 'react';
+import { useToast } from '@/hooks/useToast';
 
 export const useAuth = (): {
   handleGoogleLogin: () => Promise<void>;
   handleSignup: (email: string, password: string) => Promise<void>;
   handleLogin: (email: string, password: string) => Promise<void>;
   handleLogout: () => Promise<void>;
+  isLoading: boolean;
 } => {
+  const [isLoading, setIsLoading] = useState(false);
+  const { push } = useRouter();
+  const { showErrorToast, showSuccessToast } = useToast();
+
   const handleGoogleLogin = async () => {
     try {
+      setIsLoading(true);
       await signIn('google', {
         redirectTo: '/home',
       });
+
+      showSuccessToast('ログインに成功しました');
     } catch (e) {
+      showErrorToast('ログインに失敗しました');
       console.error('An unexpected error occurred during sign in:', e);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleSignup = async (email: string, password: string) => {
     try {
+      setIsLoading(true);
       const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/signup`, {
         method: 'POST',
         body: JSON.stringify({ email, password }),
@@ -27,35 +42,66 @@ export const useAuth = (): {
         throw new Error('Failed to sign up');
       }
 
-      await signIn('credentials', {
-        redirectTo: '/home',
+      const signInRes = await signIn('credentials', {
+        redirect: false,
         email,
         password,
       });
+
+      if (signInRes.error) {
+        throw new Error(signInRes.error);
+      }
+
+      showSuccessToast('サインアップに成功しました');
+
+      push('/home');
     } catch (e) {
-      console.error('An unexpected error occurred during sign in:', e);
+      showErrorToast('サインアップに失敗しました');
+      console.error('An unexpected error occurred during sign up:', e);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleLogin = async (email: string, password: string) => {
     try {
-      await signIn('credentials', {
-        redirectTo: '/home',
+      setIsLoading(true);
+      const signInRes = await signIn('credentials', {
+        redirect: false,
         email,
         password,
       });
+
+      if (signInRes.error) {
+        throw new Error(signInRes.error);
+      }
+
+      showSuccessToast('ログインに成功しました');
+
+      push('/home');
     } catch (e) {
+      showErrorToast('ログインに失敗しました');
       console.error('An unexpected error occurred during sign in:', e);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleLogout = async () => {
     try {
+      setIsLoading(true);
       await signOut({
-        redirectTo: '/',
+        redirect: false,
       });
+
+      showSuccessToast('ログアウトに成功しました');
+
+      push('/');
     } catch (e) {
+      showErrorToast('ログアウトに失敗しました');
       console.error('An unexpected error occurred during sign out:', e);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -64,5 +110,6 @@ export const useAuth = (): {
     handleSignup,
     handleLogin,
     handleLogout,
+    isLoading,
   };
 };

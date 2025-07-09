@@ -21,7 +21,7 @@ export const SignupForm = (): React.ReactNode => {
     mode: 'all',
     resolver: zodResolver(signupUserSchema),
   });
-  const { handleSignup } = useAuth();
+  const { handleSignup, isLoading } = useAuth();
 
   const onSubmit = async (data: SignupUserSchemaType) => {
     try {
@@ -72,7 +72,7 @@ export const SignupForm = (): React.ReactNode => {
         )}
       />
 
-      <Button fullWidth color="var(--color-button-primary)" type="submit">
+      <Button fullWidth color="var(--color-button-primary)" type="submit" loading={isLoading}>
         サインアップ
       </Button>
     </form>
