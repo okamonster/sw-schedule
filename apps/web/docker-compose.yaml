@@ -1,0 +1,16 @@
+services:
+  gemba-frontend:
+    image: gemba-frontend
+    platform: linux/amd64
+    build:
+      context: ../../         # ← monorepoルートをビルドコンテキストに
+      dockerfile: apps/web/docker/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+        NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+        NEXT_PUBLIC_GOOGLE_MAP_API_KEY: ${NEXT_PUBLIC_GOOGLE_MAP_API_KEY}
+    env_file:
+      - .env        # 必要ならルートの.env.localを参照
+    ports:
+      - "3000:3000"
