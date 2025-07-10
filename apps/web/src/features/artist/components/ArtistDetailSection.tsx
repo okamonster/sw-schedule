@@ -2,12 +2,14 @@
 
 import { Badge, Button, Divider } from '@mantine/core';
 import type React from 'react';
-import { FaMapMarkerAlt } from 'react-icons/fa';
+import { FaLink, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
 import { LinkButton } from '@/components/Buttons/LinkButton';
 import { getGenreLabel, getRegionLabel } from '@/constants';
 import type { Artist } from '@/entities/artist';
 import type { User } from '@/entities/user';
 import { useFollow } from '@/features/artist/hooks/useFollow';
+import { useSnsShare } from '@/features/artist/hooks/useSnsShare';
 
 type Props = {
   artist: Artist;
@@ -16,6 +18,7 @@ type Props = {
 
 export const ArtistDetailSection = ({ artist, user }: Props): React.ReactNode => {
   const { handleFollow, isFollowing } = useFollow(artist.id);
+  const { copyUrl, shareX } = useSnsShare();
   return (
     <div className="grid gap-4">
       <div className="flex gap-2">
@@ -39,6 +42,32 @@ export const ArtistDetailSection = ({ artist, user }: Props): React.ReactNode =>
             {isFollowing ? '推しに登録中' : '推しに登録'}
           </Button>
         )}
+      </section>
+      <section className="flex gap-2">
+        <Button
+          color="var(--color-text-black)"
+          radius="md"
+          variant="outline"
+          leftSection={<FaXTwitter />}
+          onClick={() =>
+            shareX(
+              `私の推しは【${artist.artistName}】\nアーティスト情報や出演情報はこちらから！`,
+              window.location.href,
+              ['Gemba', '推し活するならGemba']
+            )
+          }
+        >
+          シェア
+        </Button>
+        <Button
+          color="var(--color-text-black)"
+          radius="md"
+          variant="outline"
+          leftSection={<FaLink />}
+          onClick={copyUrl}
+        >
+          URLをコピー
+        </Button>
       </section>
       <Divider />
       <div className="grid gap-2">
