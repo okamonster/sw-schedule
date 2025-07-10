@@ -108,3 +108,8 @@ export const getAreaLabel = (value: string) => {
 export const DEFAULT_IMAGE_URL = '/images/placeholder.png';
 
 export const MAX_FOLLOWING_ARTISTS_FREE_PLAN = 3;
+
+export const SNS_LINKS = {
+  X: 'https://x.com',
+  INSTAGRAM: 'https://www.instagram.com',
+} as const satisfies Record<string, string>;

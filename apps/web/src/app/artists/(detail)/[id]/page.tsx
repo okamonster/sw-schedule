@@ -1,10 +1,12 @@
 import { ActionIcon, Button, Divider, Image } from '@mantine/core';
 import { notFound } from 'next/navigation';
-import { FaCalendarAlt, FaInstagram } from 'react-icons/fa';
+import { FaCalendarAlt, FaInstagram, FaYoutube } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
+import { LinkButton } from '@/components/Buttons/LinkButton';
 import { DEFAULT_IMAGE_URL } from '@/constants';
 import { ArtistDetailSection } from '@/features/artist/components/ArtistDetailSection';
 import { ArtistScheduleCalender } from '@/features/artist/components/ArtistScheduleCalender';
+import { ArtistSnsSection } from '@/features/artist/components/ArtistSnsSection';
 import { NearestEventSection } from '@/features/artist/components/NearestEventSection';
 import { getArtistById } from '@/service/artist';
 import { getCurrentUser } from '@/service/user';
@@ -36,17 +38,7 @@ export default async function ArtistDetailPage({ params }: Props) {
       <div className="grid gap-2 px-4 pb-4">
         <ArtistDetailSection artist={artist} user={user} />
 
-        <section className="grid gap-2">
-          <p className="text-sm font-bold">シェア</p>
-          <div className="flex gap-2">
-            <ActionIcon color="var(--color-text-black)" variant="light" radius="lg" size="lg">
-              <FaXTwitter size={20} />
-            </ActionIcon>
-            <ActionIcon color="var(--color-text-black)" variant="light" radius="lg" size="lg">
-              <FaInstagram size={20} />
-            </ActionIcon>
-          </div>
-        </section>
+        <ArtistSnsSection artist={artist} />
         <Divider />
         <NearestEventSection artist={artist} />
         <Divider />
@@ -65,9 +57,15 @@ export default async function ArtistDetailPage({ params }: Props) {
           </div>
           <ArtistScheduleCalender artist={artist} />
 
-          <Button color="var(--color-button-primary)" radius="lg">
-            出演情報を追加
-          </Button>
+          {user ? (
+            <Button color="var(--color-button-primary)" radius="lg">
+              出演情報を追加
+            </Button>
+          ) : (
+            <LinkButton color="var(--color-button-primary)" radius="lg" href="/login">
+              ログインして出演情報を追加
+            </LinkButton>
+          )}
         </section>
       </div>
     </div>
