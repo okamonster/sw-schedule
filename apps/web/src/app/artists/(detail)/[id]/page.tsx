@@ -1,7 +1,6 @@
-import { ActionIcon, Button, Divider, Image } from '@mantine/core';
+import { Button, Divider, Image } from '@mantine/core';
 import { notFound } from 'next/navigation';
-import { FaCalendarAlt, FaInstagram, FaYoutube } from 'react-icons/fa';
-import { FaXTwitter } from 'react-icons/fa6';
+import { FaCalendarAlt } from 'react-icons/fa';
 import { LinkButton } from '@/components/Buttons/LinkButton';
 import { DEFAULT_IMAGE_URL } from '@/constants';
 import { ArtistDetailSection } from '@/features/artist/components/ArtistDetailSection';
