@@ -2,6 +2,7 @@
 import { Map as GoogleMap, Marker, useApiIsLoaded } from '@vis.gl/react-google-maps';
 import { useEffect, useState } from 'react';
 import type { Event } from '@/entities/event';
+import type { GoogleMapGeocodeResult } from '@/entities/googleMap';
 
 type Props = {
   event: Event;
@@ -14,14 +15,17 @@ export const EventLocationSection = ({ event }: Props): React.ReactNode => {
   useEffect(() => {
     if (isLoaded) {
       const geocoder = new window.google.maps.Geocoder();
-      geocoder.geocode({ address: event.eventLocationAddress }, (results, status) => {
-        if (status === 'OK' && results && results[0]) {
-          setLocation({
-            lat: results[0].geometry.location.lat(),
-            lng: results[0].geometry.location.lng(),
-          });
+      geocoder.geocode(
+        { address: event.eventLocationAddress },
+        (results: Array<GoogleMapGeocodeResult> | null, status: string) => {
+          if (status === 'OK' && results && results[0]) {
+            setLocation({
+              lat: results[0].geometry.location.lat(),
+              lng: results[0].geometry.location.lng(),
+            });
+          }
         }
-      });
+      );
     }
     return () => {
       setLocation(null);

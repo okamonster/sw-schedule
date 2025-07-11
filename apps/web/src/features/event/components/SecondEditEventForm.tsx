@@ -5,7 +5,8 @@ import { Map as GoogleMap, Marker, useApiIsLoaded } from '@vis.gl/react-google-m
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { SecondEditEventSchema, type SecondEditEventSchemaType } from '@/entities/event';
-import { VenueSearchInput } from './VenueSearchInput';
+import type { GoogleMapGeocodeResult } from '@/entities/googleMap';
+import { VenueSearchInput } from '@/features/event/components/VenueSearchInput';
 
 type Props = {
   secondStepValues: SecondEditEventSchemaType;
@@ -66,14 +67,17 @@ export const SecondEditEventForm = ({
     }
     if (isLoaded && typeof window !== 'undefined' && window.google && window.google.maps) {
       const geocoder = new window.google.maps.Geocoder();
-      geocoder.geocode({ address: value }, (results, status) => {
-        if (status === 'OK' && results && results[0]) {
-          setSelectedLocation({
-            lat: results[0].geometry.location.lat(),
-            lng: results[0].geometry.location.lng(),
-          });
+      geocoder.geocode(
+        { address: value },
+        (results: Array<GoogleMapGeocodeResult> | null, status: string) => {
+          if (status === 'OK' && results && results[0]) {
+            setSelectedLocation({
+              lat: results[0].geometry.location.lat(),
+              lng: results[0].geometry.location.lng(),
+            });
+          }
         }
-      });
+      );
     }
   };
 
