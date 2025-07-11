@@ -2,8 +2,8 @@
 import { Calendar } from '@mantine/dates';
 import type { Artist } from '@/entities/artist';
 import { EventCard } from '@/features/artist/components/EventCard';
+import { useCalenderSchedule } from '@/features/artist/hooks/useCalenderSchedule';
 import dayjs from '@/libs/dayjs';
-import { useCalenderSchedule } from '../hooks/useCalenderSchedule';
 
 type Props = {
   artist: Artist;

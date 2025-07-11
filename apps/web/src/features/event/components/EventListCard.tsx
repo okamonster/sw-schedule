@@ -11,7 +11,9 @@ type Props = {
 };
 
 export const EventListCard = ({ event }: Props): React.ReactNode => {
-  const diffDays = dayjs(event.eventDate).diff(dayjs(), 'day');
+  const today = dayjs().startOf('day');
+  const eventDay = dayjs(event.eventDate).startOf('day');
+  const diffDays = eventDay.diff(today, 'day');
 
   const imageUrl = event.eventImageUrl ? event.eventImageUrl : DEFAULT_IMAGE_URL;
 
