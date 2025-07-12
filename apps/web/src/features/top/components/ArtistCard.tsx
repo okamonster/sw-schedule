@@ -11,8 +11,8 @@ type Props = {
 export const ArtistCard = ({ artist }: Props): React.ReactNode => {
   const imageUrl = artist.artistImageUrl ? artist.artistImageUrl : DEFAULT_IMAGE_URL;
   return (
-    <Link href={`/artists/${artist.id}`}>
-      <Card shadow="sm" padding="lg" radius="md" withBorder w={280} className="shrink-0">
+    <Link href={`/artists/${artist.id}`} className="h-full">
+      <Card shadow="sm" padding="lg" radius="md" withBorder w={280} className="shrink-0 h-full">
         <Card.Section className="bg-theme h-[160px] bg-cover bg-center bg-opacity-10">
           <Image src={imageUrl} h="100%" alt={artist.artistName} fit="contain" />
         </Card.Section>

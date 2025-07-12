@@ -12,8 +12,8 @@ type Props = {
 export const EventCard = ({ event }: Props): React.ReactNode => {
   const imageUrl = event.eventImageUrl ? event.eventImageUrl : DEFAULT_IMAGE_URL;
   return (
-    <Link href={`/events/${event.id}`}>
-      <Card shadow="sm" padding="lg" radius="md" withBorder w={280} className="shrink-0">
+    <Link href={`/events/${event.id}`} className="h-full">
+      <Card shadow="sm" padding="lg" radius="md" withBorder w={280} className="shrink-0 h-full">
         <Card.Section className="bg-theme h-[250px] bg-cover bg-center bg-opacity-10">
           <Image src={imageUrl} h="100%" alt={event.eventName} fit="contain" />
         </Card.Section>

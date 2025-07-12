@@ -20,8 +20,8 @@ export const EventListCard = ({ event }: Props): React.ReactNode => {
   return (
     <Link href={`/events/${event.id}`}>
       <div className="flex rounded-md border border-border-gray">
-        <div className="w-[100px] h-[100px] bg-theme">
-          <Image src={imageUrl} alt="イベント画像" w={100} h={100} fit="cover" />
+        <div className="w-[100px] h-full bg-theme">
+          <Image src={imageUrl} alt="イベント画像" w={100} h="100%" fit="contain" />
         </div>
         <div className="flex flex-1 p-2 justify-between">
           <div className="grid gap-1">
@@ -46,6 +46,7 @@ export const EventListCard = ({ event }: Props): React.ReactNode => {
           <Badge
             radius="lg"
             color={diffDays > 0 ? 'var(--color-button-primary)' : 'var(--color-background-red)'}
+            className="shrink-0"
           >
             {diffDays > 0 && `あと${diffDays}日`}
             {diffDays === 0 && '本日'}
