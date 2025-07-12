@@ -13,7 +13,6 @@ import {
   type ThirdEditEventSchemaType,
 } from '@/entities/event';
 import { EventArtistInput } from '@/features/event/components/EventArtistInput';
-import { useToast } from '@/hooks/useToast';
 import { extractPrefecture } from '@/utils/area';
 import { parseTimeString } from '@/utils/date';
 
@@ -34,8 +33,6 @@ export const ThirdEditEventForm = ({
   onSubmit,
   onChangeThirdStep,
 }: Props) => {
-  const { showSuccessToast, showErrorToast } = useToast();
-
   const {
     control,
     handleSubmit,
@@ -85,9 +82,7 @@ export const ThirdEditEventForm = ({
     };
     try {
       await onSubmit({ ...dto });
-      showSuccessToast('イベントを作成しました');
     } catch (error) {
-      showErrorToast('イベントの作成に失敗しました');
       console.error(error);
     }
   };
@@ -116,7 +111,7 @@ export const ThirdEditEventForm = ({
           戻る
         </Button>
         <Button color="var(--color-text-primary)" radius="lg" type="submit" disabled={!isValid}>
-          作成する
+          保存する
         </Button>
       </div>
     </form>

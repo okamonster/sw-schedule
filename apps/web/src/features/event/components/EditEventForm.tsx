@@ -1,7 +1,6 @@
 'use client';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { GoogleMapContainer } from '@/components/Container/GoogleMapContainer';
 import type {
@@ -52,7 +51,6 @@ export const EditEventForm = ({ event }: Props): React.ReactNode => {
   const [thirdEditEventFormValue, setThirdEditEventFormValue] = useState<ThirdEditEventSchemaType>({
     eventArtists: event?.artists.map((artistEvent) => artistEvent.artist.id) ?? [],
   });
-
   const { showErrorToast, showSuccessToast } = useToast();
 
   const onSaveEvent = async (data: EditEventRequestType) => {
@@ -64,8 +62,8 @@ export const EditEventForm = ({ event }: Props): React.ReactNode => {
         ? await updateEvent(event.id, data, backendToken)
         : await createEvent(data);
 
+      showSuccessToast(event ? 'イベントを更新しました' : 'イベントを作成しました');
       push(`/events/${editedEvent.id}`);
-      showSuccessToast('イベントの保存に成功しました');
     } catch (error) {
       showErrorToast('イベントの保存に失敗しました');
       console.error(error);
