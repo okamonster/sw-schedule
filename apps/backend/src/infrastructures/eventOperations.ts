@@ -64,6 +64,7 @@ export const updateEventOperation = async (
       ticketUrl: request.ticketUrl,
       isNeedDrink: request.isNeedDrink,
       artists: {
+        deleteMany: {},
         create: request.artists.map((artistId) => ({
           artist: {
             connect: { id: artistId },

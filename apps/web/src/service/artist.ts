@@ -66,6 +66,24 @@ export const getArtistList = async (): Promise<Artist[]> => {
   return data as Artist[];
 };
 
+export const getArtistListByIds = async (artistIds: string[]): Promise<Artist[]> => {
+  const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/artist/list`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ artistIds }),
+  });
+
+  if (!result.ok) {
+    return [];
+  }
+
+  const data = await result.json();
+
+  return data as Artist[];
+};
+
 export const getArtistListByQuery = async (
   query = '',
   sort = 'followers',

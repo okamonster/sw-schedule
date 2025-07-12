@@ -2,6 +2,7 @@ import { Hono } from 'hono';
 import { jwt } from 'hono/jwt';
 import {
   createArtistRequestSchema,
+  getArtistsRequestSchema,
   searchArtistRequestSchema,
   updateArtistRequestSchema,
 } from '~/entities/artist.js';
@@ -48,6 +49,31 @@ app.post('/', jwt({ secret: process.env.JWT_SECRET || '' }), async (c) => {
 app.get('/list', async (c) => {
   try {
     const artists = await getArtistsOperation();
+    return c.json(artists, 200);
+  } catch (error) {
+    console.error('Error getting artists:', error);
+    return c.json({ error: 'Internal server error' }, 500);
+  }
+});
+
+app.post('/list', async (c) => {
+  const body = await c.req.json();
+  const result = getArtistsRequestSchema.safeParse(body);
+
+  try {
+    if (!result.success) {
+      return c.json({ error: 'Invalid request format' }, 400);
+    }
+
+    const { artistIds } = result.data;
+
+    const artists = await getArtistsByIdsOperation(artistIds);
+
+    if (!artists) {
+      return c.json([], 200);
+    }
+
+    console.log(artists);
     return c.json(artists, 200);
   } catch (error) {
     console.error('Error getting artists:', error);

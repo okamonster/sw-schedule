@@ -1,11 +1,11 @@
 'use client';
 import { Badge, Button } from '@mantine/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaDeleteLeft } from 'react-icons/fa6';
 import { DebouncedInput } from '@/components/Inputs/DebouncedInput';
 import type { Artist } from '@/entities/artist';
 import { ArtistSelectButton } from '@/features/event/components/ArtistSelectButton';
-import { getArtistListByQuery } from '@/service/artist';
+import { getArtistListByIds, getArtistListByQuery } from '@/service/artist';
 
 type Props = {
   value: string[];
@@ -37,6 +37,14 @@ export const EventArtistInput = ({ value, onChange, error }: Props): React.React
     return selectedArtistList.some((a) => a.id === artist.id);
   };
 
+  useEffect(() => {
+    const fetchDefaultArtistList = async () => {
+      const defaultArtistList = await getArtistListByIds(value);
+      setSelectedArtistList(defaultArtistList);
+    };
+    fetchDefaultArtistList();
+  }, [value]);
+
   return (
     <div className="grid gap-2">
       <div className="flex items-center gap-2 p-2">
@@ -48,13 +56,14 @@ export const EventArtistInput = ({ value, onChange, error }: Props): React.React
 
       <div className="grid gap-2">
         <p className="text-sm font-bold">選択中の出演者</p>
-        <div className="flex gap-2">
+        <div className="flex gap-2 overflow-x-auto">
           {selectedArtistList.map((artist) => (
             <Badge
               color="var(--color-button-primary)"
               key={artist.id}
               rightSection={<FaDeleteLeft />}
               onClick={() => handleSelectArtist(artist)}
+              className="flex-shrink-0"
             >
               {artist.artistName}
             </Badge>

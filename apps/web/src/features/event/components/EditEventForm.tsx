@@ -11,6 +11,8 @@ import type {
   SecondEditEventSchemaType,
   ThirdEditEventSchemaType,
 } from '@/entities/event';
+import { useBackendToken } from '@/hooks/useBackendToken';
+import { useToast } from '@/hooks/useToast';
 import { createEvent, updateEvent } from '@/service/event';
 import { useSteps } from '../hooks/useSteps';
 import { FirstEditEventForm } from './FirstEditEventForm';
@@ -23,9 +25,7 @@ type Props = {
 
 export const EditEventForm = ({ event }: Props): React.ReactNode => {
   const { push } = useRouter();
-  const session = useSession();
-  const backendToken = session.data?.backendToken;
-
+  const backendToken = useBackendToken();
   const { step, nextStep, prevStep } = useSteps();
   const [firstEditEventFormValue, setFirstEditEventFormValue] = useState<FirstEditEventSchemaType>({
     eventImageUrl: event?.eventImageUrl ?? '',
@@ -53,6 +53,8 @@ export const EditEventForm = ({ event }: Props): React.ReactNode => {
     eventArtists: event?.artists.map((artistEvent) => artistEvent.artist.id) ?? [],
   });
 
+  const { showErrorToast, showSuccessToast } = useToast();
+
   const onSaveEvent = async (data: EditEventRequestType) => {
     try {
       if (!backendToken) {
@@ -61,8 +63,11 @@ export const EditEventForm = ({ event }: Props): React.ReactNode => {
       const editedEvent = event
         ? await updateEvent(event.id, data, backendToken)
         : await createEvent(data);
+
       push(`/events/${editedEvent.id}`);
+      showSuccessToast('イベントの保存に成功しました');
     } catch (error) {
+      showErrorToast('イベントの保存に失敗しました');
       console.error(error);
     }
   };

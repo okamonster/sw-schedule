@@ -34,5 +34,5 @@ export const searchArtistRequestSchema = z.object({
 export type SearchArtistRequest = z.infer<typeof searchArtistRequestSchema>;
 
 export const getArtistsRequestSchema = z.object({
-  ids: z.array(z.string()).optional(),
+  artistIds: z.array(z.string()),
 });

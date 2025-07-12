@@ -45,7 +45,7 @@ export const ThirdEditEventForm = ({
     mode: 'all',
     resolver: zodResolver(ThirdEditEventSchema),
     defaultValues: {
-      eventArtists: [],
+      eventArtists: thirdStepValues.eventArtists,
     },
   });
 
