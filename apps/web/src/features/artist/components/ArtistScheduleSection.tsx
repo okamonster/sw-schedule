@@ -36,9 +36,13 @@ export const ArtistScheduleSection = ({ user, artist }: Props): React.ReactNode 
       <ArtistScheduleCalender artist={artist} />
 
       {user ? (
-        <Button color="var(--color-button-primary)" radius="lg">
+        <LinkButton
+          color="var(--color-button-primary)"
+          radius="lg"
+          href={`/artists/${artist.id}/edit/events`}
+        >
           出演情報を追加
-        </Button>
+        </LinkButton>
       ) : (
         <LinkButton color="var(--color-button-primary)" radius="lg" href="/login">
           ログインして出演情報を追加

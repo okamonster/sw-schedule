@@ -46,3 +46,9 @@ export const searchArtistSchema = z.object({
 });
 
 export type SearchArtistSchemaType = z.infer<typeof searchArtistSchema>;
+
+export const addArtistEventSchema = z.object({
+  eventIds: z.array(z.string()),
+});
+
+export type AddArtistEventSchemaType = z.infer<typeof addArtistEventSchema>;
