@@ -5,6 +5,8 @@ import {
   searchArtistRequestSchema,
   updateArtistRequestSchema,
 } from '~/entities/artist.js';
+import { createArtistEventRequestSchema } from '~/entities/artistEvent.js';
+import { createArtistEventOperation } from '~/infrastructures/artistEventOperations.js';
 import {
   createArtistOperation,
   getArtistByIdOperation,
@@ -192,6 +194,30 @@ app.delete('/:id/follow', jwt({ secret: process.env.JWT_SECRET || '' }), async (
     return c.json({ message: 'User artist follow deleted' }, 201);
   } catch (error) {
     console.error('Error deleting user artist follow:', error);
+    return c.json({ error: 'Internal server error' }, 500);
+  }
+});
+
+app.post('/:id/events', jwt({ secret: process.env.JWT_SECRET || '' }), async (c) => {
+  const { id: artistId } = c.req.param();
+  const body = await c.req.json();
+  const jwtPayload = c.get('jwtPayload');
+
+  if (!jwtPayload) {
+    return c.json({ error: 'Unauthorized' }, 403);
+  }
+  const result = createArtistEventRequestSchema.safeParse(body);
+
+  try {
+    if (!result.success) {
+      return c.json({ error: 'Invalid request format' }, 400);
+    }
+
+    await createArtistEventOperation(artistId, result.data.eventIds);
+
+    return c.json({ message: 'Artist events created' }, 201);
+  } catch (error) {
+    console.error('Error creating artist events:', error);
     return c.json({ error: 'Internal server error' }, 500);
   }
 });
