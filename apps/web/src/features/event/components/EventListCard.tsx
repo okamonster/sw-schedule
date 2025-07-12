@@ -23,9 +23,20 @@ export const EventListCard = ({ event }: Props): React.ReactNode => {
         <div className="w-[100px] h-full bg-theme">
           <Image src={imageUrl} alt="イベント画像" w={100} h="100%" fit="contain" />
         </div>
-        <div className="flex flex-1 p-2 justify-between">
-          <div className="grid gap-1">
-            <p className="text-md font-bold">{event.eventName}</p>
+        <div className="flex flex-1 p-2 justify-between w-full">
+          <div className="grid gap-1 w-full">
+            <div className="flex justify-between">
+              <p className="text-md font-bold">{event.eventName}</p>
+              <Badge
+                radius="lg"
+                color={diffDays > 0 ? 'var(--color-button-primary)' : 'var(--color-background-red)'}
+                className="shrink-0"
+              >
+                {diffDays > 0 && `あと${diffDays}日`}
+                {diffDays === 0 && '本日'}
+                {diffDays < 0 && '開催済み'}
+              </Badge>
+            </div>
             <p className="text-sm text-text-gray">
               開催:{dayjs(event.eventDate).format('YYYY/MM/DD(ddd)')}
             </p>
@@ -43,15 +54,6 @@ export const EventListCard = ({ event }: Props): React.ReactNode => {
               </p>
             </div>
           </div>
-          <Badge
-            radius="lg"
-            color={diffDays > 0 ? 'var(--color-button-primary)' : 'var(--color-background-red)'}
-            className="shrink-0"
-          >
-            {diffDays > 0 && `あと${diffDays}日`}
-            {diffDays === 0 && '本日'}
-            {diffDays < 0 && '開催済み'}
-          </Badge>
         </div>
       </div>
     </Link>

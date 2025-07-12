@@ -18,9 +18,9 @@ export const NearestEventSection = ({ artist }: Props): React.ReactNode => {
       return dateA.diff(dateB);
     });
 
-  // 現在の日付に最も近いイベントを取得
+  // 今日から最も近いイベントを取得
   const nearestEvent =
-    sortedEvents.find((event) => dayjs(event.eventDate).isSameOrAfter(today, 'day')) ||
+    sortedEvents.find((event) => dayjs(event.eventDate).isAfter(today, 'day')) ||
     sortedEvents[sortedEvents.length - 1]; // 過去のイベントがない場合は最新の過去イベント
 
   return (
