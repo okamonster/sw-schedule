@@ -1,4 +1,5 @@
 import { Divider, Image } from '@mantine/core';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { DEFAULT_IMAGE_URL } from '@/constants';
 import { ArtistDetailSection } from '@/features/artist/components/ArtistDetailSection';
@@ -14,15 +15,38 @@ type Props = {
   }>;
 };
 
-export default async function ArtistDetailPage({ params }: Props) {
+export async function generateMetadata({ params }: { params: { id: string } }) {
   const { id: artistId } = await params;
   const artist = await getArtistById(artistId);
-
-  const user = await getCurrentUser();
-
   if (!artist) {
     return notFound();
   }
+
+  return {
+    title: artist.artistName,
+    description: artist.artistDescription,
+    openGraph: {
+      title: artist.artistName,
+      description: artist.artistDescription,
+      images: [artist.ogpImageUrl],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: artist.artistName,
+      description: artist.artistDescription,
+      images: [artist.ogpImageUrl],
+    },
+  };
+}
+
+export default async function ArtistDetailPage({ params }: Props) {
+  const { id: artistId } = await params;
+  const artist = await getArtistById(artistId);
+  if (!artist) {
+    return notFound();
+  }
+
+  const user = await getCurrentUser();
 
   const imageUrl = artist.artistImageUrl ? artist.artistImageUrl : DEFAULT_IMAGE_URL;
 
