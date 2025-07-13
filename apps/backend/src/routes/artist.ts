@@ -14,6 +14,7 @@ import {
   getArtistsByIdsOperation,
   getArtistsOperation,
   searchArtistsOperation,
+  updateArtistOgpOperation,
   updateArtistOperation,
 } from '~/infrastructures/artistOperations.js';
 import {
@@ -22,6 +23,7 @@ import {
   getUserArtistFollowByUserAndArtistIdOperation,
   getUserArtistFollowsByUserIdOperation,
 } from '~/infrastructures/userArtistFollowOperations.js';
+import { generateArtistOgp } from '~/services/generateArtistOgp.js';
 
 const app = new Hono();
 
@@ -39,6 +41,15 @@ app.post('/', jwt({ secret: process.env.JWT_SECRET || '' }), async (c) => {
     }
 
     const artist = await createArtistOperation(result.data);
+
+    const ogpImageUrl = await generateArtistOgp(artist.id, artist.artistImageUrl);
+
+    if (!ogpImageUrl) {
+      return c.json({ error: 'Failed to generate OGP image' }, 500);
+    }
+
+    await updateArtistOgpOperation(artist.id, ogpImageUrl);
+
     return c.json(artist, 201);
   } catch (error) {
     console.error('Error creating artist:', error);
@@ -140,7 +151,14 @@ app.put('/:id', jwt({ secret: process.env.JWT_SECRET || '' }), async (c) => {
       return c.json({ error: 'Invalid request format' }, 400);
     }
 
-    const artist = await updateArtistOperation(id, result.data);
+    const ogpImageUrl = await generateArtistOgp(id, result.data.artistImageUrl);
+
+    if (!ogpImageUrl) {
+      console.log('Failed to generate OGP image');
+      return c.json({ error: 'Failed to generate OGP image' }, 500);
+    }
+
+    const artist = await updateArtistOperation(id, { ...result.data, ogpImageUrl });
     return c.json(artist, 201);
   } catch (error) {
     console.error('Error creating artist:', error);
