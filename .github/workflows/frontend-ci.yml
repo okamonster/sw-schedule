@@ -2,12 +2,9 @@ name: Frontend CI
 
 on:
   pull_request:
-    branches: [main, staging]
+    branches: [main, develop]
     paths:
       - 'apps/web/**'
-      - 'packages/**'
-      - 'package.json'
-      - 'pnpm-lock.yaml'
 
 jobs:
   test:

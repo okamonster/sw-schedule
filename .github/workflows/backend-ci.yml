@@ -2,12 +2,10 @@ name: Backend CI
 
 on:
   pull_request:
-    branches: [main, staging]
+    branches: [main, develop]
     paths:
       - 'apps/backend/**'
-      - 'packages/**'
-      - 'package.json'
-      - 'pnpm-lock.yaml'
+     
 
 jobs:
   test:
