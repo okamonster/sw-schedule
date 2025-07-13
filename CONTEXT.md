@@ -24,7 +24,6 @@
 
 ## 🏗️ アーキテクチャ
 
-
 ### アプリケーション構成
 - `apps/web`: フロントエンドアプリケーション（Next.js）
 - `apps/backend`: バックエンドAPI（Next.js API Routes）
