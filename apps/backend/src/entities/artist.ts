@@ -33,6 +33,8 @@ export const searchArtistRequestSchema = z.object({
 
 export type SearchArtistRequest = z.infer<typeof searchArtistRequestSchema>;
 
+export type UpdateArtistDto = UpdateArtistRequest & { ogpImageUrl: string };
+
 export const getArtistsRequestSchema = z.object({
   artistIds: z.array(z.string()),
 });

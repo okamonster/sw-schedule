@@ -2,7 +2,7 @@ import type { Artist, Prisma } from '@prisma/client';
 import type {
   CreateArtistRequest,
   SearchArtistRequest,
-  UpdateArtistRequest,
+  UpdateArtistDto,
 } from '~/entities/artist.js';
 import { prismaClient } from '~/libs/prisma.js';
 
@@ -31,13 +31,21 @@ export const getArtistsByIdsOperation = async (ids: string[]): Promise<Artist[]>
   return artists;
 };
 
-export const updateArtistOperation = async (
-  id: string,
-  dto: UpdateArtistRequest
-): Promise<Artist> => {
+export const updateArtistOperation = async (id: string, dto: UpdateArtistDto): Promise<Artist> => {
   const artist = await prismaClient.artist.update({
     where: { id },
     data: dto,
+  });
+  return artist;
+};
+
+export const updateArtistOgpOperation = async (
+  id: string,
+  ogpImageUrl: string
+): Promise<Artist> => {
+  const artist = await prismaClient.artist.update({
+    where: { id },
+    data: { ogpImageUrl },
   });
   return artist;
 };
