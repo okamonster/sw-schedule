@@ -1,0 +1,67 @@
+name: Deploy Backend to Production
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/backend/**'
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: prod
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8.15.7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Google Cloud Auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+      - name: Setup gcloudCLI
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Config Docker for Artifact Registry
+        run: |
+          gcloud auth configure-docker asia-northeast2-docker.pkg.dev
+
+      - name: Build Backend Docker image (linux/amd64)
+        run: |
+          docker build -t asia-northeast2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/gemba-backend-prod/gemba-backend-prod:production-${{ github.sha }} \
+            --platform linux/amd64 -f apps/backend/docker/Dockerfile .
+
+      - name: Push Backend Docker image
+        run: |
+          docker push asia-northeast2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/gemba-backend-prod/gemba-backend-prod:production-${{ github.sha }}
+
+      - name: Deploy to Google Cloud Run
+        uses: google-github-actions/deploy-cloudrun@v2
+        with:
+          service: gemba-backend-prod
+          image: asia-northeast2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/gemba-backend-prod/gemba-backend-prod:production-${{ github.sha }}
+          region: asia-northeast2
+          platform: managed
+          allow-unauthenticated: true
+          env-vars: |
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+            DIRECT_URL=${{ secrets.DIRECT_URL }}
+            JWT_SECRET=${{ secrets.JWT_SECRET }}
+            SUPABASE_URL=${{ secrets.SUPABASE_URL }}
+            SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}
+           
