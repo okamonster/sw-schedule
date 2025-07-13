@@ -9,7 +9,7 @@ export const Footer = () => {
         {/* 上段: ブランド、ナビ */}
         <div className="mb-12">
           <div className="flex justify-center mb-4">
-            <Image src="/images/logo.png" alt="GEMBA!" width={150} height={50} />
+            <Image src="/images/logo.webp" alt="GEMBA!" width={150} height={50} />
           </div>
           <p className="text-slate-400 mb-8">あなたの「行きたい」が見つかる。</p>
 
