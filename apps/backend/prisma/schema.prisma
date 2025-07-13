@@ -83,7 +83,7 @@ model Event {
   id                    String        @id @default(uuid())
   eventName             String        @map("event_name")
   eventDescription      String?       @map("event_description")
-  eventImageUrl         String?       @map("event_image_url")
+  eventImageUrl         String        @default("") @map("event_image_url")
   eventDate             DateTime      @map("event_date")
   ogpImageUrl           String        @default("") @map("ogp_image_url")
   openDateTime          DateTime      @map("open_date_time")

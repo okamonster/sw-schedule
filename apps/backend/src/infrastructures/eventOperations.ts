@@ -1,5 +1,9 @@
 import type { Event } from '@prisma/client';
-import type { EditEventRequestType, SearchEventRequest } from '~/entities/event.js';
+import type {
+  EditEventRequestDto,
+  EditEventRequestType,
+  SearchEventRequest,
+} from '~/entities/event.js';
 import { prismaClient } from '~/libs/prisma.js';
 
 export const createEventOperation = async (
@@ -42,7 +46,7 @@ export const createEventOperation = async (
 
 export const updateEventOperation = async (
   id: string,
-  request: EditEventRequestType
+  request: EditEventRequestDto
 ): Promise<Event | null> => {
   const event = await prismaClient.event.update({
     where: { id },
@@ -51,6 +55,7 @@ export const updateEventOperation = async (
       eventDescription: request.eventDescription,
       eventImageUrl: request.eventImageUrl,
       eventDate: new Date(request.eventDate),
+      ogpImageUrl: request.ogpImageUrl,
       openDateTime: new Date(request.openDateTime),
       startDateTime: new Date(request.startDateTime),
       locatePrefecture: request.locatePrefecture,
@@ -78,6 +83,17 @@ export const updateEventOperation = async (
     return null;
   }
 
+  return event;
+};
+
+export const updateEventOgpImageUrlOperation = async (
+  id: string,
+  ogpImageUrl: string
+): Promise<Event | null> => {
+  const event = await prismaClient.event.update({
+    where: { id },
+    data: { ogpImageUrl },
+  });
   return event;
 };
 

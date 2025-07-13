@@ -10,10 +10,10 @@ export const SearchEventRequestSchema = z.object({
 
 export type SearchEventRequest = z.infer<typeof SearchEventRequestSchema>;
 
-export const EditEventRequestSchema = z.object({
+export const editEventRequestSchema = z.object({
   eventName: z.string(),
   eventDescription: z.string().optional(),
-  eventImageUrl: z.string().optional(),
+  eventImageUrl: z.string(),
   eventDate: z.string(),
   openDateTime: z.string(),
   startDateTime: z.string(),
@@ -28,4 +28,6 @@ export const EditEventRequestSchema = z.object({
   artists: z.array(z.string()),
 });
 
-export type EditEventRequestType = z.infer<typeof EditEventRequestSchema>;
+export type EditEventRequestType = z.infer<typeof editEventRequestSchema>;
+
+export type EditEventRequestDto = EditEventRequestType & { ogpImageUrl: string };

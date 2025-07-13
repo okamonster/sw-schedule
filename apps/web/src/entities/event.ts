@@ -7,6 +7,7 @@ export type Event = {
   eventDescription: string;
   eventImageUrl: string;
   eventDate: Date;
+  ogpImageUrl: string;
   openDateTime: Date;
   startDateTime: Date;
   locatePrefecture: string;

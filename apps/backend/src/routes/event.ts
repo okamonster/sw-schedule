@@ -1,20 +1,22 @@
 import { Hono } from 'hono';
 import { jwt } from 'hono/jwt';
-import { EditEventRequestSchema, SearchEventRequestSchema } from '~/entities/event.js';
+import { editEventRequestSchema, SearchEventRequestSchema } from '~/entities/event.js';
 import {
   createEventOperation,
   getEventByIdOperation,
   getEventsByArtistIdsOperation,
   getEventsBySearchQueryOperation,
+  updateEventOgpImageUrlOperation,
   updateEventOperation,
 } from '~/infrastructures/eventOperations.js';
 import { getUserArtistFollowsByUserIdOperation } from '~/infrastructures/userArtistFollowOperations.js';
+import { generateEventOgp } from '~/services/generateEventOgp.js';
 
 export const app = new Hono();
 
 app.post('/', async (c) => {
   const body = await c.req.json();
-  const createEventRequest = EditEventRequestSchema.safeParse(body);
+  const createEventRequest = editEventRequestSchema.safeParse(body);
   try {
     if (!createEventRequest.success) {
       return c.json({ error: 'Invalid request format' }, 400);
@@ -24,6 +26,13 @@ app.post('/', async (c) => {
     if (!event) {
       return c.json({ error: 'Failed to create event' }, 400);
     }
+
+    const ogpImageUrl = await generateEventOgp(event.id, event.eventImageUrl);
+    if (!ogpImageUrl) {
+      return c.json({ error: 'Failed to generate ogp image' }, 400);
+    }
+
+    await updateEventOgpImageUrlOperation(event.id, ogpImageUrl);
 
     return c.json({ ...event }, 200);
   } catch (error) {
@@ -77,13 +86,22 @@ app.get('/search', async (c) => {
 app.put('/:id', jwt({ secret: process.env.JWT_SECRET || '' }), async (c) => {
   const { id } = c.req.param();
   const body = await c.req.json();
-  const createEventRequest = EditEventRequestSchema.safeParse(body);
+  const createEventRequest = editEventRequestSchema.safeParse(body);
   try {
     if (!createEventRequest.success) {
       return c.json({ error: 'Invalid request format' }, 400);
     }
 
-    const event = await updateEventOperation(id, createEventRequest.data);
+    const ogpImageUrl = await generateEventOgp(id, createEventRequest.data.eventImageUrl);
+    if (!ogpImageUrl) {
+      return c.json({ error: 'Failed to generate ogp image' }, 400);
+    }
+
+    const event = await updateEventOperation(id, {
+      ...createEventRequest.data,
+      ogpImageUrl,
+    });
+
     if (!event) {
       return c.json({ error: 'Failed to update event' }, 400);
     }
