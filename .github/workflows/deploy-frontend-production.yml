@@ -62,10 +62,10 @@ jobs:
           service: gemba-frontend-prod
           image: asia-northeast2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/gemba-frontend-prod/gemba-frontend-prod:production-${{ github.sha }}
           region: asia-northeast2
-          platform: managed
-          allow-unauthenticated: true
-          env-vars: |
+          env_vars: |
             AUTH_SECRET=${{ secrets.AUTH_SECRET }}
             AUTH_GOOGLE_ID=${{ secrets.AUTH_GOOGLE_ID }}
             AUTH_GOOGLE_SECRET=${{ secrets.AUTH_GOOGLE_SECRET }}
             AUTH_TRUST_HOST=${{ secrets.AUTH_TRUST_HOST }}
+          flags: |
+            --allow-unauthenticated

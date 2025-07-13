@@ -56,12 +56,11 @@ jobs:
           service: gemba-backend-prod
           image: asia-northeast2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/gemba-backend-prod/gemba-backend-prod:production-${{ github.sha }}
           region: asia-northeast2
-          platform: managed
-          allow-unauthenticated: true
-          env-vars: |
+          env_vars: |
             DATABASE_URL=${{ secrets.DATABASE_URL }}
             DIRECT_URL=${{ secrets.DIRECT_URL }}
             JWT_SECRET=${{ secrets.JWT_SECRET }}
             SUPABASE_URL=${{ secrets.SUPABASE_URL }}
             SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}
-           
+          flags: |
+            --allow-unauthenticated
