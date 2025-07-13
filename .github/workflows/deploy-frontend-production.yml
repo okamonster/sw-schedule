@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths:
       - 'apps/web/**'
-
+  workflow_dispatch:
 jobs:
   deploy:
     runs-on: ubuntu-latest
