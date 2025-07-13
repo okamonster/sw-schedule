@@ -48,6 +48,7 @@ model Artist {
   artistImageUrl    String?            @map("artist_image_url")
   artistDescription String?            @map("artist_description")
   genre             String // ジャンル（アイドル、ロック、ポップスなど）
+  ogpImageUrl       String             @map("ogp_image_url") @default("")
   region            String // 活動地域（東京、大阪、愛知など）
   twitterId         String?            @map("twitter_id")
   instagramId       String?            @map("instagram_id")
@@ -84,6 +85,7 @@ model Event {
   eventDescription      String?       @map("event_description")
   eventImageUrl         String?       @map("event_image_url")
   eventDate             DateTime      @map("event_date")
+  ogpImageUrl           String        @map("ogp_image_url")   @default("")
   openDateTime          DateTime      @map("open_date_time")
   startDateTime         DateTime      @map("start_date_time")
   locatePrefecture      String        @map("locate_prefecture")
