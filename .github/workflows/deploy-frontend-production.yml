@@ -57,7 +57,7 @@ jobs:
           docker push asia-northeast2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/gemba-frontend-prod/gemba-frontend-prod:production-${{ github.sha }}
 
       - name: Deploy to Google Cloud Run
-        uses: google-github-actions/deploy-cloud-run@v2
+        uses: google-github-actions/deploy-cloudrun@v2
         with:
           service: gemba-frontend-prod
           image: asia-northeast2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/gemba-frontend-prod/gemba-frontend-prod:production-${{ github.sha }}
