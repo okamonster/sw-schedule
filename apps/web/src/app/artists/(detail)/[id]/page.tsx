@@ -1,5 +1,4 @@
 import { Divider, Image } from '@mantine/core';
-import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { DEFAULT_IMAGE_URL } from '@/constants';
 import { ArtistDetailSection } from '@/features/artist/components/ArtistDetailSection';
