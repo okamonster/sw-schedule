@@ -45,9 +45,10 @@ model UserProfile {
 model Artist {
   id                String             @id @default(uuid())
   artistName        String             @map("artist_name")
-  artistImageUrl    String?            @map("artist_image_url")
+  artistImageUrl    String             @default("") @map("artist_image_url")
   artistDescription String?            @map("artist_description")
   genre             String // ジャンル（アイドル、ロック、ポップスなど）
+  ogpImageUrl       String             @default("") @map("ogp_image_url")
   region            String // 活動地域（東京、大阪、愛知など）
   twitterId         String?            @map("twitter_id")
   instagramId       String?            @map("instagram_id")
@@ -82,8 +83,9 @@ model Event {
   id                    String        @id @default(uuid())
   eventName             String        @map("event_name")
   eventDescription      String?       @map("event_description")
-  eventImageUrl         String?       @map("event_image_url")
+  eventImageUrl         String        @default("") @map("event_image_url")
   eventDate             DateTime      @map("event_date")
+  ogpImageUrl           String        @default("") @map("ogp_image_url")
   openDateTime          DateTime      @map("open_date_time")
   startDateTime         DateTime      @map("start_date_time")
   locatePrefecture      String        @map("locate_prefecture")

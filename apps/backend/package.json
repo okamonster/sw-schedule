@@ -13,9 +13,13 @@
   "dependencies": {
     "@hono/node-server": "^1.14.4",
     "@prisma/client": "^6.10.0",
+    "@supabase/supabase-js": "^2.50.1",
+    "axios": "^1.10.0",
     "bcrypt": "^6.0.0",
     "hono": "^4.7.11",
     "prisma": "^6.10.0",
+    "sharp": "^0.34.3",
+    "uuid": "^11.1.0",
     "zod": "^3.25.67"
   },
   "devDependencies": {

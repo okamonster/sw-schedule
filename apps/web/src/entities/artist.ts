@@ -10,6 +10,7 @@ export type Artist = {
   createdAt: Date;
   updatedAt: Date;
   genre: string;
+  ogpImageUrl: string;
   region: string;
   twitterId: string;
   instagramId: string;
@@ -20,7 +21,7 @@ export type Artist = {
 
 export const createArtistSchema = z.object({
   artistName: z.string().min(1, 'アーティスト名を入力してください'),
-  artistImageUrl: z.string().nullable(),
+  artistImageUrl: z.string().min(1, 'アーティスト画像を選択してください'),
   artistDescription: z.string().nullable(),
   genre: z.string().min(1, 'ジャンルを選択してください'),
   region: z.string().min(1, '活動地域を選択してください'),
