@@ -14,7 +14,7 @@ type Props = {
   }>;
 };
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
+export async function generateMetadata({ params }: Props) {
   const { id: artistId } = await params;
   const artist = await getArtistById(artistId);
   if (!artist) {

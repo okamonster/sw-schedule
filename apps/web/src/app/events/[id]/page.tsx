@@ -15,7 +15,7 @@ type Props = {
   }>;
 };
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
+export async function generateMetadata({ params }: Props) {
   const { id: eventId } = await params;
   const event = await getEventById(eventId);
   if (!event) {
