@@ -3,8 +3,8 @@ import { LOGO_IMAGE_PATH } from '~/constants/index.js';
 import { getBufferImageOperation } from '~/infrastructures/getBufferImageOperation.js';
 import { uploadImage } from '~/libs/storage.js';
 
-export const generateArtistOgp = async (artistId: string, artistImageUrl: string | null) => {
-  const artistImageBuffer = await getBufferImageOperation(artistImageUrl ?? '');
+export const generateArtistOgp = async (artistId: string, artistImageUrl: string) => {
+  const artistImageBuffer = await getBufferImageOperation(artistImageUrl);
   const logoImageBuffer = await getBufferImageOperation(LOGO_IMAGE_PATH);
   const artistImage = await sharp(artistImageBuffer).resize({
     width: 1200,

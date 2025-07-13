@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const createArtistRequestSchema = z.object({
   artistName: z.string().min(1, 'アーティスト名を入力してください'),
-  artistImageUrl: z.string().nullable(),
+  artistImageUrl: z.string().min(1, 'アーティスト画像を選択してください'),
   artistDescription: z.string().nullable(),
   genre: z.string().min(1, 'ジャンルを選択してください'),
   region: z.string().min(1, '活動地域を選択してください'),
@@ -15,7 +15,7 @@ export type CreateArtistRequest = z.infer<typeof createArtistRequestSchema>;
 
 export const updateArtistRequestSchema = z.object({
   artistName: z.string().min(1, 'アーティスト名を入力してください'),
-  artistImageUrl: z.string().nullable(),
+  artistImageUrl: z.string().min(1, 'アーティスト画像を選択してください'),
   artistDescription: z.string().nullable(),
   genre: z.string().min(1, 'ジャンルを選択してください'),
   region: z.string().min(1, '活動地域を選択してください'),
