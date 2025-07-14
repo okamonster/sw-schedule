@@ -116,3 +116,13 @@ export const SNS_LINKS = {
 
 export const OGP_IMAGE_URL =
   'https://otnrfqogjtpfuaxlvrmp.supabase.co/storage/v1/object/public/images/public/main-ogp.png' as const satisfies string;
+
+export const PAID_PLAN = {
+  LIGHT: 'light',
+  STANDARD: 'standard',
+  PREMIUM: 'premium',
+} as const satisfies {
+  LIGHT: string;
+  STANDARD: string;
+  PREMIUM: string;
+};
