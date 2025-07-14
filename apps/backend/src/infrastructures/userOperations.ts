@@ -80,3 +80,49 @@ export const getUserByEmailAndPasswordOperation = async (
 
   return user;
 };
+
+export const deleteUserByTransactionOperation = async (userId: string): Promise<void> => {
+  // トランザクションで削除処理を実行
+  await prismaClient.$transaction(async (tx) => {
+    // ユーザー情報を取得
+    const user = await tx.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // DeletedUserテーブルにデータを移行
+    await tx.deletedUser.create({
+      data: {
+        id: user.id,
+        email: user.email,
+        password: user.password,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      },
+    });
+
+    // ユーザーの推し登録を削除
+    await tx.userArtistFollow.deleteMany({
+      where: {
+        userId,
+      },
+    });
+
+    // ユーザープロフィールを削除
+    await tx.userProfile.deleteMany({
+      where: {
+        userId,
+      },
+    });
+
+    // Userテーブルから削除
+    await tx.user.delete({
+      where: {
+        id: userId,
+      },
+    });
+  });
+};

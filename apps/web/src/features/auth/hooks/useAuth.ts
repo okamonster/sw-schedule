@@ -1,18 +1,22 @@
 import { useRouter } from 'next/navigation';
 import { signIn, signOut } from 'next-auth/react';
 import { useState } from 'react';
+import { useBackendToken } from '@/hooks/useBackendToken';
 import { useToast } from '@/hooks/useToast';
+import { deleteUser } from '@/service/user';
 
 export const useAuth = (): {
   handleGoogleLogin: () => Promise<void>;
   handleSignup: (email: string, password: string) => Promise<void>;
   handleLogin: (email: string, password: string) => Promise<void>;
   handleLogout: () => Promise<void>;
+  handleWithdraw: () => Promise<void>;
   isLoading: boolean;
 } => {
   const [isLoading, setIsLoading] = useState(false);
   const { push } = useRouter();
   const { showErrorToast, showSuccessToast } = useToast();
+  const backendToken = useBackendToken();
 
   const handleGoogleLogin = async () => {
     try {
@@ -105,11 +109,38 @@ export const useAuth = (): {
     }
   };
 
+  const handleWithdraw = async () => {
+    try {
+      setIsLoading(true);
+
+      if (!backendToken) {
+        throw new Error('ログインしていません');
+      }
+
+      await deleteUser(backendToken);
+
+      // ログアウト処理
+      await signOut({
+        redirect: false,
+      });
+
+      showSuccessToast('退会処理が完了しました');
+
+      push('/');
+    } catch (e) {
+      showErrorToast('退会処理に失敗しました');
+      console.error('An unexpected error occurred during withdrawal:', e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     handleGoogleLogin,
     handleSignup,
     handleLogin,
     handleLogout,
+    handleWithdraw,
     isLoading,
   };
 };
