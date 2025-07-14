@@ -1,5 +1,6 @@
 'use client';
 import { Calendar } from '@mantine/dates';
+import { useMediaQuery } from '@mantine/hooks';
 import type { Artist } from '@/entities/artist';
 import { EventCard } from '@/features/artist/components/EventCard';
 import { useCalenderSchedule } from '@/features/artist/hooks/useCalenderSchedule';
@@ -24,11 +25,13 @@ export const ArtistScheduleCalender = ({ artist }: Props): React.ReactNode => {
     );
   };
 
+  const isSmallScreen = useMediaQuery('(max-width: 400px)');
+
   return (
-    <section className="grid gap-2 ">
+    <section className="grid gap-2 w-full">
       <div className="grid justify-center">
         <Calendar
-          size="lg"
+          size={isSmallScreen ? 'md' : 'lg'}
           monthLabelFormat={'MM月'}
           static
           renderDay={(date) => {
