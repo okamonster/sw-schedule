@@ -1,8 +1,13 @@
+'use client';
+import { ActionIcon } from '@mantine/core';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
+import { useSnsShare } from '@/hooks/useSnsShare';
 
 export const Footer = () => {
+  const { shareX } = useSnsShare();
+
   return (
     <footer className="bg-slate-800 text-slate-200">
       <div className="container mx-auto px-6 py-16 text-center">
@@ -35,16 +40,21 @@ export const Footer = () => {
           <p className="text-text-gray text-sm">&copy; 2025 GEMBA!. All Rights Reserved.</p>
 
           <div className="flex items-center gap-x-6 order-1 md:order-2">
-            <div className="flex gap-x-6">
-              <Link href="/" className="transition-transform hover:scale-110">
-                <FaTwitter size={20} />
-              </Link>
-              <Link href="/" className="transition-transform hover:scale-110">
-                <FaInstagram size={20} />
-              </Link>
-              <Link href="/" className="transition-transform hover:scale-110">
-                <FaFacebook size={20} />
-              </Link>
+            <div className="grid  gap-2">
+              <ActionIcon
+                variant="transparent"
+                color="var(--color-text-white)"
+                className="hover:bg-transparent"
+                onClick={() =>
+                  shareX(
+                    'あなたの推しの次の出演予定はいつ？\n推し活するならGEMBA!',
+                    'https://gemba-live.jp',
+                    ['Gemba', '推し活するならGemba']
+                  )
+                }
+              >
+                <FaXTwitter size={20} />
+              </ActionIcon>
             </div>
           </div>
         </div>

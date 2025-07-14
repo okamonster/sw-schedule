@@ -9,7 +9,7 @@ import { getGenreLabel, getRegionLabel } from '@/constants';
 import type { Artist } from '@/entities/artist';
 import type { User } from '@/entities/user';
 import { useFollow } from '@/features/artist/hooks/useFollow';
-import { useSnsShare } from '@/features/artist/hooks/useSnsShare';
+import { useSnsShare } from '@/hooks/useSnsShare';
 
 type Props = {
   artist: Artist;

@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     siteName: 'Gemba!',
     images: [
       {
-        url: '/images/logo.webp',
+        url: 'https://otnrfqogjtpfuaxlvrmp.supabase.co/storage/v1/object/public/images/public/main-ogp.png',
         width: 1200,
         height: 630,
         alt: 'Gemba! - 推し活',
@@ -47,7 +47,9 @@ export const metadata: Metadata = {
     title: 'Gemba! - 推し活',
     description:
       '地下アイドル・インディーズアーティストのライブスケジュールを管理・確認できる推し活特化プラットフォーム',
-    images: ['/images/logo.webp'],
+    images: [
+      'https://otnrfqogjtpfuaxlvrmp.supabase.co/storage/v1/object/public/images/public/main-ogp.png',
+    ],
   },
   robots: {
     index: true,
