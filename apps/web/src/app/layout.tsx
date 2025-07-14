@@ -10,6 +10,7 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 import type { Metadata } from 'next';
 import { SessionProvider } from 'next-auth/react';
 import { auth } from '@/auth';
+import { OGP_IMAGE_URL } from '@/constants';
 
 export const metadata: Metadata = {
   title: 'Gemba! - 推し活',
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
     siteName: 'Gemba!',
     images: [
       {
-        url: 'https://otnrfqogjtpfuaxlvrmp.supabase.co/storage/v1/object/public/images/public/main-ogp.png',
+        url: OGP_IMAGE_URL,
         width: 1200,
         height: 630,
         alt: 'Gemba! - 推し活',
@@ -47,9 +48,7 @@ export const metadata: Metadata = {
     title: 'Gemba! - 推し活',
     description:
       '地下アイドル・インディーズアーティストのライブスケジュールを管理・確認できる推し活特化プラットフォーム',
-    images: [
-      'https://otnrfqogjtpfuaxlvrmp.supabase.co/storage/v1/object/public/images/public/main-ogp.png',
-    ],
+    images: [OGP_IMAGE_URL],
   },
   robots: {
     index: true,

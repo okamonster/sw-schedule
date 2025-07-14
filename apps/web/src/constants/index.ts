@@ -113,3 +113,6 @@ export const SNS_LINKS = {
   X: 'https://x.com',
   INSTAGRAM: 'https://www.instagram.com',
 } as const satisfies Record<string, string>;
+
+export const OGP_IMAGE_URL =
+  'https://otnrfqogjtpfuaxlvrmp.supabase.co/storage/v1/object/public/images/public/main-ogp.png' as const satisfies string;
