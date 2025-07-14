@@ -19,12 +19,18 @@ model User {
   id        String   @id @default(cuid())
   email     String   @unique
   password  String? // パスワード認証用
+  // 有料プラン関連
+  planType  String   @default("free") @map("plan_type") // free, light, standard, premium
+  planExpiresAt DateTime? @map("plan_expires_at") // プラン有効期限
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   profile          UserProfile?
   // 推しているアーティストとの関係
   followingArtists UserArtistFollow[]
+  // プラン関連
+  planHistory      UserPlanHistory[]
+  payments         UserPayment[]
 
   @@map("users")
 }
@@ -138,4 +144,32 @@ model ArtistEvent {
 
   @@unique([artistId, eventId])
   @@map("artist_events")
+}
+
+// プラン変更履歴
+model UserPlanHistory {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  planType  String   @map("plan_type") // free,light, standard, premium
+  changedAt DateTime @default(now()) @map("changed_at")
+  reason    String?  // 変更理由（アップグレード、ダウングレード、期限切れなど）
+
+  @@map("user_plan_histories")
+}
+
+// 支払い情報（将来的な実装）
+model UserPayment {
+  id            String   @id @default(uuid())
+  userId        String   @map("user_id")
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount        Int      // 支払い金額（円）
+  currency      String   @default("JPY")
+  paymentMethod String   @map("payment_method") // credit_card, bank_transfer, etc.
+  status        String   // pending, completed, failed, refunded
+  paidAt        DateTime? @map("paid_at")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("user_payments")
 }
