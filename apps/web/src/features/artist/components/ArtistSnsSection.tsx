@@ -12,9 +12,9 @@ type Props = {
 
 export const ArtistSnsSection = ({ artist }: Props): React.ReactNode => {
   return (
-    <section className="grid gap-2">
+    <section className="grid gap-2 w-full">
       <p className="text-sm font-bold">SNS</p>
-      <div className="flex gap-2">
+      <div className="flex gap-2 overflow-x-auto">
         {artist.twitterId && (
           <ActionIcon
             href={`${SNS_LINKS.X}/${artist.twitterId}`}

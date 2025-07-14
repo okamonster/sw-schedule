@@ -15,7 +15,7 @@ type Props = {
 export const ArtistScheduleSection = ({ user, artist }: Props): React.ReactNode => {
   const { syncArtistEventsToGoogleCalendar, isLoading } = useGoogleCalendarSync(artist);
   return (
-    <section className="grid gap-2">
+    <section className="grid gap-2 w-full">
       <div className="flex justify-between">
         <p className="text-sm font-bold ">出演予定</p>
         <Button

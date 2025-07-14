@@ -50,7 +50,7 @@ export default async function ArtistDetailPage({ params }: Props) {
   const imageUrl = artist.artistImageUrl ? artist.artistImageUrl : DEFAULT_IMAGE_URL;
 
   return (
-    <div className="grid gap-2">
+    <div className="grid gap-2 w-full">
       <div className="bg-theme h-[200px] w-full">
         <Image src={imageUrl} alt={artist.artistName} h="100%" fit="contain" />
       </div>

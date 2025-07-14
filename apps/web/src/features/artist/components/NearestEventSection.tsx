@@ -24,7 +24,7 @@ export const NearestEventSection = ({ artist }: Props): React.ReactNode => {
     sortedEvents[sortedEvents.length - 1]; // 過去のイベントがない場合は最新の過去イベント
 
   return (
-    <section className="grid gap-2">
+    <section className="grid gap-2 w-full">
       <p className="text-sm font-bold">直近のイベント</p>
       {nearestEvent ? (
         <div className="grid gap-2">
