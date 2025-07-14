@@ -6,6 +6,7 @@ import '@mantine/notifications/styles.css';
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import { DatesProvider } from '@mantine/dates';
 import { Notifications } from '@mantine/notifications';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import type { Metadata } from 'next';
 import { SessionProvider } from 'next-auth/react';
 import { auth } from '@/auth';
@@ -84,6 +85,7 @@ export default async function RootLayout({
         <ColorSchemeScript />
       </head>
       <body>
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ''} />
         <MantineProvider>
           <Notifications position="top-center" />
           <DatesProvider settings={{ locale: 'ja' }}>
