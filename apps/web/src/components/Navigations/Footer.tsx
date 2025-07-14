@@ -22,6 +22,12 @@ export const Footer = () => {
               プライバシーポリシー
             </Link>
           </nav>
+
+          <nav className="flex justify-center gap-6 md:gap-8 mb-12">
+            <Link href="/asct" className="text-text-white">
+              特定商法取引法に基づく表記
+            </Link>
+          </nav>
         </div>
 
         {/* 下段: コピーライト、SNS、その他リンク */}
