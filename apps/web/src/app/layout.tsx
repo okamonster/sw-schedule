@@ -6,8 +6,70 @@ import '@mantine/notifications/styles.css';
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import { DatesProvider } from '@mantine/dates';
 import { Notifications } from '@mantine/notifications';
+import type { Metadata } from 'next';
 import { SessionProvider } from 'next-auth/react';
 import { auth } from '@/auth';
+
+export const metadata: Metadata = {
+  title: 'Gemba! - 推し活',
+  description:
+    'アイドル・インディーズアーティストのライブスケジュールを管理・確認できる推し活特化プラットフォーム',
+  keywords: ['推し活', 'ライブ', 'スケジュール', 'アイドル', 'インディーズ', 'アーティスト'],
+  authors: [{ name: 'お茶' }],
+  creator: 'お茶',
+  publisher: 'お茶',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL('https://gemba-live.jp'),
+  openGraph: {
+    title: 'Gemba! - 推し活',
+    description:
+      'アイドル・インディーズアーティストのライブスケジュールを管理・確認できる推し活特化プラットフォーム',
+    url: 'https://gemba-live.jp',
+    siteName: 'Gemba!',
+    images: [
+      {
+        url: '/images/logo.webp',
+        width: 1200,
+        height: 630,
+        alt: 'Gemba! - 推し活',
+      },
+    ],
+    locale: 'ja_JP',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Gemba! - 推し活',
+    description:
+      '地下アイドル・インディーズアーティストのライブスケジュールを管理・確認できる推し活特化プラットフォーム',
+    images: ['/images/logo.webp'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-48x48.png', sizes: '48x48', type: 'image/png' },
+    ],
+    apple: [{ url: '/apple-icon.png', sizes: '180x180', type: 'image/png' }],
+  },
+  manifest: '/manifest.json',
+};
 
 export default async function RootLayout({
   children,

@@ -3,7 +3,8 @@
 import { Button, Divider } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useRouter } from 'next/navigation';
-import { FaEdit, FaSignOutAlt, FaUserTimes } from 'react-icons/fa';
+import { FaEdit, FaFileAlt, FaSignOutAlt, FaUserTimes } from 'react-icons/fa';
+import { LinkButton } from '@/components/Buttons/LinkButton';
 import { WithdrawModal } from '@/features/auth/components/WithdrawForm';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 
@@ -44,7 +45,40 @@ export const ProfileActions = () => {
           </Button>
         </div>
         <Divider />
-        <div className="grid gap-2 px-4">
+        <div className="grid gap-2">
+          <LinkButton
+            href="/terms"
+            fullWidth
+            justify="flex-start"
+            color="var(--color-text-black)"
+            variant="transparent"
+            leftSection={<FaFileAlt size={20} />}
+          >
+            利用規約
+          </LinkButton>
+          <Divider />
+          <LinkButton
+            href="/privacy"
+            fullWidth
+            justify="flex-start"
+            color="var(--color-text-black)"
+            variant="transparent"
+            leftSection={<FaFileAlt size={20} />}
+          >
+            プライバシーポリシー
+          </LinkButton>
+          <Divider />
+          <LinkButton
+            href="/"
+            fullWidth
+            justify="flex-start"
+            color="var(--color-text-black)"
+            variant="transparent"
+            leftSection={<FaFileAlt size={20} />}
+          >
+            特定商法取引法に基づく表記
+          </LinkButton>
+          <Divider />
           <Button
             fullWidth
             variant="transparent"
