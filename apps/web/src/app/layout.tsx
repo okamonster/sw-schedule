@@ -21,13 +21,15 @@ export default async function RootLayout({
       <head>
         <ColorSchemeScript />
       </head>
-      <body className="flex justify-center bg-theme">
+      <body>
         <MantineProvider>
           <Notifications position="top-center" />
           <DatesProvider settings={{ locale: 'ja' }}>
             <SessionProvider session={session}>
-              <div className="max-w-[500px] w-full h-full min-h-[100vh] bg-background-light">
-                {children}
+              <div className="flex justify-center bg-theme">
+                <div className="max-w-[500px] w-full h-full min-h-[100vh] bg-background-light">
+                  {children}
+                </div>
               </div>
             </SessionProvider>
           </DatesProvider>
