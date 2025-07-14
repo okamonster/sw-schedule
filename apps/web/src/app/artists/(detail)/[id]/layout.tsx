@@ -15,7 +15,7 @@ export default async function RootLayout({
   const user = await getCurrentUser();
 
   return (
-    <div>
+    <div className="grid">
       {user ? <ArtistDetailHeader user={user} /> : <TopHeader />}
       <div className={`pt-14 ${user && 'pb-14'}`}>{children}</div>
       {user ? <DefaultFooter /> : <Footer />}
