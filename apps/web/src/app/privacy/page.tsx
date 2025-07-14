@@ -215,7 +215,7 @@ export default function PrivacyPage() {
               </p>
               <div className="bg-gray-50 p-4 rounded-lg">
                 <p className="font-semibold">Gemba! 問い合わせ</p>
-                <p>メール: privacy@gemba-app.com</p>
+                <p>メール: gemba.live.app@gmail.com</p>
               </div>
             </div>
           </section>
