@@ -15,11 +15,17 @@ export const Footer = () => {
 
           {/* 主要ナビリンク */}
           <nav className="flex justify-center gap-6 md:gap-8 mb-12">
-            <Link href="/" className="text-text-white">
+            <Link href="/terms" className="text-text-white">
               利用規約
             </Link>
-            <Link href="/artists" className="text-text-white">
+            <Link href="/privacy" className="text-text-white">
               プライバシーポリシー
+            </Link>
+          </nav>
+
+          <nav className="flex justify-center gap-6 md:gap-8 mb-12">
+            <Link href="/asct" className="text-text-white">
+              特定商法取引法に基づく表記
             </Link>
           </nav>
         </div>
