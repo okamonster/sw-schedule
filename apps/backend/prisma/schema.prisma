@@ -31,7 +31,7 @@ model User {
 
 model DeletedUser {
   id        String   @id @default(cuid())
-  email     String   @unique
+  email     String
   password  String? // パスワード認証用
   deletedAt DateTime @default(now()) @map("deleted_at")
   createdAt DateTime @default(now())
