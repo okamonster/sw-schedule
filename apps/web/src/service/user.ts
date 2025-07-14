@@ -25,3 +25,19 @@ export const getCurrentUser = async (): Promise<User | null> => {
     ...data,
   } as User;
 };
+
+export const deleteUser = async (backendToken: string): Promise<void> => {
+  const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/withdraw`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${backendToken}`,
+    },
+  });
+
+  if (!result.ok) {
+    throw new Error('Failed to delete user');
+  }
+
+  return result.json();
+};

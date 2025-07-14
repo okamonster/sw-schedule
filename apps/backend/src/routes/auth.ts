@@ -1,6 +1,6 @@
 import type { User } from '@prisma/client';
 import { Hono } from 'hono';
-import { sign } from 'hono/jwt';
+import { jwt, sign } from 'hono/jwt';
 import { RATE_LIMIT_LIMIT, RATE_LIMIT_WINDOW_MS } from '~/constants/index.js';
 import {
   createUserRequestSchema,
@@ -10,6 +10,7 @@ import {
 import {
   createGoogleUserOperation,
   createUserOperation,
+  deleteUserByTransactionOperation,
   getUserByEmailAndPasswordOperation,
   getUserByEmailOperation,
 } from '~/infrastructures/userOperations.js';
@@ -134,6 +135,30 @@ app.post('/google', async (c) => {
   } catch (e) {
     console.error('Google auth error:', e);
     return c.json({ error: 'Internal server error' }, 500);
+  }
+});
+
+app.delete('/withdraw', jwt({ secret: process.env.JWT_SECRET || '' }), async (c) => {
+  const jwtPayload = c.get('jwtPayload');
+
+  if (!jwtPayload) {
+    return c.json({ error: 'Unauthorized' }, 403);
+  }
+
+  const clientIP = c.req.header('x-forwarded-for') || 'unknown';
+
+  if (!checkRateLimit(`withdraw:${clientIP}`, RATE_LIMIT_LIMIT.LOGIN, RATE_LIMIT_WINDOW_MS.LOGIN)) {
+    return c.json({ error: 'Too many withdrawal attempts. Please try again later.' }, 429);
+  }
+
+  const { userId } = jwtPayload;
+
+  try {
+    await deleteUserByTransactionOperation(userId);
+
+    return c.json({ message: 'Withdrawal successful' }, 200);
+  } catch (e) {
+    console.error(e);
   }
 });
 
