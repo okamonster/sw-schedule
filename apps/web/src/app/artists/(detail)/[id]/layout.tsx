@@ -1,6 +1,7 @@
 import '@mantine/core/styles.css';
 import '@/styles/globals.css';
 import '@/styles/variables.css';
+import { redirect } from 'next/navigation';
 import { ArtistDetailHeader } from '@/components/Navigations/ArtistDetailHeader';
 import { DefaultFooter } from '@/components/Navigations/DefaultFooter';
 import { Footer } from '@/components/Navigations/Footer';
@@ -14,6 +15,9 @@ export default async function RootLayout({
 }>) {
   const user = await getCurrentUser();
 
+  if (user && !user?.profile) {
+    return redirect('/entry');
+  }
   return (
     <div className="grid">
       {user ? <ArtistDetailHeader user={user} /> : <TopHeader />}
