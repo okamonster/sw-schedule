@@ -30,6 +30,12 @@ export const createUserArtistFollowOperation = async (
   userId: string,
   artistId: string
 ): Promise<UserArtistFollow> => {
+  // 既にフォローしているかチェック
+  const existingFollow = await getUserArtistFollowByUserAndArtistIdOperation(userId, artistId);
+  if (existingFollow) {
+    throw new Error('既にフォローしています');
+  }
+
   const userArtistFollow = await prismaClient.userArtistFollow.create({
     data: { userId, artistId },
   });

@@ -26,6 +26,25 @@ export const getCurrentUser = async (): Promise<User | null> => {
   } as User;
 };
 
+export const getCurrentUserByBackendToken = async (backendToken: string): Promise<User | null> => {
+  const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/me`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${backendToken}`,
+    },
+  });
+
+  const data = await result.json();
+
+  if (!result.ok || !data) {
+    return null;
+  }
+
+  return {
+    ...data,
+  } as User;
+};
+
 export const deleteUser = async (backendToken: string): Promise<void> => {
   const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/withdraw`, {
     method: 'DELETE',

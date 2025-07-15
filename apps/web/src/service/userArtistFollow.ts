@@ -34,7 +34,8 @@ export const createUserArtistFollow = async (
   });
 
   if (!response.ok) {
-    throw new Error('Failed to create user artist follow');
+    const errorData = await response.json();
+    throw new Error(errorData.error || 'Failed to create user artist follow');
   }
 };
 
