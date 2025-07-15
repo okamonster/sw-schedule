@@ -2,7 +2,7 @@
 import { Paper } from '@mantine/core';
 import Image from 'next/image';
 import Link from 'next/link';
-import { notFound, useParams, usePathname, useSearchParams } from 'next/navigation';
+import { notFound, useParams, useSearchParams } from 'next/navigation';
 import { SetPasswordForm } from '@/features/auth/components/SetPasswordForm';
 
 export default function SignupConfirmPage() {
