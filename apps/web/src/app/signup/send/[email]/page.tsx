@@ -1,5 +1,5 @@
 'use client';
-import { Button, Paper } from '@mantine/core';
+import { Paper } from '@mantine/core';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
