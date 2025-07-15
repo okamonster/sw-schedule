@@ -1,14 +1,14 @@
 import { z } from 'zod';
 
 export const varificateTokenRequestSchema = z.object({
-  email: z.string().email(),
+  email: z.string(),
 });
 
 export type VarificateTokenRequestSchemaType = z.infer<typeof varificateTokenRequestSchema>;
 
-export const varifyTokenRequestSchema = z.object({
-  email: z.string().email(),
+export const verifyTokenRequestSchema = z.object({
+  email: z.string(),
   token: z.string(),
 });
 
-export type VarifyTokenRequestSchemaType = z.infer<typeof varifyTokenRequestSchema>;
+export type VerifyTokenRequestSchemaType = z.infer<typeof verifyTokenRequestSchema>;

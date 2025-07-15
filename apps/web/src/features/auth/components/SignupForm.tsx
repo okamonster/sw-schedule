@@ -1,33 +1,36 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Anchor, Button, Checkbox, PasswordInput, TextInput } from '@mantine/core';
-import { Controller, useForm } from 'react-hook-form';
+import { Button, TextInput } from '@mantine/core';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
 import { type SignupUserSchemaType, signupUserSchema } from '@/entities/user';
-import { useAuth } from '../hooks/useAuth';
+import { useToast } from '@/hooks/useToast';
+import { createVarificationToken } from '@/service/auth';
 
 export const SignupForm = (): React.ReactNode => {
+  const { push } = useRouter();
   const {
     register,
-    control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<SignupUserSchemaType>({
     defaultValues: {
       email: '',
-      password: '',
-      passwordConfirm: '',
-      terms: false,
     },
     mode: 'all',
     resolver: zodResolver(signupUserSchema),
   });
-  const { handleSignup, isLoading } = useAuth();
+
+  const { showSuccessToast, showErrorToast } = useToast();
 
   const onSubmit = async (data: SignupUserSchemaType) => {
     try {
-      await handleSignup(data.email, data.password);
-    } catch (error) {
-      console.error(error);
+      await createVarificationToken(data.email);
+      showSuccessToast('メールアドレス認証用メールを送信しました');
+      push(`/signup/send/${data.email}`);
+    } catch (e) {
+      showErrorToast('メールアドレス認証用メールの送信に失敗しました');
+      console.error(e);
     }
   };
 
@@ -39,41 +42,18 @@ export const SignupForm = (): React.ReactNode => {
         {...register('email')}
         error={errors.email?.message}
       />
-      <PasswordInput
-        label="パスワード"
-        placeholder="パスワードを入力"
-        {...register('password')}
-        error={errors.password?.message}
-      />
-      <PasswordInput
-        label="パスワード (確認)"
-        placeholder="再度パスワードを入力"
-        {...register('passwordConfirm')}
-        error={errors.passwordConfirm?.message}
-      />
-      <Controller
-        control={control}
-        name="terms"
-        render={({ field }) => (
-          <Checkbox
-            onChange={(e) => field.onChange(e.target.checked)}
-            checked={field.value}
-            onBlur={field.onBlur}
-            error={errors.terms?.message}
-            label={
-              <>
-                <Anchor href="/terms" target="_blank" size="sm">
-                  利用規約
-                </Anchor>
-                に同意します
-              </>
-            }
-          />
-        )}
-      />
+      <p className="text-sm text-text-gray">
+        noreply@gemba-live.jpからメールアドレス認証用メールが送信されます。
+      </p>
 
-      <Button fullWidth color="var(--color-button-primary)" type="submit" loading={isLoading}>
-        サインアップ
+      <Button
+        fullWidth
+        color="var(--color-button-primary)"
+        type="submit"
+        radius="lg"
+        disabled={!isValid}
+      >
+        メールを送信する
       </Button>
     </form>
   );

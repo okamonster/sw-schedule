@@ -9,7 +9,7 @@ import {
 } from '~/entities/user.js';
 import {
   varificateTokenRequestSchema,
-  varifyTokenRequestSchema,
+  verifyTokenRequestSchema,
 } from '~/entities/varifycationToken.js';
 import {
   createGoogleUserOperation,
@@ -20,11 +20,10 @@ import {
 } from '~/infrastructures/userOperations.js';
 import {
   createVarificationTokenOperation,
-  getVarificationTokenOperation,
-  updateVarificationTokenOperation,
-  varifyTokenOperation,
+  verifyTokenOperation,
 } from '~/infrastructures/varificationTokenOperations.js';
 import { verifyGoogleToken } from '~/libs/oAuth.js';
+import { sendVerificationEmail } from '~/libs/resend.js';
 import { checkRateLimit } from '~/utils/auth.js';
 
 const app = new Hono();
@@ -182,13 +181,8 @@ app.post('/varificate-token', async (c) => {
 
   const { email } = result.data;
   try {
-    const existingToken = await getVarificationTokenOperation(email);
-
-    if (existingToken) {
-      await updateVarificationTokenOperation(email);
-    }
-
     const token = await createVarificationTokenOperation(email);
+    await sendVerificationEmail(email, token);
 
     return c.json({ token }, 200);
   } catch (e) {
@@ -197,9 +191,9 @@ app.post('/varificate-token', async (c) => {
   }
 });
 
-app.post('/verification-token/verify', async (c) => {
+app.post('/varification-token/verify', async (c) => {
   const body = await c.req.json();
-  const result = varifyTokenRequestSchema.safeParse(body);
+  const result = verifyTokenRequestSchema.safeParse(body);
 
   if (!result.success) {
     return c.json({ error: 'Invalid request body' }, 400);
@@ -207,7 +201,7 @@ app.post('/verification-token/verify', async (c) => {
 
   const { email, token } = result.data;
   try {
-    const verificationToken = await varifyTokenOperation(email, token);
+    const verificationToken = await verifyTokenOperation(email, token);
 
     if (!verificationToken) {
       return c.json({ error: 'Invalid token' }, 401);
