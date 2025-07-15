@@ -8,7 +8,16 @@ import user from './routes/user.js';
 
 const app = new Hono();
 
-app.use('*', cors());
+app.use(
+  '*',
+  cors({
+    origin: ['http://localhost:3000', 'https://gemba-live.app', 'https://develop.gemba-live.app'],
+    allowHeaders: ['Content-Type', 'Authorization'],
+    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true,
+  })
+);
+
 app.get('/', (c) => {
   return c.text('Hello Hono!');
 });
