@@ -15,6 +15,7 @@ export const EventTicketSection = ({ event }: Props): React.ReactNode => {
         {!!event.sameDayTicketPrice && ` / 当日:${event.sameDayTicketPrice}円`}
         {event.isNeedDrink && ' / 1ドリンク必須'}
       </p>
+      {event.drinkOption && <p className="text-sm text-text-gray">{event.drinkOption}</p>}
       {event.ticketReleaseDateTime && (
         <p className="text-sm text-text-gray">
           発売日時:{dayjs(event.ticketReleaseDateTime).format('YYYY/MM/DD HH:mm')}

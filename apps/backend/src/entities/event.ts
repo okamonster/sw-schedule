@@ -12,19 +12,20 @@ export type SearchEventRequest = z.infer<typeof SearchEventRequestSchema>;
 
 export const editEventRequestSchema = z.object({
   eventName: z.string(),
-  eventDescription: z.string().optional(),
+  eventDescription: z.string(),
   eventImageUrl: z.string(),
   eventDate: z.string(),
   openDateTime: z.string(),
   startDateTime: z.string(),
   locatePrefecture: z.string(),
-  eventLocationName: z.string().optional(),
-  eventLocationAddress: z.string().optional(),
+  eventLocationName: z.string(),
+  eventLocationAddress: z.string(),
   ticketReleaseDateTime: z.string().optional(),
   ticketPrice: z.string(),
   sameDayTicketPrice: z.string(),
-  ticketUrl: z.string().optional(),
+  ticketUrl: z.string(),
   isNeedDrink: z.string().transform((val) => val === 'true'),
+  drinkOption: z.string(),
   artists: z.array(z.string()),
 });
 

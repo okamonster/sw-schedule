@@ -16,14 +16,14 @@ datasource db {
 
 // 一般ユーザー
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  password  String? // パスワード認証用
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String? // パスワード認証用
   // 有料プラン関連
-  planType  String   @default("free") @map("plan_type") // free, light, standard, premium
+  planType      String    @default("free") @map("plan_type") // free, light, standard, premium
   planExpiresAt DateTime? @map("plan_expires_at") // プラン有効期限
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
   profile          UserProfile?
   // 推しているアーティストとの関係
@@ -45,6 +45,7 @@ model DeletedUser {
 
   @@map("deleted_users")
 }
+
 model UserProfile {
   id                 String   @id @default(uuid())
   userId             String   @unique @map("user_id")
@@ -98,20 +99,21 @@ model ArtistUser {
 model Event {
   id                    String        @id @default(uuid())
   eventName             String        @map("event_name")
-  eventDescription      String?       @map("event_description")
+  eventDescription      String        @map("event_description")
   eventImageUrl         String        @default("") @map("event_image_url")
   eventDate             DateTime      @map("event_date")
   ogpImageUrl           String        @default("") @map("ogp_image_url")
   openDateTime          DateTime      @map("open_date_time")
   startDateTime         DateTime      @map("start_date_time")
   locatePrefecture      String        @map("locate_prefecture")
-  eventLocationName     String?       @map("event_location_name")
-  eventLocationAddress  String?       @map("event_location_address")
+  eventLocationName     String        @map("event_location_name")
+  eventLocationAddress  String        @map("event_location_address")
   ticketReleaseDateTime DateTime?     @map("ticket_release_date_time")
   ticketPrice           Int           @map("ticket_price")
   sameDayTicketPrice    Int           @map("same_day_ticket_price")
-  ticketUrl             String?       @map("ticket_url")
+  ticketUrl             String        @map("ticket_url")
   isNeedDrink           Boolean       @map("is_need_drink")
+  drinkOption           String        @default("") @map("drink_option")
   createdAt             DateTime      @default(now())
   updatedAt             DateTime      @updatedAt
   // 出演アーティストとの関係
@@ -153,23 +155,23 @@ model UserPlanHistory {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   planType  String   @map("plan_type") // free,light, standard, premium
   changedAt DateTime @default(now()) @map("changed_at")
-  reason    String?  // 変更理由（アップグレード、ダウングレード、期限切れなど）
+  reason    String? // 変更理由（アップグレード、ダウングレード、期限切れなど）
 
   @@map("user_plan_histories")
 }
 
 // 支払い情報（将来的な実装）
 model UserPayment {
-  id            String   @id @default(uuid())
-  userId        String   @map("user_id")
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  amount        Int      // 支払い金額（円）
-  currency      String   @default("JPY")
-  paymentMethod String   @map("payment_method") // credit_card, bank_transfer, etc.
-  status        String   // pending, completed, failed, refunded
+  id            String    @id @default(uuid())
+  userId        String    @map("user_id")
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount        Int // 支払い金額（円）
+  currency      String    @default("JPY")
+  paymentMethod String    @map("payment_method") // credit_card, bank_transfer, etc.
+  status        String // pending, completed, failed, refunded
   paidAt        DateTime? @map("paid_at")
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
   @@map("user_payments")
 }

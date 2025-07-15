@@ -78,6 +78,7 @@ export const ThirdEditEventForm = ({
       sameDayTicketPrice: firstStepValues.sameDayTicketPrice.toString(),
       ticketUrl: firstStepValues.ticketLink ?? undefined,
       isNeedDrink: firstStepValues.isNeedDrink,
+      drinkOption: firstStepValues.drinkOption,
       artists: thirdStepValues.eventArtists,
     };
     try {

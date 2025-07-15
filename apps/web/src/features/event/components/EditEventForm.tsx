@@ -40,6 +40,7 @@ export const EditEventForm = ({ event }: Props): React.ReactNode => {
     ticketPrice: event?.ticketPrice ?? 0,
     sameDayTicketPrice: event?.sameDayTicketPrice ?? 0,
     isNeedDrink: event?.isNeedDrink ? 'true' : 'false',
+    drinkOption: event?.drinkOption ?? '',
   });
 
   const [secondEditEventFormValue, setSecondEditEventFormValue] =

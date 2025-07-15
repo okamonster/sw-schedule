@@ -18,6 +18,7 @@ export type Event = {
   sameDayTicketPrice: number;
   ticketUrl: string;
   isNeedDrink: boolean;
+  drinkOption: string;
   updatedAt: string;
   artists: ArtistEvent[];
 };
@@ -34,25 +35,43 @@ export const SearchEventRequestSchema = z.object({
   sort: z.enum(['eventDate', 'createdAt']),
 });
 
-export const FirstEditEventSchema = z.object({
-  eventImageUrl: z.string().url('イベント画像を入力してください'),
-  eventName: z.string().min(1, 'イベント名を入力してください'),
-  eventDescription: z.string().nullable(),
-  eventDate: z.string().min(1, 'イベント日を入力してください'),
-  openTime: z.string().min(1, 'イベント開始時間を入力してください'),
-  startTime: z.string().min(1, 'イベント開始時間を入力してください'),
-  ticketLink: z.string().url('チケットリンクを入力してください'),
-  ticketReleaseDateTime: z.string().nullable(),
-  ticketPrice: z.number().min(0, 'チケット価格を入力してください'),
-  sameDayTicketPrice: z.number().min(0, '当日チケット価格を入力してください'),
-  isNeedDrink: z.string(),
-});
+export const FirstEditEventSchema = z
+  .object({
+    eventImageUrl: z.string(),
+    eventName: z.string().min(1, 'イベント名を入力してください'),
+    eventDescription: z.string(),
+    eventDate: z.string().min(1, 'イベント日を入力してください'),
+    openTime: z.string(),
+    startTime: z.string(),
+    ticketLink: z.string(),
+    ticketReleaseDateTime: z.string().nullable(),
+    ticketPrice: z.number().min(0, 'チケット価格を入力してください'),
+    sameDayTicketPrice: z.number().min(0, '当日チケット価格を入力してください'),
+    isNeedDrink: z.string(),
+    drinkOption: z.string(),
+  })
+  .refine(
+    (data) => {
+      if (data.ticketLink) {
+        return z.string().url().safeParse(data.ticketLink).success;
+      }
+
+      if (data.eventImageUrl) {
+        return z.string().url().safeParse(data.eventImageUrl).success;
+      }
+
+      return true;
+    },
+    {
+      message: 'チケットリンクを入力してください',
+    }
+  );
 
 export type FirstEditEventSchemaType = z.infer<typeof FirstEditEventSchema>;
 
 export const SecondEditEventSchema = z.object({
-  eventLocationName: z.string().min(1, '会場を入力してください'),
-  eventLocationAddress: z.string().min(1, '会場の住所を入力してください'),
+  eventLocationName: z.string(),
+  eventLocationAddress: z.string(),
 });
 
 export type SecondEditEventSchemaType = z.infer<typeof SecondEditEventSchema>;
@@ -78,6 +97,7 @@ export const EditEventRequestSchema = z.object({
   sameDayTicketPrice: z.string(),
   ticketUrl: z.string().optional(),
   isNeedDrink: z.string(),
+  drinkOption: z.string(),
   artists: z.array(z.string()),
 });
 

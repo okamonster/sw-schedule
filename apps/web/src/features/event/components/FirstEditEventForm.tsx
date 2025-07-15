@@ -33,6 +33,7 @@ export const FirstEditEventForm = ({ firstStepValues, onNext, onChangeFirstStep 
       ticketPrice: firstStepValues.ticketPrice ?? 0,
       sameDayTicketPrice: firstStepValues.sameDayTicketPrice ?? 0,
       isNeedDrink: firstStepValues.isNeedDrink ?? 'false',
+      drinkOption: firstStepValues.drinkOption ?? '',
     },
     resolver: zodResolver(FirstEditEventSchema),
   });
@@ -85,11 +86,11 @@ export const FirstEditEventForm = ({ firstStepValues, onNext, onChangeFirstStep 
               <DateInput
                 label="開催日"
                 value={field.value}
+                required
                 onChange={field.onChange}
                 error={errors.eventDate?.message}
                 locale="ja"
                 monthLabelFormat="YYYY年MM月"
-                required
               />
             )}
           />
@@ -103,7 +104,6 @@ export const FirstEditEventForm = ({ firstStepValues, onNext, onChangeFirstStep 
                 value={field.value}
                 onChange={field.onChange}
                 error={errors.openTime?.message}
-                required
               />
             )}
           />
@@ -117,12 +117,11 @@ export const FirstEditEventForm = ({ firstStepValues, onNext, onChangeFirstStep 
                 value={field.value}
                 onChange={field.onChange}
                 error={errors.startTime?.message}
-                required
               />
             )}
           />
 
-          <TextInput label="チケット購入リンク" required {...register('ticketLink')} />
+          <TextInput label="チケット購入リンク" {...register('ticketLink')} />
 
           <Controller
             control={control}
@@ -148,9 +147,10 @@ export const FirstEditEventForm = ({ firstStepValues, onNext, onChangeFirstStep 
                     label="チケット料金"
                     min={0}
                     max={100000}
-                    required
                     value={field.value}
                     onChange={field.onChange}
+                    step={100}
+                    error={errors.ticketPrice?.message}
                   />
                 )}
               />
@@ -162,9 +162,10 @@ export const FirstEditEventForm = ({ firstStepValues, onNext, onChangeFirstStep 
                     label="当日チケット料金"
                     min={0}
                     max={100000}
-                    required
                     value={field.value}
                     onChange={field.onChange}
+                    step={100}
+                    error={errors.sameDayTicketPrice?.message}
                   />
                 )}
               />
@@ -182,6 +183,11 @@ export const FirstEditEventForm = ({ firstStepValues, onNext, onChangeFirstStep 
                   error={errors.isNeedDrink?.message}
                 />
               )}
+            />
+            <TextInput
+              label="ドリンクオプション"
+              {...register('drinkOption')}
+              placeholder="例:オーダー制,2ドリンク以上必須"
             />
           </div>
         </div>

@@ -1,9 +1,12 @@
 import sharp from 'sharp';
-import { LOGO_IMAGE_PATH } from '~/constants/index.js';
+import { LOGO_IMAGE_PATH, OGP_IMAGE_URL } from '~/constants/index.js';
 import { getBufferImageOperation } from '~/infrastructures/getBufferImageOperation.js';
 import { uploadImage } from '~/libs/storage.js';
 
 export const generateEventOgp = async (eventId: string, eventImageUrl: string) => {
+  if (!eventImageUrl) {
+    return OGP_IMAGE_URL;
+  }
   const eventImageBuffer = await getBufferImageOperation(eventImageUrl);
   const logoImageBuffer = await getBufferImageOperation(LOGO_IMAGE_PATH);
   const eventImage = await sharp(eventImageBuffer).resize({

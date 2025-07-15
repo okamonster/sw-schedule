@@ -27,6 +27,7 @@ export const createEventOperation = async (
       sameDayTicketPrice: Number.parseInt(request.sameDayTicketPrice),
       ticketUrl: request.ticketUrl,
       isNeedDrink: request.isNeedDrink,
+      drinkOption: request.drinkOption,
       artists: {
         create: request.artists.map((artistId) => ({
           artist: {
@@ -68,6 +69,7 @@ export const updateEventOperation = async (
       sameDayTicketPrice: Number.parseInt(request.sameDayTicketPrice),
       ticketUrl: request.ticketUrl,
       isNeedDrink: request.isNeedDrink,
+      drinkOption: request.drinkOption,
       artists: {
         deleteMany: {},
         create: request.artists.map((artistId) => ({
