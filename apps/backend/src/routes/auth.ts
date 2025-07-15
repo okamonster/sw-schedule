@@ -20,6 +20,8 @@ import {
 } from '~/infrastructures/userOperations.js';
 import {
   createVarificationTokenOperation,
+  getVarificationTokenOperation,
+  updateVarificationTokenOperation,
   varifyTokenOperation,
 } from '~/infrastructures/varificationTokenOperations.js';
 import { verifyGoogleToken } from '~/libs/oAuth.js';
@@ -180,6 +182,12 @@ app.post('/varificate-token', async (c) => {
 
   const { email } = result.data;
   try {
+    const existingToken = await getVarificationTokenOperation(email);
+
+    if (existingToken) {
+      await updateVarificationTokenOperation(email);
+    }
+
     const token = await createVarificationTokenOperation(email);
 
     return c.json({ token }, 200);

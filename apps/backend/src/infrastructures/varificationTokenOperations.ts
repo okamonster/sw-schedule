@@ -10,6 +10,14 @@ export const createVarificationTokenOperation = async (email: string) => {
   return token;
 };
 
+export const getVarificationTokenOperation = async (email: string) => {
+  const verificationToken = await prismaClient.verificationToken.findUnique({
+    where: { email },
+  });
+
+  return verificationToken;
+};
+
 export const updateVarificationTokenOperation = async (email: string) => {
   const token = uuidv4();
   const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24);
