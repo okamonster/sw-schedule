@@ -62,5 +62,7 @@ jobs:
             JWT_SECRET=${{ secrets.JWT_SECRET }}
             SUPABASE_URL=${{ secrets.SUPABASE_URL }}
             SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}
+            APP_URL=${{ secrets.APP_URL }}
+            RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
           flags: |
             --allow-unauthenticated
