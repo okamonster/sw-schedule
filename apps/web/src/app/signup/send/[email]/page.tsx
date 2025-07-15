@@ -29,9 +29,6 @@ export default function SignupPage() {
           <p className="text-sm text-text-gray">
             メールが届かない場合は、迷惑メールフォルダをご確認ください。
           </p>
-          <Button fullWidth color="var(--color-button-primary)" radius="lg">
-            メールを再送信
-          </Button>
         </div>
       </Paper>
 
