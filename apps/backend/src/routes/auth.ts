@@ -8,12 +8,20 @@ import {
   signInByGoogleRequestSchema,
 } from '~/entities/user.js';
 import {
+  varificateTokenRequestSchema,
+  varifyTokenRequestSchema,
+} from '~/entities/varifycationToken.js';
+import {
   createGoogleUserOperation,
   createUserOperation,
   deleteUserByTransactionOperation,
   getUserByEmailAndPasswordOperation,
   getUserByEmailOperation,
 } from '~/infrastructures/userOperations.js';
+import {
+  createVarificationTokenOperation,
+  varifyTokenOperation,
+} from '~/infrastructures/varificationTokenOperations.js';
 import { verifyGoogleToken } from '~/libs/oAuth.js';
 import { checkRateLimit } from '~/utils/auth.js';
 
@@ -159,6 +167,48 @@ app.delete('/withdraw', jwt({ secret: process.env.JWT_SECRET || '' }), async (c)
     return c.json({ message: 'Withdrawal successful' }, 200);
   } catch (e) {
     console.error(e);
+  }
+});
+
+app.post('/varificate-token', async (c) => {
+  const body = await c.req.json();
+  const result = varificateTokenRequestSchema.safeParse(body);
+
+  if (!result.success) {
+    return c.json({ error: 'Invalid request body' }, 400);
+  }
+
+  const { email } = result.data;
+  try {
+    const token = await createVarificationTokenOperation(email);
+
+    return c.json({ token }, 200);
+  } catch (e) {
+    console.error(e);
+    return c.json({ error: 'Internal server error' }, 500);
+  }
+});
+
+app.post('/verification-token/verify', async (c) => {
+  const body = await c.req.json();
+  const result = varifyTokenRequestSchema.safeParse(body);
+
+  if (!result.success) {
+    return c.json({ error: 'Invalid request body' }, 400);
+  }
+
+  const { email, token } = result.data;
+  try {
+    const verificationToken = await varifyTokenOperation(email, token);
+
+    if (!verificationToken) {
+      return c.json({ error: 'Invalid token' }, 401);
+    }
+
+    return c.json({ message: 'Token verified' }, 200);
+  } catch (e) {
+    console.error(e);
+    return c.json({ error: 'Internal server error' }, 500);
   }
 });
 
