@@ -100,4 +100,6 @@ export const { handlers, signIn, signOut, auth }: any = NextAuth({
   secret: process.env.AUTH_SECRET,
   basePath: '/api/auth',
   trustHost: true,
+  // CloudRun環境での動作を確実にするための設定
+  ...(process.env.NEXTAUTH_URL && { url: process.env.NEXTAUTH_URL }),
 });
