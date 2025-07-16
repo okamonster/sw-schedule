@@ -1,3 +1,5 @@
+import { Divider } from '@mantine/core';
+import Link from 'next/link';
 import { type Plan, plans } from '@/entities/plan';
 import { CurrentPlanCard } from '@/features/plan/components/CurrentPlanCard';
 import { PlanListCard } from '@/features/plan/components/PlanListCard';
@@ -41,6 +43,10 @@ export default async function PlanPage() {
           ))}
         </div>
       </section>
+      <Divider />
+      <Link href="/asct" className="text-sm text-blue-500 text-center">
+        特定商法取引法に基づく表記
+      </Link>
     </div>
   );
 }
