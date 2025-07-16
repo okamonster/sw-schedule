@@ -53,7 +53,7 @@ export const ArtistList = ({ query = '', sort = 'followers' }: Props) => {
           canFollow={followLimit.canFollow}
         />
       )}
-      {artists.map((artist) => (
+      {Array.from(new Map(artists.map((artist) => [artist.id, artist])).values()).map((artist) => (
         <ArtistListCard
           key={artist.id}
           artist={artist}
