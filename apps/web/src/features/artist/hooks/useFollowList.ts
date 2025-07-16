@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { Artist } from '@/entities/artist';
+import { plans } from '@/entities/plan';
 import type { User } from '@/entities/user';
 import { useBackendToken } from '@/hooks/useBackendToken';
 import { useToast } from '@/hooks/useToast';
@@ -10,15 +11,20 @@ import {
   getUserArtistFollow,
 } from '@/service/userArtistFollow';
 
-// フォロー制限定数
-const MAX_FOLLOWING_ARTISTS_FREE_PLAN = 3;
-
 export const useFollowList = () => {
   const [followingStates, setFollowingStates] = useState<Record<string, boolean>>({});
   const [loadingStates, setLoadingStates] = useState<Record<string, boolean>>({});
   const [user, setUser] = useState<User | null>(null);
   const backendToken = useBackendToken();
   const { showErrorToast } = useToast();
+
+  const currentPlan = useMemo(() => {
+    const currentPlan = plans.find((plan) => plan.planType === user?.planType);
+    if (!currentPlan) {
+      return plans[0];
+    }
+    return currentPlan;
+  }, [user]);
 
   // ユーザー情報を取得
   useEffect(() => {
@@ -41,8 +47,8 @@ export const useFollowList = () => {
   const followLimit = user
     ? {
         currentCount: user.followingArtists.length,
-        maxCount: MAX_FOLLOWING_ARTISTS_FREE_PLAN,
-        canFollow: user.followingArtists.length < MAX_FOLLOWING_ARTISTS_FREE_PLAN,
+        maxCount: currentPlan.maxFollowingArtists,
+        canFollow: user.followingArtists.length < currentPlan.maxFollowingArtists,
       }
     : null;
 
