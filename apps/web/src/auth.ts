@@ -5,7 +5,10 @@ import Google from 'next-auth/providers/google';
 // biome-ignore lint/suspicious/noExplicitAny: <signIn>
 export const { handlers, signIn, signOut, auth }: any = NextAuth({
   providers: [
-    Google,
+    Google({
+      clientId: process.env.AUTH_GOOGLE_ID,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET,
+    }),
     Credentials({
       credentials: {
         email: { label: 'Email', type: 'email' },
@@ -96,4 +99,5 @@ export const { handlers, signIn, signOut, auth }: any = NextAuth({
   },
   secret: process.env.AUTH_SECRET,
   basePath: '/api/auth',
+  trustHost: true,
 });
