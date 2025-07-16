@@ -107,8 +107,6 @@ export const getAreaLabel = (value: string) => {
 
 export const DEFAULT_IMAGE_URL = '/images/placeholder.png';
 
-export const MAX_FOLLOWING_ARTISTS_FREE_PLAN = 3;
-
 export const SNS_LINKS = {
   X: 'https://x.com',
   INSTAGRAM: 'https://www.instagram.com',
@@ -117,14 +115,9 @@ export const SNS_LINKS = {
 export const OGP_IMAGE_URL =
   'https://otnrfqogjtpfuaxlvrmp.supabase.co/storage/v1/object/public/images/public/main-ogp.png' as const satisfies string;
 
-export const PLAN_TYPES = {
-  FREE: 'free',
-  LIGHT: 'light',
-  STANDARD: 'standard',
-  PREMIUM: 'premium',
-} as const satisfies {
-  FREE: string;
-  LIGHT: string;
-  STANDARD: string;
-  PREMIUM: string;
-};
+export type UserPlanType = 'free' | 'light' | 'standard' | 'premium';
+
+export const MAX_FOLLOWING_ARTISTS_FREE_PLAN = 3;
+export const MAX_FOLLOWING_ARTISTS_LIGHT_PLAN = 5;
+export const MAX_FOLLOWING_ARTISTS_STANDARD_PLAN = 10;
+export const MAX_FOLLOWING_ARTISTS_PREMIUM_PLAN = 20;
