@@ -1,10 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useState } from 'react';
 import type { Artist } from '@/entities/artist';
-import { plans } from '@/entities/plan';
-import type { User } from '@/entities/user';
 import { useBackendToken } from '@/hooks/useBackendToken';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useToast } from '@/hooks/useToast';
-import { getCurrentUserByBackendToken } from '@/service/user';
 import {
   createUserArtistFollow,
   deleteUserArtistFollow,
@@ -14,34 +12,10 @@ import {
 export const useFollowList = () => {
   const [followingStates, setFollowingStates] = useState<Record<string, boolean>>({});
   const [loadingStates, setLoadingStates] = useState<Record<string, boolean>>({});
-  const [user, setUser] = useState<User | null>(null);
+
+  const { user, currentPlan, refetchCurrentUser } = useCurrentUser();
   const backendToken = useBackendToken();
   const { showErrorToast } = useToast();
-
-  const currentPlan = useMemo(() => {
-    const currentPlan = plans.find((plan) => plan.planType === user?.planType);
-    if (!currentPlan) {
-      return plans[0];
-    }
-    return currentPlan;
-  }, [user]);
-
-  // ユーザー情報を取得
-  useEffect(() => {
-    if (!backendToken) {
-      return;
-    }
-
-    const fetchUser = async () => {
-      try {
-        const userData = await getCurrentUserByBackendToken(backendToken);
-        setUser(userData);
-      } catch (error) {
-        console.error('Error fetching user:', error);
-      }
-    };
-    fetchUser();
-  }, [backendToken]);
 
   // フォロー制限情報を計算（現在は無料プランのみ対応）
   const followLimit = user
@@ -94,15 +68,7 @@ export const useFollowList = () => {
         await deleteUserArtistFollow(backendToken, artistId);
         setFollowingStates((prev) => ({ ...prev, [artistId]: false }));
 
-        // ユーザー情報を更新（フォロー数を減らす）
-        if (user) {
-          setUser({
-            ...user,
-            followingArtists: user.followingArtists.filter(
-              (follow) => follow.artistId !== artistId
-            ),
-          });
-        }
+        refetchCurrentUser();
       } else {
         // フォロー制限をチェック
         if (followLimit && !followLimit.canFollow) {
@@ -116,24 +82,7 @@ export const useFollowList = () => {
         await createUserArtistFollow(backendToken, artistId);
         setFollowingStates((prev) => ({ ...prev, [artistId]: true }));
 
-        // ユーザー情報を更新（フォロー数を増やす）
-        if (user) {
-          setUser({
-            ...user,
-            followingArtists: [
-              ...user.followingArtists,
-              {
-                id: '',
-                userId: user.id,
-                artistId,
-                createdAt: new Date(),
-                updatedAt: new Date(),
-                artist: {} as Artist,
-                user: {} as User,
-              },
-            ],
-          });
-        }
+        refetchCurrentUser();
       }
     } catch (error) {
       console.error('Error handling follow:', error);
