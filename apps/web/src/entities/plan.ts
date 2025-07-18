@@ -11,6 +11,7 @@ export type Plan = {
   planDescription: string[];
   isRecomend: boolean;
   maxFollowingArtists: number;
+  stripePaymentLink: string;
 };
 
 export const plans = [
@@ -21,6 +22,7 @@ export const plans = [
     planDescription: ['推し登録できるアーティスト：3組まで'],
     isRecomend: false,
     maxFollowingArtists: MAX_FOLLOWING_ARTISTS_FREE_PLAN,
+    stripePaymentLink: process.env.NEXT_PUBLIC_PAYMENT_LINK_PORTAL ?? '',
   },
   /*
   {
@@ -38,6 +40,7 @@ export const plans = [
     planDescription: ['推し登録できるアーティスト：10組まで'],
     isRecomend: true,
     maxFollowingArtists: MAX_FOLLOWING_ARTISTS_STANDARD_PLAN,
+    stripePaymentLink: process.env.NEXT_PUBLIC_PAYMENT_LINK_STANDARD_PLAN ?? '',
   },
   /*{
     planType: 'premium',

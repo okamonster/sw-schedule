@@ -1,6 +1,6 @@
 import { Divider } from '@mantine/core';
 import Link from 'next/link';
-import { type Plan, plans } from '@/entities/plan';
+import { plans } from '@/entities/plan';
 import { CurrentPlanCard } from '@/features/plan/components/CurrentPlanCard';
 import { PlanListCard } from '@/features/plan/components/PlanListCard';
 import { getCurrentUser } from '@/service/user';
@@ -13,10 +13,6 @@ export default async function PlanPage() {
       return plans[0];
     }
     return currentPlan;
-  };
-
-  const isCurrentPlan = (plan: Plan) => {
-    return plan.planType === currentPlan().planType;
   };
 
   return (
@@ -39,7 +35,7 @@ export default async function PlanPage() {
 
         <div className="grid gap-2">
           {plans.map((plan) => (
-            <PlanListCard key={plan.planName} plan={plan} isCurrentPlan={isCurrentPlan(plan)} />
+            <PlanListCard key={plan.planName} plan={plan} currentPlan={currentPlan()} />
           ))}
         </div>
       </section>
