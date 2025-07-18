@@ -34,7 +34,6 @@ export const ArtistEventForm = ({ artist }: Props) => {
   });
 
   const onSubmit = async (data: AddArtistEventSchemaType) => {
-    console.log(data);
     try {
       if (!backendToken) {
         return;
