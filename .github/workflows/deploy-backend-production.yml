@@ -64,5 +64,8 @@ jobs:
             SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}
             APP_URL=${{ secrets.APP_URL }}
             RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
+            STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}
+            STRIPE_WEBHOOK_SECRET=${{ secrets.STRIPE_WEBHOOK_SECRET }}
+            STANDARD_PLAN_PRICE_ID=${{ secrets.STANDARD_PLAN_PRICE_ID }}
           flags: |
             --allow-unauthenticated
