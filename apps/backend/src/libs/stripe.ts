@@ -8,7 +8,7 @@ export const getPlanTypeFromPriceId = (priceId: string | undefined): string => {
   // StripeのPrice IDからプランタイプを決定
   // 実際のPrice IDに合わせて調整が必要
   switch (priceId) {
-    case process.env.STANDARD_PLAN_ID: // 実際のPrice IDに変更
+    case process.env.STANDARD_PLAN_PRICE_ID: // 実際のPrice IDに変更
       return 'standard';
     case 'price_premium_monthly': // 実際のPrice IDに変更
       return 'premium';
