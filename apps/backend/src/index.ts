@@ -4,6 +4,7 @@ import { cors } from 'hono/cors';
 import artist from './routes/artist.js';
 import auth from './routes/auth.js';
 import event from './routes/event.js';
+import stripe from './routes/stripe.js';
 import user from './routes/user.js';
 
 const app = new Hono();
@@ -18,6 +19,7 @@ app.route('/auth', auth);
 app.route('/user', user);
 app.route('/artist', artist);
 app.route('/event', event);
+app.route('/stripe', stripe);
 
 serve({
   fetch: app.fetch,
