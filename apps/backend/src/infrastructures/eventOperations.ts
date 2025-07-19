@@ -4,6 +4,7 @@ import type {
   EditEventRequestType,
   SearchEventRequest,
 } from '~/entities/event.js';
+import dayjs from '~/libs/dayjs.js';
 import { prismaClient } from '~/libs/prisma.js';
 
 export const createEventOperation = async (
@@ -14,14 +15,14 @@ export const createEventOperation = async (
       eventName: request.eventName,
       eventDescription: request.eventDescription,
       eventImageUrl: request.eventImageUrl,
-      eventDate: new Date(request.eventDate),
-      openDateTime: new Date(request.openDateTime),
-      startDateTime: new Date(request.startDateTime),
+      eventDate: dayjs(request.eventDate).toDate(),
+      openDateTime: dayjs(request.openDateTime).toDate(),
+      startDateTime: dayjs(request.startDateTime).toDate(),
       locatePrefecture: request.locatePrefecture,
       eventLocationName: request.eventLocationName,
       eventLocationAddress: request.eventLocationAddress,
       ticketReleaseDateTime: request.ticketReleaseDateTime
-        ? new Date(request.ticketReleaseDateTime)
+        ? dayjs(request.ticketReleaseDateTime).toDate()
         : null,
       ticketPrice: Number.parseInt(request.ticketPrice),
       sameDayTicketPrice: Number.parseInt(request.sameDayTicketPrice),
@@ -55,15 +56,15 @@ export const updateEventOperation = async (
       eventName: request.eventName,
       eventDescription: request.eventDescription,
       eventImageUrl: request.eventImageUrl,
-      eventDate: new Date(request.eventDate),
+      eventDate: dayjs(request.eventDate).toDate(),
       ogpImageUrl: request.ogpImageUrl,
-      openDateTime: new Date(request.openDateTime),
-      startDateTime: new Date(request.startDateTime),
+      openDateTime: dayjs(request.openDateTime).toDate(),
+      startDateTime: dayjs(request.startDateTime).toDate(),
       locatePrefecture: request.locatePrefecture,
       eventLocationName: request.eventLocationName,
       eventLocationAddress: request.eventLocationAddress,
       ticketReleaseDateTime: request.ticketReleaseDateTime
-        ? new Date(request.ticketReleaseDateTime)
+        ? dayjs(request.ticketReleaseDateTime).toDate()
         : null,
       ticketPrice: Number.parseInt(request.ticketPrice),
       sameDayTicketPrice: Number.parseInt(request.sameDayTicketPrice),
