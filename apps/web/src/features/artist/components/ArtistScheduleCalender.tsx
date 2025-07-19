@@ -59,7 +59,7 @@ export const ArtistScheduleCalender = ({ artist }: Props): React.ReactNode => {
             groupedEvents.map((group) => (
               <div key={group.date} className="grid gap-2" data-date-group={group.date}>
                 <p className="text-sm text-text-gray">
-                  {dayjs(group.date).tz('Asia/Tokyo').format('YYYY/MM/DD(ddd)')}
+                  {dayjs(group.date).tz().format('YYYY/MM/DD(ddd)')}
                 </p>
                 {group.events.map((event) => (
                   <EventCard key={event.id} event={event} />

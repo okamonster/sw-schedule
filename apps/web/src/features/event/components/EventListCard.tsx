@@ -38,7 +38,7 @@ export const EventListCard = ({ event }: Props): React.ReactNode => {
               </Badge>
             </div>
             <p className="text-sm text-text-gray">
-              開催:{dayjs(event.eventDate).tz('Asia/Tokyo').format('YYYY/MM/DD(ddd)')}
+              開催:{dayjs(event.eventDate).tz().format('YYYY/MM/DD(ddd)')}
             </p>
             <div className="flex gap-1">
               <Badge
