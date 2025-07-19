@@ -51,6 +51,7 @@ jobs:
             --build-arg NEXT_PUBLIC_GOOGLE_API_KEY=${{ secrets.NEXT_PUBLIC_GOOGLE_API_KEY }} \
             --build-arg NEXT_PUBLIC_GOOGLE_CLIENT_ID=${{ secrets.NEXT_PUBLIC_GOOGLE_CLIENT_ID }} \
             --build-arg NEXT_PUBLIC_GA_ID=${{ secrets.NEXT_PUBLIC_GA_ID }} \
+            --build-arg NEXT_PUBLIC_TIMEZONE=Asia/Tokyo \
             -f apps/web/docker/Dockerfile .
 
       - name: Push Frontend Docker image

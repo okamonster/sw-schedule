@@ -12,7 +12,6 @@ dayjs.extend(timezone);
 // 日本語ロケールを設定
 dayjs.locale('ja');
 
-// デフォルトタイムゾーンを日本時間に設定
-dayjs.tz('Asia/Tokyo');
+dayjs.tz.setDefault('Asia/Tokyo');
 
 export default dayjs;
