@@ -24,8 +24,6 @@ export const useAuth = (): {
       await signIn('google', {
         redirectTo: '/home',
       });
-
-      showSuccessToast('ログインに成功しました');
     } catch (e) {
       showErrorToast('ログインに失敗しました');
       console.error('An unexpected error occurred during sign in:', e);
