@@ -21,7 +21,7 @@ export const EventCard = ({ event }: Props): React.ReactNode => {
         <p className="text-md font-bold">{event.eventName}</p>
 
         <p className="text-sm text-text-gray">
-          開催日:{dayjs(event.eventDate).format('YYYY/MM/DD')}
+          開催日:{dayjs(event.eventDate).tz().format('YYYY/MM/DD')}
         </p>
         <p className="text-sm text-text-gray">会場:{event.eventLocationName}</p>
       </Card>

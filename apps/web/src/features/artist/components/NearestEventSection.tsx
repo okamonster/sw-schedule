@@ -29,7 +29,7 @@ export const NearestEventSection = ({ artist }: Props): React.ReactNode => {
       {nearestEvent ? (
         <div className="grid gap-2">
           <p className="text-sm text-text-gray">
-            {dayjs(nearestEvent.eventDate).format('YYYY/MM/DD(ddd)')}
+            {dayjs(nearestEvent.eventDate).tz().format('YYYY/MM/DD(ddd)')}
           </p>
           <EventCard event={nearestEvent} />
         </div>

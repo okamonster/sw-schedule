@@ -42,7 +42,7 @@ export const EventCard = ({ event }: Props): React.ReactNode => {
               </Badge>
             </div>
             <p className="text-sm text-text-gray overflow-hidden text-ellipsis whitespace-nowrap">
-              開催:{dayjs(event.eventDate).format('YYYY/MM/DD(ddd)')}
+              開催:{dayjs(event.eventDate).tz().format('YYYY/MM/DD(ddd)')}
             </p>
             <div className="flex gap-1">
               <Badge
