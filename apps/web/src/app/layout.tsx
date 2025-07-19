@@ -71,11 +71,6 @@ export const metadata: Metadata = {
     apple: [{ url: '/apple-icon.png', sizes: '180x180', type: 'image/png' }],
   },
   manifest: '/manifest.json',
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-  },
 };
 
 export default async function RootLayout({
@@ -88,6 +83,7 @@ export default async function RootLayout({
   return (
     <html lang="ja" data-mantine-color-scheme="light">
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
         <ColorSchemeScript />
       </head>
       <body>
