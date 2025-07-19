@@ -31,8 +31,10 @@ export const EditEventForm = ({ event }: Props): React.ReactNode => {
     eventName: event?.eventName ?? '',
     eventDescription: event?.eventDescription ?? '',
     eventDate: event?.eventDate ? dayjs(event.eventDate).toISOString() : '',
-    openTime: event?.openDateTime ? dayjs(event.openDateTime).format('HH:mm') : '',
-    startTime: event?.startDateTime ? dayjs(event.startDateTime).format('HH:mm') : '',
+    openTime: event?.openDateTime ? dayjs(event.openDateTime).tz('Asia/Tokyo').format('HH:mm') : '',
+    startTime: event?.startDateTime
+      ? dayjs(event.startDateTime).tz('Asia/Tokyo').format('HH:mm')
+      : '',
     ticketLink: event?.ticketUrl ?? '',
     ticketReleaseDateTime: event?.ticketReleaseDateTime
       ? dayjs(event.ticketReleaseDateTime).toISOString()

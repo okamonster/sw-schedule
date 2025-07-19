@@ -44,7 +44,7 @@ export const EventSelectButton = ({
             {isRegistered && <p className="text-sm text-text-gray text-nowrap">登録済み</p>}
           </div>
           <p className="text-sm text-text-gray text-start">
-            開催:{dayjs(event.eventDate).format('YYYY/MM/DD(ddd)')}
+            開催:{dayjs(event.eventDate).tz('Asia/Tokyo').format('YYYY/MM/DD(ddd)')}
           </p>
           <div className="flex gap-1">
             <Badge

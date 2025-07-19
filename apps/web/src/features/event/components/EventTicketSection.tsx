@@ -18,7 +18,7 @@ export const EventTicketSection = ({ event }: Props): React.ReactNode => {
       {event.drinkOption && <p className="text-sm text-text-gray">{event.drinkOption}</p>}
       {event.ticketReleaseDateTime && (
         <p className="text-sm text-text-gray">
-          発売日時:{dayjs(event.ticketReleaseDateTime).format('YYYY/MM/DD HH:mm')}
+          発売日時:{dayjs(event.ticketReleaseDateTime).tz('Asia/Tokyo').format('YYYY/MM/DD HH:mm')}
         </p>
       )}
       <LinkButton
