@@ -17,8 +17,9 @@ type Props = {
 };
 
 export const ArtistDetailSection = ({ artist, user }: Props): React.ReactNode => {
-  const { handleFollow, isFollowing } = useFollow(artist.id);
+  const { handleFollow, isFollowing, isCanFollow } = useFollow(artist.id);
   const { copyUrl, shareX } = useSnsShare();
+
   return (
     <div className="grid gap-4">
       <div className="flex gap-2">
@@ -38,6 +39,7 @@ export const ArtistDetailSection = ({ artist, user }: Props): React.ReactNode =>
             radius="lg"
             onClick={handleFollow}
             variant={isFollowing ? 'outline' : 'filled'}
+            disabled={!isFollowing && !isCanFollow}
           >
             {isFollowing ? '推しに登録中' : '推しに登録'}
           </Button>

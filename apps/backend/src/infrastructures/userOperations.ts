@@ -81,6 +81,19 @@ export const getUserByEmailAndPasswordOperation = async (
   return user;
 };
 
+export const updateUserByEmailOperation = async (
+  email: string,
+  data: Partial<User>
+): Promise<User> => {
+  const user = await prismaClient.user.update({
+    where: { email },
+    data: {
+      ...data,
+    },
+  });
+  return user;
+};
+
 export const deleteUserByTransactionOperation = async (userId: string): Promise<void> => {
   // トランザクションで削除処理を実行
   await prismaClient.$transaction(async (tx) => {

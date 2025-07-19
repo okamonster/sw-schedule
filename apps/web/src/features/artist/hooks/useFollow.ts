@@ -1,16 +1,24 @@
-import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useBackendToken } from '@/hooks/useBackendToken';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 import {
   createUserArtistFollow,
   deleteUserArtistFollow,
   getUserArtistFollow,
 } from '@/service/userArtistFollow';
 
-export const useFollow = (artistId: string) => {
+export const useFollow = (
+  artistId: string
+): {
+  handleFollow: () => Promise<void>;
+  isFollowing: boolean;
+  isCanFollow: boolean;
+  isLoading: boolean;
+} => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const session = useSession();
-  const backendToken = session.data?.backendToken;
+  const { user, currentPlan, refetchCurrentUser } = useCurrentUser();
+  const backendToken = useBackendToken();
 
   // 初期フォロー状態を取得
   useEffect(() => {
@@ -29,6 +37,13 @@ export const useFollow = (artistId: string) => {
     fetchUserArtistFollow();
   }, [backendToken, artistId]);
 
+  const isCanFollow = useMemo(() => {
+    return !!(
+      user?.followingArtists.length &&
+      user.followingArtists.length < currentPlan.maxFollowingArtists
+    );
+  }, [user, currentPlan]);
+
   const handleFollow = async () => {
     if (!backendToken) {
       throw new Error('Backend token not found');
@@ -44,6 +59,7 @@ export const useFollow = (artistId: string) => {
 
       // 操作後に再フェッチして状態を同期
       const userArtistFollow = await getUserArtistFollow(backendToken, artistId);
+      await refetchCurrentUser();
       setIsFollowing(!!userArtistFollow);
     } catch (error) {
       console.error('Error handling follow:', error);
@@ -53,5 +69,5 @@ export const useFollow = (artistId: string) => {
     }
   };
 
-  return { handleFollow, isFollowing, isLoading };
+  return { handleFollow, isFollowing, isCanFollow, isLoading };
 };

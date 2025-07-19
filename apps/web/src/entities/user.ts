@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import type { UserPlanType } from '@/constants';
 import type { Profile } from './profile';
 import type { UserArtistFollow } from './userArtistFollow';
 
@@ -8,6 +9,8 @@ export type User = {
   createdAt: Date;
   updatedAt: Date;
   profile: Profile;
+  planType: UserPlanType;
+  planExpiresAt: Date;
   followingArtists: UserArtistFollow[];
 };
 
