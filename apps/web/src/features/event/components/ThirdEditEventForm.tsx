@@ -2,7 +2,6 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Paper } from '@mantine/core';
-import dayjs from 'dayjs';
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
@@ -13,6 +12,7 @@ import {
   type ThirdEditEventSchemaType,
 } from '@/entities/event';
 import { EventArtistInput } from '@/features/event/components/EventArtistInput';
+import dayjs from '@/libs/dayjs';
 import { extractPrefecture } from '@/utils/area';
 import { parseTimeString } from '@/utils/date';
 

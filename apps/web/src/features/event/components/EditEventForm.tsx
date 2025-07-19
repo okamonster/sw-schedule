@@ -1,5 +1,4 @@
 'use client';
-import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { GoogleMapContainer } from '@/components/Container/GoogleMapContainer';
@@ -12,6 +11,7 @@ import type {
 } from '@/entities/event';
 import { useBackendToken } from '@/hooks/useBackendToken';
 import { useToast } from '@/hooks/useToast';
+import dayjs from '@/libs/dayjs';
 import { createEvent, updateEvent } from '@/service/event';
 import { useSteps } from '../hooks/useSteps';
 import { FirstEditEventForm } from './FirstEditEventForm';

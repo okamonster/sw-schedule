@@ -85,10 +85,10 @@ export const EditArtistForm = ({ artist }: Props) => {
           </div>
 
           <TextInput
-            {...register('artistName')}
-            error={errors.artistName?.message}
             label="アーティスト名"
             placeholder="推しの名前を入力"
+            {...register('artistName')}
+            error={errors.artistName?.message}
           />
 
           <Controller
@@ -160,7 +160,7 @@ export const EditArtistForm = ({ artist }: Props) => {
             label="YouTube"
             {...register('youtubeUrl')}
             error={errors.youtubeUrl?.message}
-            placeholder="IDを入力"
+            placeholder="URLを入力"
           />
         </div>
       </Paper>
