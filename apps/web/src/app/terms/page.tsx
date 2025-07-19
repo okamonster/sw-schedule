@@ -121,6 +121,9 @@ export default async function TermsPage() {
 
           <section>
             <h2 className="text-lg font-semibold text-gray-900 mb-3">第7条（免責事項）</h2>
+            <p className="mb-2 text-xs text-gray-600">
+              ※本サービスは、特定電気通信役務提供者の損害賠償責任の制限及び発信者情報の開示に関する法律（プロバイダー責任制限法）に基づき運営されています。
+            </p>
             <div className="space-y-4">
               <p>
                 <strong>1.</strong>
@@ -144,7 +147,7 @@ export default async function TermsPage() {
               </p>
               <p>
                 <strong>6.</strong>
-                ユーザーが投稿するアーティスト関連のコンテンツについては、当該ユーザーが適切な権限を有していることを前提とし、当サービスはその権限について確認いたしません。
+                ユーザーが投稿するアーティスト関連のコンテンツについては、当該ユーザーが適切な権限を有していることを前提とし、当サービスはその権限について確認いたしません。ただし、当サービスは、権利者からの削除要請があった場合、または明らかな権利侵害を認識した場合は、速やかに該当コンテンツを削除いたします。
               </p>
             </div>
           </section>
@@ -183,13 +186,30 @@ export default async function TermsPage() {
 
           <section>
             <h2 className="text-lg font-semibold text-gray-900 mb-3">第12条（準拠法・裁判管轄）</h2>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold text-gray-900 mb-3">
+              第13条（権利侵害コンテンツの削除手続き）
+            </h2>
             <div className="space-y-4">
               <p>
-                <strong>1.</strong> 本規約の解釈にあたっては、日本法を準拠法とします。
+                <strong>1.</strong>
+                権利者からの削除要請があった場合、当サービスは適切な手続きに従い、該当コンテンツの削除を検討いたします。
               </p>
               <p>
                 <strong>2.</strong>
-                当サービスに関して紛争が生じた場合には、当サービスの本店所在地を管轄する裁判所を専属的合意管轄とします。
+                削除要請は、以下の情報を含む書面（電子メールを含む）で当サービスまでお送りください。
+              </p>
+              <ul className="list-disc list-inside ml-4 space-y-2">
+                <li>権利者の氏名・連絡先</li>
+                <li>侵害されている権利の内容</li>
+                <li>削除対象コンテンツの具体的な場所</li>
+                <li>権利者であることの証明</li>
+              </ul>
+              <p>
+                <strong>3.</strong>
+                当サービスは、削除要請の内容を確認後、必要に応じて投稿者に通知し、適切な対応を行います。
               </p>
             </div>
           </section>
