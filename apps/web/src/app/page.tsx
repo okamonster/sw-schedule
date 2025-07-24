@@ -14,11 +14,11 @@ export default async function Home() {
   const events = await searchEvents('', 'eventDate', 'desc', 10, 0);
 
   const todayEvents = events.filter((event) => {
-    return dayjs(event.eventDate).isSame(dayjs(), 'day');
+    return dayjs(event.eventDate).tz().isSame(dayjs(), 'day');
   });
 
   const upcomingEvents = events.filter((event) => {
-    return dayjs(event.eventDate).isSame(dayjs(), 'month');
+    return dayjs(event.eventDate).tz().isSame(dayjs(), 'month');
   });
 
   return (
