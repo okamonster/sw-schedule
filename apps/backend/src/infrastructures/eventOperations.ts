@@ -127,6 +127,40 @@ export const getEventsByArtistIdsOperation = async (artistIds: string[]): Promis
   return events;
 };
 
+export const getTodayEventListOperation = async (): Promise<Event[]> => {
+  const events = await prismaClient.event.findMany({
+    where: {
+      eventDate: {
+        gte: dayjs().tz().startOf('day').toDate(),
+        lte: dayjs().tz().endOf('day').toDate(),
+      },
+    },
+    orderBy: {
+      eventDate: 'desc',
+    },
+    take: 10,
+  });
+
+  return events;
+};
+
+export const getThisMonthEventListOperation = async (): Promise<Event[]> => {
+  const events = await prismaClient.event.findMany({
+    where: {
+      eventDate: {
+        gte: dayjs().tz().startOf('month').toDate(),
+        lte: dayjs().tz().endOf('month').toDate(),
+      },
+    },
+    orderBy: {
+      eventDate: 'desc',
+    },
+    take: 10,
+  });
+
+  return events;
+};
+
 export const getEventsBySearchQueryOperation = async (
   request: SearchEventRequest
 ): Promise<Event[]> => {

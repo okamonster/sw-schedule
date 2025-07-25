@@ -4,22 +4,15 @@ import { TopHeader } from '@/components/Navigations/TopHeader';
 import { ArtistCard } from '@/features/top/components/ArtistCard';
 import { EventCard } from '@/features/top/components/EventCard';
 import { UnloginHeroSection } from '@/features/top/components/UnloginHeroSection';
-import dayjs from '@/libs/dayjs';
 import { getArtistListByQuery } from '@/service/artist';
-import { searchEvents } from '@/service/event';
+import { getTodayEventList, getUpComingEventList, searchEvents } from '@/service/event';
 
 export default async function Home() {
   const popularArtists = await getArtistListByQuery('', 'followers', 'desc', 10, 0);
 
-  const events = await searchEvents('', 'eventDate', 'desc', 10, 0);
+  const todayEvents = await getTodayEventList();
 
-  const todayEvents = events.filter((event) => {
-    return dayjs(event.eventDate).tz().isSame(dayjs(), 'day');
-  });
-
-  const upcomingEvents = events.filter((event) => {
-    return dayjs(event.eventDate).tz().isSame(dayjs(), 'month');
-  });
+  const upcomingEvents = await getUpComingEventList();
 
   return (
     <div className="pt-14">
