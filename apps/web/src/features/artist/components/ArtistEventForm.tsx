@@ -2,6 +2,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Paper } from '@mantine/core';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { LinkButton } from '@/components/Buttons/LinkButton';
 import {
@@ -22,6 +23,8 @@ export const ArtistEventForm = ({ artist }: Props) => {
   const backendToken = useBackendToken();
   const { showErrorToast, showSuccessToast } = useToast();
   const { back, push } = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
   const {
     control,
     handleSubmit,
@@ -35,15 +38,18 @@ export const ArtistEventForm = ({ artist }: Props) => {
 
   const onSubmit = async (data: AddArtistEventSchemaType) => {
     try {
+      setIsLoading(true);
       if (!backendToken) {
         return;
       }
       await createArtistEvent(artist.id, data.eventIds, backendToken);
       showSuccessToast('出演情報を追加しました');
-      push(`/artists/${artist.id}`);
+      await push(`/artists/${artist.id}`);
     } catch (error) {
       showErrorToast('出演情報の追加に失敗しました');
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -74,7 +80,7 @@ export const ArtistEventForm = ({ artist }: Props) => {
         <Button variant="subtle" color="var(--color-text-black)" radius="lg" onClick={back}>
           戻る
         </Button>
-        <Button color="var(--color-text-primary)" radius="lg" type="submit" onClick={() => {}}>
+        <Button color="var(--color-text-primary)" radius="lg" type="submit" loading={isLoading}>
           追加する
         </Button>
       </div>

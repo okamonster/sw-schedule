@@ -2,7 +2,7 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Paper } from '@mantine/core';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
   type EditEventRequestType,
@@ -33,6 +33,7 @@ export const ThirdEditEventForm = ({
   onSubmit,
   onChangeThirdStep,
 }: Props) => {
+  const [isLoading, setIsLoading] = useState(false);
   const {
     control,
     handleSubmit,
@@ -82,9 +83,12 @@ export const ThirdEditEventForm = ({
       artists: thirdStepValues.eventArtists,
     };
     try {
+      setIsLoading(true);
       await onSubmit({ ...dto });
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -111,7 +115,13 @@ export const ThirdEditEventForm = ({
         <Button variant="subtle" color="var(--color-text-black)" radius="lg" onClick={onPrev}>
           戻る
         </Button>
-        <Button color="var(--color-text-primary)" radius="lg" type="submit" disabled={!isValid}>
+        <Button
+          color="var(--color-text-primary)"
+          radius="lg"
+          type="submit"
+          disabled={!isValid}
+          loading={isLoading}
+        >
           保存する
         </Button>
       </div>

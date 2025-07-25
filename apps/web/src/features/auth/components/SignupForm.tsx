@@ -2,6 +2,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, TextInput } from '@mantine/core';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { type SignupUserSchemaType, signupUserSchema } from '@/entities/user';
 import { useToast } from '@/hooks/useToast';
@@ -9,6 +10,7 @@ import { createVarificationToken } from '@/service/auth';
 
 export const SignupForm = (): React.ReactNode => {
   const { push } = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -25,12 +27,15 @@ export const SignupForm = (): React.ReactNode => {
 
   const onSubmit = async (data: SignupUserSchemaType) => {
     try {
+      setIsLoading(true);
       await createVarificationToken(data.email);
       showSuccessToast('メールアドレス認証用メールを送信しました');
       push(`/signup/send/${data.email}`);
     } catch (e) {
       showErrorToast('メールアドレス認証用メールの送信に失敗しました');
       console.error(e);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -52,6 +57,7 @@ export const SignupForm = (): React.ReactNode => {
         type="submit"
         radius="lg"
         disabled={!isValid}
+        loading={isLoading}
       >
         メールを送信する
       </Button>

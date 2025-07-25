@@ -6,6 +6,8 @@ import {
   getEventByIdOperation,
   getEventsByArtistIdsOperation,
   getEventsBySearchQueryOperation,
+  getThisMonthEventListOperation,
+  getTodayEventListOperation,
   updateEventOgpImageUrlOperation,
   updateEventOperation,
 } from '~/infrastructures/eventOperations.js';
@@ -61,6 +63,26 @@ app.get('/following-artists-events', jwt({ secret: process.env.JWT_SECRET || '' 
     return c.json(events, 200);
   } catch (error) {
     console.error('Error getting following artists events:', error);
+    return c.json({ error: 'Internal server error' }, 500);
+  }
+});
+
+app.get('/today', async (c) => {
+  try {
+    const events = await getTodayEventListOperation();
+    return c.json(events, 200);
+  } catch (error) {
+    console.error('Error getting today events:', error);
+    return c.json({ error: 'Internal server error' }, 500);
+  }
+});
+
+app.get('/upcoming', async (c) => {
+  try {
+    const events = await getThisMonthEventListOperation();
+    return c.json(events, 200);
+  } catch (error) {
+    console.error('Error getting this month events:', error);
     return c.json({ error: 'Internal server error' }, 500);
   }
 });

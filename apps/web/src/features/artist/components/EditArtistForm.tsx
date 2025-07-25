@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Paper, Select, Textarea, TextInput } from '@mantine/core';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { ImageInput } from '@/components/Inputs/ImageInput';
 import { ARTIST_GENRES, JAPAN_REGIONS, SUPABASE_BUCKETS, SUPABASE_UPLOAD_PATHS } from '@/constants';
@@ -18,6 +19,7 @@ type Props = {
 export const EditArtistForm = ({ artist }: Props) => {
   const { push } = useRouter();
   const { showErrorToast, showSuccessToast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
 
   const session = useSession();
 
@@ -28,16 +30,19 @@ export const EditArtistForm = ({ artist }: Props) => {
     }
 
     try {
+      setIsLoading(true);
       const newArtist = artist
         ? await updateArtist(artist.id, data, backendToken)
         : await createArtist(data, backendToken);
 
       showSuccessToast(artist ? 'アーティストを更新しました' : 'アーティストを作成しました');
 
-      return push(`/artists/${newArtist.id}`);
+      return await push(`/artists/${newArtist.id}`);
     } catch (error) {
       showErrorToast('アーティストの作成に失敗しました');
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -172,6 +177,7 @@ export const EditArtistForm = ({ artist }: Props) => {
           color="var(--color-button-primary)"
           radius="lg"
           fullWidth
+          loading={isLoading}
           disabled={!isValid}
         >
           {artist ? '更新' : '作成'}

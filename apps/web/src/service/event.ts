@@ -58,6 +58,40 @@ export const getEventById = async (id: string): Promise<Event> => {
   return { ...data } as Event;
 };
 
+export const getTodayEventList = async (): Promise<Event[]> => {
+  const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/event/today`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'GET',
+  });
+
+  const data = await result.json();
+
+  if (!result.ok || !data) {
+    throw new Error('Failed to get today events');
+  }
+
+  return data as Event[];
+};
+
+export const getUpComingEventList = async (): Promise<Event[]> => {
+  const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/event/upcoming`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'GET',
+  });
+
+  const data = await result.json();
+
+  if (!result.ok || !data) {
+    throw new Error('Failed to get upcoming events');
+  }
+
+  return data as Event[];
+};
+
 export const searchEvents = async (
   keyword: string,
   sort: string,
