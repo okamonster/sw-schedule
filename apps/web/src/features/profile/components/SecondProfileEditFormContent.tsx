@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Divider, Select } from '@mantine/core';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { FaCheck } from 'react-icons/fa';
 import { JAPAN_REGIONS } from '@/constants';
@@ -32,6 +32,8 @@ export const SecondProfileEditFormContent = ({
 }: Props) => {
   const { push } = useRouter();
   const { showErrorToast, showSuccessToast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+
   const {
     control,
     handleSubmit,
@@ -53,12 +55,15 @@ export const SecondProfileEditFormContent = ({
 
   const onSubmit = async () => {
     try {
+      setIsLoading(true);
       await saveProfile({ ...profileValues });
       showSuccessToast('プロフィールを作成しました');
-      push('/home');
+      await push('/home');
     } catch (error) {
       showErrorToast('プロフィールの作成に失敗しました');
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -99,6 +104,7 @@ export const SecondProfileEditFormContent = ({
           leftSection={<FaCheck size={16} />}
           type="submit"
           disabled={!isValid}
+          loading={isLoading}
         >
           プロフィールを作成
         </Button>

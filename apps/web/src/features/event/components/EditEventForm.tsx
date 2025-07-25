@@ -64,7 +64,7 @@ export const EditEventForm = ({ event }: Props): React.ReactNode => {
         : await createEvent(data);
 
       showSuccessToast(event ? 'イベントを更新しました' : 'イベントを作成しました');
-      push(`/events/${editedEvent.id}`);
+      await push(`/events/${editedEvent.id}`);
     } catch (error) {
       showErrorToast('イベントの保存に失敗しました');
       console.error(error);
