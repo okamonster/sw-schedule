@@ -5,7 +5,7 @@ import { ArtistCard } from '@/features/top/components/ArtistCard';
 import { EventCard } from '@/features/top/components/EventCard';
 import { UnloginHeroSection } from '@/features/top/components/UnloginHeroSection';
 import { getArtistListByQuery } from '@/service/artist';
-import { getTodayEventList, getUpComingEventList, searchEvents } from '@/service/event';
+import { getTodayEventList, getUpComingEventList } from '@/service/event';
 
 export default async function Home() {
   const popularArtists = await getArtistListByQuery('', 'followers', 'desc', 10, 0);
