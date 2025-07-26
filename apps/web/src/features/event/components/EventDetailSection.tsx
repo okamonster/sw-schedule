@@ -1,12 +1,14 @@
 'use client';
 
-import { Badge, Divider } from '@mantine/core';
+import { Badge, Button, Divider } from '@mantine/core';
 import type { User } from 'next-auth';
 import type React from 'react';
 import { FaMapMarkerAlt } from 'react-icons/fa';
+import { FaLink, FaXTwitter } from 'react-icons/fa6';
 import { LinkButton } from '@/components/Buttons/LinkButton';
 import { getAreaLabel } from '@/constants';
 import type { Event } from '@/entities/event';
+import { useSnsShare } from '@/hooks/useSnsShare';
 
 type Props = {
   event: Event;
@@ -14,6 +16,7 @@ type Props = {
 };
 
 export const EventDetailSection = ({ event, currentUser }: Props): React.ReactNode => {
+  const { shareX, copyUrl } = useSnsShare();
   return (
     <section className="grid gap-2">
       <div className="flex gap-2">
@@ -23,6 +26,31 @@ export const EventDetailSection = ({ event, currentUser }: Props): React.ReactNo
       </div>
       <section className="flex items-center justify-between gap-2">
         <p className="text-lg font-bold">{event.eventName}</p>
+      </section>
+      <section className="flex gap-2">
+        <Button
+          color="var(--color-text-black)"
+          radius="md"
+          variant="outline"
+          leftSection={<FaXTwitter />}
+          onClick={() =>
+            shareX(`【${event.eventName}】\nイベント詳細はこちらから！`, window.location.href, [
+              'Gemba',
+              '推し活するならGemba',
+            ])
+          }
+        >
+          シェア
+        </Button>
+        <Button
+          color="var(--color-text-black)"
+          radius="md"
+          variant="outline"
+          leftSection={<FaLink />}
+          onClick={copyUrl}
+        >
+          URLをコピー
+        </Button>
       </section>
       <Divider />
 
