@@ -13,6 +13,7 @@ export type Artist = {
   ogpImageUrl: string;
   region: string;
   twitterId: string;
+  tiktokId: string;
   instagramId: string;
   youtubeUrl: string;
   followers: UserArtistFollow[];
@@ -26,6 +27,7 @@ export const createArtistSchema = z.object({
   genre: z.string().min(1, 'ジャンルを選択してください'),
   region: z.string().min(1, '活動地域を選択してください'),
   twitterId: z.string().nullable(),
+  tiktokId: z.string().nullable(),
   instagramId: z.string().nullable(),
   youtubeUrl: z.string().nullable(),
 });
@@ -38,6 +40,10 @@ export const updateArtistSchema = z.object({
   artistDescription: z.string().nullable(),
   genre: z.string().min(1, 'ジャンルを選択してください'),
   region: z.string().min(1, '活動地域を選択してください'),
+  twitterId: z.string().nullable(),
+  tiktokId: z.string().nullable(),
+  instagramId: z.string().nullable(),
+  youtubeUrl: z.string().nullable(),
 });
 
 export type UpdateArtistSchemaType = z.infer<typeof updateArtistSchema>;

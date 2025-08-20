@@ -112,6 +112,7 @@ export const MAX_FOLLOWING_ARTISTS_FREE_PLAN = 3;
 export const SNS_LINKS = {
   X: 'https://x.com',
   INSTAGRAM: 'https://www.instagram.com',
+  TIKTOK: 'https://www.tiktok.com',
 } as const satisfies Record<string, string>;
 
 export const OGP_IMAGE_URL =
