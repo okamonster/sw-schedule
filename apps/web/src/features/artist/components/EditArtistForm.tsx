@@ -59,6 +59,7 @@ export const EditArtistForm = ({ artist }: Props) => {
       genre: artist?.genre ?? '',
       region: artist?.region ?? '',
       twitterId: artist?.twitterId ?? '',
+      tiktokId: artist?.tiktokId ?? '',
       instagramId: artist?.instagramId ?? '',
       youtubeUrl: artist?.youtubeUrl ?? '',
     },
@@ -158,6 +159,13 @@ export const EditArtistForm = ({ artist }: Props) => {
             label="Instagram"
             {...register('instagramId')}
             error={errors.instagramId?.message}
+            placeholder="IDを入力"
+          />
+
+          <TextInput
+            label="TikTok"
+            {...register('tiktokId')}
+            error={errors.tiktokId?.message}
             placeholder="IDを入力"
           />
 

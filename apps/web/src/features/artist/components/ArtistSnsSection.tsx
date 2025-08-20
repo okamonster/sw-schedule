@@ -2,7 +2,7 @@
 
 import { ActionIcon } from '@mantine/core';
 import Link from 'next/link';
-import { FaInstagram, FaXTwitter, FaYoutube } from 'react-icons/fa6';
+import { FaInstagram, FaTiktok, FaXTwitter, FaYoutube } from 'react-icons/fa6';
 import { SNS_LINKS } from '@/constants';
 import type { Artist } from '@/entities/artist';
 
@@ -43,6 +43,21 @@ export const ArtistSnsSection = ({ artist }: Props): React.ReactNode => {
             rel="noopener noreferrer"
           >
             <FaInstagram size={20} />
+          </ActionIcon>
+        )}
+        {artist.tiktokId && (
+          <ActionIcon
+            href={`${SNS_LINKS.TIKTOK}/@${artist.tiktokId}`}
+            color="var(--color-text-white)"
+            variant="light"
+            radius="lg"
+            size="lg"
+            bg="var(--color-background-black)"
+            component={Link}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaTiktok size={20} />
           </ActionIcon>
         )}
         {artist.youtubeUrl && (

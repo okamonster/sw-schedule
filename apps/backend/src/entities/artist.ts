@@ -7,6 +7,7 @@ export const createArtistRequestSchema = z.object({
   genre: z.string().min(1, 'ジャンルを選択してください'),
   region: z.string().min(1, '活動地域を選択してください'),
   twitterId: z.string().nullable(),
+  tiktokId: z.string().nullable(),
   instagramId: z.string().nullable(),
   youtubeUrl: z.string().nullable(),
 });
@@ -19,6 +20,10 @@ export const updateArtistRequestSchema = z.object({
   artistDescription: z.string().nullable(),
   genre: z.string().min(1, 'ジャンルを選択してください'),
   region: z.string().min(1, '活動地域を選択してください'),
+  twitterId: z.string().nullable(),
+  tiktokId: z.string().nullable(),
+  instagramId: z.string().nullable(),
+  youtubeUrl: z.string().nullable(),
 });
 
 export type UpdateArtistRequest = z.infer<typeof updateArtistRequestSchema>;

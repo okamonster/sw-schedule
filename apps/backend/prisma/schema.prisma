@@ -14,7 +14,6 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-
 model VerificationToken {
   id        String   @id @default(cuid())
   email     String   @unique
@@ -78,6 +77,7 @@ model Artist {
   ogpImageUrl       String             @default("") @map("ogp_image_url")
   region            String // 活動地域（東京、大阪、愛知など）
   twitterId         String?            @map("twitter_id")
+  tiktokId          String?            @map("tiktok_id")
   instagramId       String?            @map("instagram_id")
   youtubeUrl        String?            @map("youtube_url")
   createdAt         DateTime           @default(now())
