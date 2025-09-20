@@ -1,4 +1,4 @@
-import type { UserArtistFollow } from '@/entities/userArtistFollow';
+import type { UserArtistFollow } from '@repo/common';
 
 export const getUserArtistFollow = async (
   backendToken: string,

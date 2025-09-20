@@ -1,9 +1,8 @@
 'use client';
 import { Button } from '@mantine/core';
+import type { Artist, User } from '@repo/common';
 import { FaCalendarAlt } from 'react-icons/fa';
 import { LinkButton } from '@/components/Buttons/LinkButton';
-import type { Artist } from '@/entities/artist';
-import type { User } from '@/entities/user';
 import { ArtistScheduleCalender } from '@/features/artist/components/ArtistScheduleCalender';
 import { useGoogleCalendarSync } from '@/features/artist/hooks/useGoogleCalendarSync';
 

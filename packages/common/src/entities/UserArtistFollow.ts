@@ -1,5 +1,5 @@
-import type { Artist } from './artist';
-import type { User } from './user';
+import type { Artist } from './Artist';
+import type { User } from './User';
 
 export type UserArtistFollow = {
   id: string;

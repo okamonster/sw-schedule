@@ -1,5 +1,5 @@
-import type { Artist } from './artist';
-import type { Event } from './event';
+import type { Artist } from './Artist';
+import type { Event } from './Event';
 
 export type ArtistEvent = {
   id: string;

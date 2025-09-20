@@ -1,8 +1,7 @@
 'use client';
 
+import type { Artist, GoogleCalendarEvent, TokenClient } from '@repo/common';
 import { useCallback, useEffect, useState } from 'react';
-import type { Artist } from '@/entities/artist';
-import type { GoogleCalendarEvent, TokenClient } from '@/entities/googleCalender';
 import { useToast } from '@/hooks/useToast';
 import dayjs from '@/libs/dayjs';
 import { convertEventToGoogleCalendar } from '@/libs/googleCalender';

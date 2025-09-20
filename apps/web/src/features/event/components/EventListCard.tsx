@@ -1,9 +1,9 @@
 'use client';
 import { Badge, Image } from '@mantine/core';
+import type { Event } from '@repo/common';
 import Link from 'next/link';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { DEFAULT_IMAGE_URL, getAreaLabel } from '@/constants';
-import type { Event } from '@/entities/event';
 import dayjs from '@/libs/dayjs';
 
 type Props = {

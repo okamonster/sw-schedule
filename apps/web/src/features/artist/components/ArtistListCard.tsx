@@ -1,9 +1,9 @@
 'use client';
 
 import { Button, Card, Image } from '@mantine/core';
+import type { Artist } from '@repo/common';
 import Link from 'next/link';
 import { DEFAULT_IMAGE_URL, getGenreLabel, getRegionLabel } from '@/constants';
-import type { Artist } from '@/entities/artist';
 
 type Props = {
   artist: Artist;

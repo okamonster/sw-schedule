@@ -1,4 +1,4 @@
-import type { Artist } from '@/entities/artist';
+import type { Artist } from '@repo/common';
 import { EventCard } from '@/features/artist/components/EventCard';
 import dayjs from '@/libs/dayjs';
 

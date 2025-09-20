@@ -2,13 +2,14 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Paper, Select, Textarea, TextInput } from '@mantine/core';
+import type { Artist } from '@repo/common';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { ImageInput } from '@/components/Inputs/ImageInput';
 import { ARTIST_GENRES, JAPAN_REGIONS, SUPABASE_BUCKETS, SUPABASE_UPLOAD_PATHS } from '@/constants';
-import { type Artist, type CreateArtistSchemaType, createArtistSchema } from '@/entities/artist';
+import { type CreateArtistSchemaType, createArtistSchema } from '@/entities/artist';
 import { useToast } from '@/hooks/useToast';
 import { createArtist, updateArtist } from '@/service/artist';
 

@@ -93,6 +93,9 @@ importers:
       '@next/third-parties':
         specifier: ^15.3.5
         version: 15.3.5(next@15.3.3)(react@19.1.0)
+      '@repo/common':
+        specifier: workspace:*
+        version: link:../../packages/common
       '@supabase/supabase-js':
         specifier: ^2.50.1
         version: 2.50.1(ws@8.18.2)
@@ -157,6 +160,15 @@ importers:
       typescript:
         specifier: 5.8.2
         version: 5.8.2
+
+  packages/common:
+    devDependencies:
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      typescript:
+        specifier: ^5.6.3
+        version: 5.8.3
 
   packages/typescript-config: {}
 

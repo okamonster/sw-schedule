@@ -1,27 +1,5 @@
+import type { Event } from '@repo/common';
 import z from 'zod';
-import type { ArtistEvent } from './artistEvent';
-
-export type Event = {
-  id: string;
-  eventName: string;
-  eventDescription: string;
-  eventImageUrl: string;
-  eventDate: Date;
-  ogpImageUrl: string;
-  openDateTime: Date;
-  startDateTime: Date;
-  locatePrefecture: string;
-  eventLocationName: string;
-  eventLocationAddress: string;
-  ticketReleaseDateTime: Date;
-  ticketPrice: number;
-  sameDayTicketPrice: number;
-  ticketUrl: string;
-  isNeedDrink: boolean;
-  drinkOption: string;
-  updatedAt: string;
-  artists: ArtistEvent[];
-};
 
 export const searchEventSchema = z.object({
   area: z.string(),

@@ -1,7 +1,7 @@
 'use client';
+import type { Event } from '@repo/common';
 import { Map as GoogleMap, Marker, useApiIsLoaded } from '@vis.gl/react-google-maps';
 import { useEffect, useState } from 'react';
-import type { Event } from '@/entities/event';
 import type { GoogleMapGeocodeResult } from '@/entities/googleMap';
 
 type Props = {
