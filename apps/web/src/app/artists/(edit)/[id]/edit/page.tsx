@@ -16,15 +16,11 @@ export default async function EditArtistPage({ params }: Props) {
 
   const user = await getCurrentUser();
 
-  if (!user) {
-    return notFound();
-  }
-
-  const isFollowing = user.followingArtists.some(
+  const isFollowing = user?.followingArtists.some(
     (follow: UserArtistFollow) => follow.artistId === artistId
   );
 
-  if (!artist || !isFollowing) {
+  if (!user || !artist || !isFollowing) {
     return notFound();
   }
 
