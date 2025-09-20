@@ -1,7 +1,7 @@
 import { Avatar, Badge } from '@mantine/core';
+import type { Profile } from '@repo/common';
 import { FaMapMarkerAlt, FaUser } from 'react-icons/fa';
 import { DEFAULT_IMAGE_URL, getRegionLabel } from '@/constants';
-import type { Profile } from '@/entities/profile';
 
 type Props = {
   profile: Profile;

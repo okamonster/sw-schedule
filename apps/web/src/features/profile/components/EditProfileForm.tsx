@@ -1,9 +1,9 @@
 'use client';
 
+import type { Profile } from '@repo/common';
 import { useEffect, useState } from 'react';
 import type {
   FirstProfileEditFormType,
-  Profile,
   ProfileFormType,
   SecondProfileEditFormType,
 } from '@/entities/profile';

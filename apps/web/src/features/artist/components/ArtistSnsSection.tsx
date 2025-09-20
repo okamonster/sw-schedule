@@ -1,10 +1,10 @@
 'use client';
 
 import { ActionIcon } from '@mantine/core';
+import type { Artist } from '@repo/common';
 import Link from 'next/link';
 import { FaInstagram, FaTiktok, FaXTwitter, FaYoutube } from 'react-icons/fa6';
 import { SNS_LINKS } from '@/constants';
-import type { Artist } from '@/entities/artist';
 
 type Props = {
   artist: Artist;

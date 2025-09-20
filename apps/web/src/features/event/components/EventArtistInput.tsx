@@ -1,9 +1,9 @@
 'use client';
 import { Badge, Button } from '@mantine/core';
+import type { Artist } from '@repo/common';
 import { useEffect, useState } from 'react';
 import { FaDeleteLeft } from 'react-icons/fa6';
 import { DebouncedInput } from '@/components/Inputs/DebouncedInput';
-import type { Artist } from '@/entities/artist';
 import { ArtistSelectButton } from '@/features/event/components/ArtistSelectButton';
 import { getArtistListByIds, getArtistListByQuery } from '@/service/artist';
 

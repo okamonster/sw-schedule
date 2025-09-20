@@ -1,16 +1,5 @@
 import z from 'zod';
 
-export type Profile = {
-  id: string;
-  userId: string;
-  userName: string;
-  userImageUrl: string;
-  userDescription: string;
-  mainActivityRegion: string; // 主な活動地域
-  createdAt: Date;
-  updatedAt: Date;
-};
-
 // 統一されたプロフィールフォーム型
 export const profileFormSchema = z.object({
   userImageUrl: z.string().nullable(),

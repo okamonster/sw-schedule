@@ -1,10 +1,10 @@
 'use client';
 
 import { Avatar, Button } from '@mantine/core';
+import type { User } from '@repo/common';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FaChevronLeft } from 'react-icons/fa';
-import type { User } from '@/entities/user';
 
 type Props = {
   user: User;

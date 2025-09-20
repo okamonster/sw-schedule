@@ -1,25 +1,4 @@
 import z from 'zod';
-import type { ArtistEvent } from './artistEvent';
-import type { UserArtistFollow } from './userArtistFollow';
-
-export type Artist = {
-  id: string;
-  artistName: string;
-  artistImageUrl: string;
-  artistDescription: string;
-  createdAt: Date;
-  updatedAt: Date;
-  genre: string;
-  ogpImageUrl: string;
-  region: string;
-  twitterId: string;
-  tiktokId: string;
-  instagramId: string;
-  youtubeUrl: string;
-  followers: UserArtistFollow[];
-  events: ArtistEvent[];
-};
-
 export const createArtistSchema = z.object({
   artistName: z.string().min(1, 'アーティスト名を入力してください'),
   artistImageUrl: z.string().min(1, 'アーティスト画像を選択してください'),

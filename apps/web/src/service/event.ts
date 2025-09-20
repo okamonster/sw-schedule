@@ -1,4 +1,5 @@
-import type { EditEventRequestType, Event } from '@/entities/event';
+import type { Event } from '@repo/common';
+import type { EditEventRequestType } from '@/entities/event';
 
 export const createEvent = async (dto: EditEventRequestType): Promise<Event> => {
   const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/event`, {

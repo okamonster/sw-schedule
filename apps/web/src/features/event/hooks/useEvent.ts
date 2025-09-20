@@ -1,5 +1,5 @@
+import type { Event } from '@repo/common';
 import { useEffect, useState } from 'react';
-import type { Event } from '@/entities/event';
 import { searchEvents } from '@/service/event';
 
 export const useEvents = (

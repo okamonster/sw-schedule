@@ -1,4 +1,5 @@
-import type { Artist, CreateArtistSchemaType, UpdateArtistSchemaType } from '@/entities/artist';
+import type { Artist } from '@repo/common';
+import type { CreateArtistSchemaType, UpdateArtistSchemaType } from '@/entities/artist';
 
 export const createArtist = async (
   dto: CreateArtistSchemaType,

@@ -1,15 +1,12 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Paper } from '@mantine/core';
+import type { Artist } from '@repo/common';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { LinkButton } from '@/components/Buttons/LinkButton';
-import {
-  type AddArtistEventSchemaType,
-  type Artist,
-  addArtistEventSchema,
-} from '@/entities/artist';
+import { type AddArtistEventSchemaType, addArtistEventSchema } from '@/entities/artist';
 import { useBackendToken } from '@/hooks/useBackendToken';
 import { useToast } from '@/hooks/useToast';
 import { createArtistEvent } from '@/service/artistEvent';
