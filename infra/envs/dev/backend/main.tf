@@ -14,7 +14,7 @@ provider "google" {
 
 # Cloud Run Service for Backend
 module "backend_service" {
-  source = "../../modules/cloudrun_service"
+  source = "../../../modules/cloudrun_service"
 
   service_name = "gemba-backend-${var.environment}"
   location     = var.region
@@ -32,9 +32,10 @@ module "backend_service" {
     RESEND_API_KEY   = var.resend_api_key
   }
 
-  cpu_limit    = "1"
+  cpu_limit    = "1000m"
   memory_limit = "512Mi"
   
   min_instances = 0
   max_instances = 20
 }
+

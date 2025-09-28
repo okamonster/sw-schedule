@@ -36,4 +36,12 @@ resource "google_cloud_run_v2_service" "service" {
     percent = 100
     type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
   }
+
+  lifecycle {
+    ignore_changes = [
+      template[0].labels,
+      client,
+      client_version
+    ]
+  }
 }
