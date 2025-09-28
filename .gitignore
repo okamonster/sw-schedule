@@ -40,3 +40,10 @@ yarn-error.log*
 
 # cursor
 .cursorrules
+# Terraform
+*.tfvars
+*.tfvars.json
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate*
+*.tfplan
