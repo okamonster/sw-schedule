@@ -1,0 +1,10 @@
+# 環境変数（実際の値）
+auth_secret = "your auth secret here"
+auth_google_id = "your google id here"
+auth_google_secret = "your auth google secret"
+auth_trust_host = "true or false"
+nextauth_url = "nextauth url here"
+frontend_image_url = "your_frontend_image_url_here"
+
+# Container settings
+container_port = 3000
