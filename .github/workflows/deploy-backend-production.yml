@@ -43,18 +43,18 @@ jobs:
 
       - name: Build Backend Docker image (linux/amd64)
         run: |
-          docker build -t asia-northeast2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/gemba-backend-prod/gemba-backend-prod:production-${{ github.sha }} \
+          docker build -t asia-northeast2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/gemba-backend-prod/gemba-backend-prod:latest \
             --platform linux/amd64 -f apps/backend/docker/Dockerfile .
 
       - name: Push Backend Docker image
         run: |
-          docker push asia-northeast2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/gemba-backend-prod/gemba-backend-prod:production-${{ github.sha }}
+          docker push asia-northeast2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/gemba-backend-prod/gemba-backend-prod:latest
 
       - name: Deploy to Google Cloud Run
         uses: google-github-actions/deploy-cloudrun@v2
         with:
           service: gemba-backend-prod
-          image: asia-northeast2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/gemba-backend-prod/gemba-backend-prod:production-${{ github.sha }}
+          image: asia-northeast2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/gemba-backend-prod/gemba-backend-prod:latest
           region: asia-northeast2
           env_vars: |
             DATABASE_URL=${{ secrets.DATABASE_URL }}
