@@ -1,4 +1,4 @@
-import type { Artist } from '@/entities/artist';
+import type { Artist } from '@repo/common';
 import { ArtistCard } from '@/features/top/components/ArtistCard';
 
 type Props = {

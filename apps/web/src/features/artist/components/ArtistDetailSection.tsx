@@ -1,13 +1,12 @@
 'use client';
 
 import { Badge, Button, Divider } from '@mantine/core';
+import type { Artist, User } from '@repo/common';
 import type React from 'react';
 import { FaLink, FaMapMarkerAlt } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import { LinkButton } from '@/components/Buttons/LinkButton';
 import { getGenreLabel, getRegionLabel } from '@/constants';
-import type { Artist } from '@/entities/artist';
-import type { User } from '@/entities/user';
 import { useFollow } from '@/features/artist/hooks/useFollow';
 import { useSnsShare } from '@/hooks/useSnsShare';
 

@@ -1,13 +1,13 @@
 'use client';
 
 import { Badge, Button, Divider } from '@mantine/core';
+import type { Event } from '@repo/common';
 import type { User } from 'next-auth';
 import type React from 'react';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { FaLink, FaXTwitter } from 'react-icons/fa6';
 import { LinkButton } from '@/components/Buttons/LinkButton';
 import { getAreaLabel } from '@/constants';
-import type { Event } from '@/entities/event';
 import { useSnsShare } from '@/hooks/useSnsShare';
 
 type Props = {

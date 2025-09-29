@@ -43,7 +43,7 @@ jobs:
 
       - name: Build Frontend Docker image (linux/amd64)
         run: |
-          docker build -t asia-northeast2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/gemba-frontend-prod/gemba-frontend-prod:production-${{ github.sha }} \
+          docker build -t asia-northeast2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/gemba-frontend-prod/gemba-frontend-prod:latest \
             --platform linux/amd64 \
             --build-arg NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} \
             --build-arg NEXT_PUBLIC_SUPABASE_URL=${{ secrets.NEXT_PUBLIC_SUPABASE_URL }} \
@@ -56,13 +56,13 @@ jobs:
 
       - name: Push Frontend Docker image
         run: |
-          docker push asia-northeast2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/gemba-frontend-prod/gemba-frontend-prod:production-${{ github.sha }}
+          docker push asia-northeast2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/gemba-frontend-prod/gemba-frontend-prod:latest
 
       - name: Deploy to Google Cloud Run
         uses: google-github-actions/deploy-cloudrun@v2
         with:
           service: gemba-frontend-prod
-          image: asia-northeast2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/gemba-frontend-prod/gemba-frontend-prod:production-${{ github.sha }}
+          image: asia-northeast2-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/gemba-frontend-prod/gemba-frontend-prod:latest
           region: asia-northeast2
           env_vars: |
             AUTH_SECRET=${{ secrets.AUTH_SECRET }}

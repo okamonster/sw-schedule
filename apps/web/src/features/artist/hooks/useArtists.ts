@@ -1,5 +1,5 @@
+import type { Artist } from '@repo/common';
 import { useEffect, useState } from 'react';
-import type { Artist } from '@/entities/artist';
 import { getArtistListByQuery } from '@/service/artist';
 
 export const useArtists = (

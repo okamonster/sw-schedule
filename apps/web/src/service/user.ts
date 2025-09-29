@@ -1,5 +1,5 @@
+import type { User } from '@repo/common';
 import { auth } from '@/auth';
-import type { User } from '@/entities/user';
 
 export const getCurrentUser = async (): Promise<User | null> => {
   const session = await auth();

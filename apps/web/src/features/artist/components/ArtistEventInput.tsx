@@ -1,9 +1,8 @@
 'use client';
 import { Badge, Button } from '@mantine/core';
+import type { Artist, Event } from '@repo/common';
 import { useState } from 'react';
 import { DebouncedInput } from '@/components/Inputs/DebouncedInput';
-import type { Artist } from '@/entities/artist';
-import type { Event } from '@/entities/event';
 import { EventSelectButton } from '@/features/artist/components/EventSelectButton';
 import { searchEvents } from '@/service/event';
 

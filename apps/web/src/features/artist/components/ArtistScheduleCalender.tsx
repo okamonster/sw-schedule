@@ -1,7 +1,7 @@
 'use client';
 import { Calendar } from '@mantine/dates';
 import { useMediaQuery } from '@mantine/hooks';
-import type { Artist } from '@/entities/artist';
+import type { Artist } from '@repo/common';
 import { EventCard } from '@/features/artist/components/EventCard';
 import { useCalenderSchedule } from '@/features/artist/hooks/useCalenderSchedule';
 import dayjs from '@/libs/dayjs';

@@ -1,10 +1,10 @@
 'use client';
+import type { Event } from '@repo/common';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { GoogleMapContainer } from '@/components/Container/GoogleMapContainer';
 import type {
   EditEventRequestType,
-  Event,
   FirstEditEventSchemaType,
   SecondEditEventSchemaType,
   ThirdEditEventSchemaType,

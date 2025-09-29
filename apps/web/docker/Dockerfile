@@ -21,6 +21,7 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
 
 # Copy only required packages
 COPY packages/typescript-config/ ./packages/typescript-config/
+COPY packages/common/ ./packages/common/
 
 # Copy web app
 COPY apps/web/ ./apps/web/

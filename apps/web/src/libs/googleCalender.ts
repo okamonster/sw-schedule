@@ -1,4 +1,4 @@
-import type { Event } from '@/entities/event';
+import type { Event } from '@repo/common';
 import type { GoogleCalendarEvent } from '@/entities/googleCalender';
 import dayjs from '@/libs/dayjs';
 

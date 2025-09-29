@@ -1,0 +1,12 @@
+# 環境変数（実際の値）
+database_url = "your_database_url_here"
+direct_url = "your_direct_url_here"
+jwt_secret = "your_jwt_secret_here"
+supabase_url = "your_supabase_url_here"
+supabase_anon_key = "your_supabase_anon_key_here"
+app_url = "https://develop.gemba-live.jp"
+resend_api_key = "your_resend_api_key_here"
+backend_image_url = "your_backend_image_url_here"
+
+# Container settings
+container_port = 8080

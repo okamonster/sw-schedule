@@ -1,6 +1,5 @@
+import type { Artist, User } from '@repo/common';
 import { useEffect, useState } from 'react';
-import type { Artist } from '@/entities/artist';
-import type { User } from '@/entities/user';
 import { useBackendToken } from '@/hooks/useBackendToken';
 import { useToast } from '@/hooks/useToast';
 import { getCurrentUserByBackendToken } from '@/service/user';

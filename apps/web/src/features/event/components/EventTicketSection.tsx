@@ -1,5 +1,5 @@
+import type { Event } from '@repo/common';
 import { LinkButton } from '@/components/Buttons/LinkButton';
-import type { Event } from '@/entities/event';
 import dayjs from '@/libs/dayjs';
 
 type Props = {

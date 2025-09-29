@@ -1,4 +1,4 @@
-import type { Event } from '@/entities/event';
+import type { Event } from '@repo/common';
 import dayjs from '@/libs/dayjs';
 
 type Props = {

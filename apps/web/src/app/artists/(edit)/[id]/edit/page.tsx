@@ -1,3 +1,4 @@
+import type { UserArtistFollow } from '@repo/common';
 import { notFound } from 'next/navigation';
 import { EditArtistForm } from '@/features/artist/components/EditArtistForm';
 import { getArtistById } from '@/service/artist';
@@ -15,9 +16,11 @@ export default async function EditArtistPage({ params }: Props) {
 
   const user = await getCurrentUser();
 
-  const isFollowing = user?.followingArtists.some((follow) => follow.artistId === artistId);
+  const isFollowing = user?.followingArtists.some(
+    (follow: UserArtistFollow) => follow.artistId === artistId
+  );
 
-  if (!artist || !user || !isFollowing) {
+  if (!user || !artist || !isFollowing) {
     return notFound();
   }
 

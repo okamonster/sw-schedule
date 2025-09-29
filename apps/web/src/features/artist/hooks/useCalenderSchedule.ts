@@ -1,5 +1,5 @@
+import type { Artist } from '@repo/common';
 import { useEffect, useRef, useState } from 'react';
-import type { Artist } from '@/entities/artist';
 import type { GroupedEvents } from '@/entities/event';
 import dayjs from '@/libs/dayjs';
 

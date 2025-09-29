@@ -1,4 +1,4 @@
-import type { Artist } from '@/entities/artist';
+import type { Artist } from '@repo/common';
 import { EventArtistCard } from '@/features/event/components/EventArtistCard';
 
 type Props = {

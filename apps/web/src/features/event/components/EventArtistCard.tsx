@@ -1,7 +1,7 @@
 import { Avatar } from '@mantine/core';
+import type { Artist } from '@repo/common';
 import Link from 'next/link';
 import { DEFAULT_IMAGE_URL } from '@/constants';
-import type { Artist } from '@/entities/artist';
 
 type Props = {
   artist: Artist;
