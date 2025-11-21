@@ -76,6 +76,7 @@ export const FirstEditEventForm = ({ firstStepValues, onNext, onChangeFirstStep 
           <Textarea
             label="イベントの説明"
             {...register('eventDescription')}
+            rows={8}
             error={errors.eventDescription?.message}
           />
 
