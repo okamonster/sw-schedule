@@ -4,7 +4,6 @@ import {
   FaCalendar,
   FaHeart,
   FaMapPin,
-  FaMusic,
   FaSearch,
   FaStar,
   FaUserCheck,
@@ -19,7 +18,6 @@ import { PRBadge } from '@/features/top/components/PRBadge';
 import { PRButtomCard } from '@/features/top/components/PRButtomCard';
 import { StepCard } from '@/features/top/components/StepCard';
 import { getArtistListByQuery } from '@/service/artist';
-import { getUpComingEventList } from '@/service/event';
 
 export const FEATURES = [
   {
