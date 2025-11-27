@@ -19,7 +19,7 @@ import { PRButtomCard } from '@/features/top/components/PRButtomCard';
 import { StepCard } from '@/features/top/components/StepCard';
 import { getArtistListByQuery } from '@/service/artist';
 
-export const FEATURES = [
+const FEATURES = [
   {
     title: '出演情報を一括管理',
     description:
@@ -44,7 +44,7 @@ export const FEATURES = [
   },
 ];
 
-export const STEPS = [
+const STEPS = [
   {
     step: '01',
     title: 'アカウント作成',
