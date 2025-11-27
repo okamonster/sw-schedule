@@ -142,7 +142,7 @@ export default async function Home() {
               <IoSparkles size={16} />
               便利な機能
             </h2>
-            <h3 className="text-3xl font-black text-pink-950">
+            <h3 className="text-3xl font-black text-pink-950 text-center">
               <span className="bg-gradient-to-r from-pink-100 to-rose-100 px-4 py-1 rounded-2xl">
                 推し活
               </span>
