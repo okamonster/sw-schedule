@@ -3,12 +3,6 @@ import '@/styles/variables.css';
 import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
 import '@mantine/notifications/styles.css';
-import '@fontsource/m-plus-rounded-1c/300.css';
-import '@fontsource/m-plus-rounded-1c/400.css';
-import '@fontsource/m-plus-rounded-1c/500.css';
-import '@fontsource/m-plus-rounded-1c/700.css';
-import '@fontsource/m-plus-rounded-1c/800.css';
-import '@fontsource/m-plus-rounded-1c/900.css';
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import { DatesProvider } from '@mantine/dates';
 import { Notifications } from '@mantine/notifications';
@@ -90,6 +84,12 @@ export default async function RootLayout({
     <html lang="ja" data-mantine-color-scheme="light">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300;400;500;700;800;900&display=swap"
+          rel="stylesheet"
+        />
         <ColorSchemeScript />
       </head>
       <body>
