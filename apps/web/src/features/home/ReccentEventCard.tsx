@@ -35,7 +35,7 @@ export const ReccentEventCard = ({ event }: Props): React.ReactNode => {
       />
       <div className="absolute top-2 left-2 z-10 rounded-full p-2 bg-background-red/70 border-1 border-pink-500">
         <p className="text-xs text-text-white font-bold">
-          あと{diffDays > 0 ? `あと${diffDays}日` : '本日'}
+          {diffDays > 0 ? `あと${diffDays}日` : '本日'}
         </p>
       </div>
       <div className="absolute bottom-2 left-2 z-10 grid gap-2">
