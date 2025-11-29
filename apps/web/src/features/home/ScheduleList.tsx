@@ -2,8 +2,9 @@
 import { Button } from '@mantine/core';
 import type { Event } from '@repo/common';
 import { useState } from 'react';
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaChevronDown, FaChevronUp, FaSearch } from 'react-icons/fa';
 import { ScheduleCard } from '@/features/home/ScheduleCard';
+import { EmptyScheduleCard } from './EmptyScheduleCard';
 
 type Props = {
   events: Event[];
@@ -20,11 +21,12 @@ export const ScheduleList = ({ events }: Props): React.ReactNode => {
   return (
     <div className="flex flex-col gap-2 items-center justify-center">
       <div className="grid gap-2">
+        {visibleEvents.length === 0 && <EmptyScheduleCard />}
         {visibleEvents.map((event) => (
           <ScheduleCard key={event.id} event={event} />
         ))}
       </div>
-      {
+      {events.length > 3 && (
         <Button
           onClick={handleShowMore}
           variant="light"
@@ -41,7 +43,7 @@ export const ScheduleList = ({ events }: Props): React.ReactNode => {
         >
           {showMore ? '閉じる' : 'もっとみる'}
         </Button>
-      }
+      )}
     </div>
   );
 };

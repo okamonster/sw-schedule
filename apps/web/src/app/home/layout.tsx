@@ -20,7 +20,9 @@ export default async function DashboardLayout({
   return (
     <div>
       <DefaultHeader user={user} title="ホーム" showBackButton={false} />
-      <div className="pt-14 pb-14 bg-background-light-gray">{children}</div>
+      <div className="pt-14 pb-14 bg-background-light-gray min-h-[calc(100vh-56px)]">
+        {children}
+      </div>
       <DefaultFooter />
     </div>
   );

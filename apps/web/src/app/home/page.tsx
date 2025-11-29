@@ -1,4 +1,6 @@
+import type { Event } from '@repo/common';
 import { auth } from '@/auth';
+import { EmptyReccentEventCard } from '@/features/home/EmptyReccentEventCard';
 import { FollowingArtistList } from '@/features/home/FollowingArtistList';
 import { ReccentEventCard } from '@/features/home/ReccentEventCard';
 import { ScheduleList } from '@/features/home/ScheduleList';
@@ -15,7 +17,7 @@ export default async function HomePage() {
 
   const followingArtists = await getFollowingArtists(backendToken);
 
-  const upcomingEvents = await getFollowingArtistsEvents(backendToken);
+  const upcomingEvents: Event[] = [];
 
   return (
     <div className="grid gap-4 px-4 py-2">
@@ -23,7 +25,11 @@ export default async function HomePage() {
       <section className="grid gap-2">
         <p className="text-md font-bold">直近の推しの出演イベント</p>
         <div className="grid gap-2 items-center justify-center">
-          {upcomingEvents[0] && <ReccentEventCard event={upcomingEvents[0]} />}
+          {upcomingEvents[0] ? (
+            <ReccentEventCard event={upcomingEvents[0]} />
+          ) : (
+            <EmptyReccentEventCard />
+          )}
         </div>
       </section>
       <section className="grid gap-2">
