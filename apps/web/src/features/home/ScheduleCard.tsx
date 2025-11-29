@@ -1,3 +1,4 @@
+'use client';
 import type { Event } from '@repo/common';
 import dayjs from 'dayjs';
 import Link from 'next/link';
