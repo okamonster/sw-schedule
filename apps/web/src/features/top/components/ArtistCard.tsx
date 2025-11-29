@@ -1,5 +1,5 @@
 'use client';
-import { Card, Image } from '@mantine/core';
+import { Image } from '@mantine/core';
 import type { Artist } from '@repo/common';
 import Link from 'next/link';
 import { FaHeart } from 'react-icons/fa';
