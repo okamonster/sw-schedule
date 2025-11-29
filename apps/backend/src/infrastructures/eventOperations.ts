@@ -123,6 +123,9 @@ export const getEventsByArtistIdsOperation = async (artistIds: string[]): Promis
         gte: new Date(),
       },
     },
+    orderBy: {
+      eventDate: 'asc',
+    },
   });
   return events;
 };

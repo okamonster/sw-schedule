@@ -1,7 +1,7 @@
-import { Divider } from '@mantine/core';
 import { auth } from '@/auth';
-import { FollowingArtistsSection } from '@/features/home/FollowingArtistsSection';
-import { EventCard } from '@/features/top/components/EventCard';
+import { FollowingArtistList } from '@/features/home/FollowingArtistList';
+import { ReccentEventCard } from '@/features/home/ReccentEventCard';
+import { ScheduleList } from '@/features/home/ScheduleList';
 import { getFollowingArtists } from '@/service/artist';
 import { getFollowingArtistsEvents } from '@/service/event';
 
@@ -18,17 +18,20 @@ export default async function HomePage() {
   const upcomingEvents = await getFollowingArtistsEvents(backendToken);
 
   return (
-    <div className="grid gap-4 px-4 py-2">
+    <div className="grid gap-4 px-4 py-2 bg-background-light-gray">
+      <FollowingArtistList artists={followingArtists} />
       <section className="grid gap-2">
-        <p className="text-lg font-bold">あなたの推しの出演イベント</p>
-        <div className="flex overflow-x-auto gap-2">
-          {upcomingEvents.map((event) => (
-            <EventCard key={event.id} event={event} />
-          ))}
+        <p className="text-md font-bold">直近の推しの出演イベント</p>
+        <div className="grid gap-2 items-center justify-center">
+          {upcomingEvents[0] && <ReccentEventCard event={upcomingEvents[0]} />}
         </div>
       </section>
-      <Divider />
-      <FollowingArtistsSection artists={followingArtists} />
+      <section className="grid gap-2">
+        <p className="text-md font-bold">あなたの推しの出演イベント</p>
+        <div className="grid gap-2 items-center justify-center">
+          <ScheduleList events={upcomingEvents} />
+        </div>
+      </section>
     </div>
   );
 }
