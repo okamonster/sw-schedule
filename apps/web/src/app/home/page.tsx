@@ -1,4 +1,3 @@
-import type { Event } from '@repo/common';
 import { auth } from '@/auth';
 import { EmptyReccentEventCard } from '@/features/home/EmptyReccentEventCard';
 import { FollowingArtistList } from '@/features/home/FollowingArtistList';
@@ -17,7 +16,7 @@ export default async function HomePage() {
 
   const followingArtists = await getFollowingArtists(backendToken);
 
-  const upcomingEvents: Event[] = [];
+  const upcomingEvents = await getFollowingArtistsEvents(backendToken);
 
   return (
     <div className="grid gap-4 px-4 py-2">

@@ -2,9 +2,9 @@
 import { Button } from '@mantine/core';
 import type { Event } from '@repo/common';
 import { useState } from 'react';
-import { FaChevronDown, FaChevronUp, FaSearch } from 'react-icons/fa';
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { EmptyScheduleCard } from '@/features/home/EmptyScheduleCard';
 import { ScheduleCard } from '@/features/home/ScheduleCard';
-import { EmptyScheduleCard } from './EmptyScheduleCard';
 
 type Props = {
   events: Event[];
