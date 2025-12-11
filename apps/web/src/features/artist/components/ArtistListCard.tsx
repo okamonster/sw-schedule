@@ -48,7 +48,7 @@ export function ArtistListCard({
             leftSection={<FiUserPlus className="text-white w-4 h-4" />}
             variant={isFollowing ? 'outline' : 'filled'}
             loading={isLoading}
-            disabled={isLoading || (!canFollow && isFollowing)}
+            disabled={isLoading || (!canFollow && !isFollowing)}
             onClick={(e) => {
               e.preventDefault();
               handleFollow();
