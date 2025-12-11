@@ -1,5 +1,3 @@
-import { Button } from '@mantine/core';
-
 interface ArtistFilterButtonProps {
   label: string;
   isActive?: boolean;
@@ -13,14 +11,20 @@ export const ArtistFilterButton = ({
   onClick,
 }: ArtistFilterButtonProps) => {
   return (
-    <Button
+    <button
       onClick={onClick}
-      radius="lg"
-      color="var(--color-button-primary)"
-      variant={isActive ? 'filled' : 'outline'}
-      className="shrink-0"
+      type="button"
+      className="bg-background-light/50 border border-white text-text-gray font-bold rounded-full py-1 px-4"
+      style={
+        isActive
+          ? { backgroundColor: 'var(--color-button-red)', color: 'var(--color-text-white)' }
+          : {
+              backgroundColor: 'rgba(255, 255, 255, 0.5)',
+              color: 'var(--color-text-gray)',
+            }
+      }
     >
       {label}
-    </Button>
+    </button>
   );
 };
