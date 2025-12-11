@@ -1,5 +1,6 @@
 import { Divider, Image } from '@mantine/core';
 import { notFound } from 'next/navigation';
+import { LoginPromtOnFirstLoad } from '@/components/Modals/LoginPromtOnFirstLoad';
 import { DEFAULT_IMAGE_URL } from '@/constants';
 import { ArtistDetailSection } from '@/features/artist/components/ArtistDetailSection';
 import { ArtistScheduleSection } from '@/features/artist/components/ArtistScheduleSection';
@@ -40,6 +41,7 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function ArtistDetailPage({ params }: Props) {
   const { id: artistId } = await params;
+
   const artist = await getArtistById(artistId);
   if (!artist) {
     return notFound();
@@ -51,6 +53,7 @@ export default async function ArtistDetailPage({ params }: Props) {
 
   return (
     <div className="grid gap-2 w-full">
+      <LoginPromtOnFirstLoad shouldShow={!user} />
       <div className="bg-theme h-[200px] w-full">
         <Image src={imageUrl} alt={artist.artistName} h="100%" fit="contain" />
       </div>

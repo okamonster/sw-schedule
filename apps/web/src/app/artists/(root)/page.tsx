@@ -1,4 +1,5 @@
 import { LinkButton } from '@/components/Buttons/LinkButton';
+import { LoginPromtOnFirstLoad } from '@/components/Modals/LoginPromtOnFirstLoad';
 import { ArtistList } from '@/features/artist/components/ArtistList';
 import { ArtistSearchSection } from '@/features/artist/components/ArtistSearchSection';
 import { ArtistSortSelect } from '@/features/artist/components/ArtistSortSelect';
@@ -17,6 +18,7 @@ export default async function ArtistsPage({ searchParams }: Props) {
 
   return (
     <div className="px-4 py-6 grid gap-4">
+      <LoginPromtOnFirstLoad shouldShow={!currentUser} />
       {/* ページタイトル */}
       <h2 className="text-xl font-bold text-text-black">あなたの推しを探してみよう</h2>
 
