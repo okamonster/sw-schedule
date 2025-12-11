@@ -1,8 +1,10 @@
 'use client';
 
-import { Button, Card, Image } from '@mantine/core';
+import { Button, Image } from '@mantine/core';
 import type { Artist } from '@repo/common';
 import Link from 'next/link';
+import { FaHeart } from 'react-icons/fa';
+import { FiUserPlus } from 'react-icons/fi';
 import { DEFAULT_IMAGE_URL, getGenreLabel, getRegionLabel } from '@/constants';
 
 type Props = {
@@ -23,38 +25,39 @@ export function ArtistListCard({
   const imageUrl = artist.artistImageUrl ? artist.artistImageUrl : DEFAULT_IMAGE_URL;
 
   return (
-    <Link href={`/artists/${artist.id}`}>
-      <Card shadow="md" radius="md" withBorder>
-        {/* アーティスト画像 */}
-        <Card.Section h={180} className="bg-theme flex items-center justify-center">
-          <Image src={imageUrl} alt={artist.artistName} h="100%" fit="contain" />
-        </Card.Section>
-
-        {/* アーティスト情報 */}
-        <div className="p-2 grid h-full">
-          <h3 className="font-bold text-text-black text-sm">{artist.artistName}</h3>
-          <p className="text-xs text-text-gray">
-            {getGenreLabel(artist.genre)} • {getRegionLabel(artist.region)}
-          </p>
-          <div className="flex items-center justify-between">
-            <p className="text-xs text-text-gray">{artist.followers.length}人が推しに登録</p>
-            <Button
-              type="button"
-              color="var(--color-button-primary)"
-              onClick={async (e) => {
-                e.preventDefault();
-                await handleFollow();
-              }}
-              variant={isFollowing ? 'outline' : 'filled'}
-              radius="lg"
-              disabled={isLoading || (!isFollowing && !canFollow)}
-              loading={isLoading}
-            >
-              {isFollowing ? '推しに登録済み' : '推しに追加'}
-            </Button>
+    <Link href={`/artists/${artist.id}`} className="h-full">
+      <div className="shrink-0 h-full bg-background-light/50 border border-white p-4 rounded-3xl shadow-lg shadow-pink-100 grid gap-2">
+        <div className="bg-theme h-[180px] bg-cover bg-center rounded-3xl relative">
+          <Image src={imageUrl} h="100%" alt={artist.artistName} fit="contain" />
+          <div className="absolute top-2 right-2 bg-white/70 rounded-full p-2 flex items-center gap-2 border border-white">
+            <FaHeart className="text-pink-500 w-4 h-4" />
+            <p className="text-xs text-text-black font-bold">{artist.followers.length}人</p>
+          </div>
+          <div className="absolute bottom-2 left-2 bg-white/70 rounded-full p-2 flex items-center gap-2 border border-white">
+            <p className="text-sm text-text-black font-bold">{artist.artistName}</p>
           </div>
         </div>
-      </Card>
+        <div className="grid gap-1">
+          <p className="text-sm text-text-gray">
+            {getGenreLabel(artist.genre)}・{getRegionLabel(artist.region)}
+          </p>
+          <Button
+            type="button"
+            color="var(--color-button-red)"
+            radius="md"
+            leftSection={<FiUserPlus className="text-white w-4 h-4" />}
+            variant={isFollowing ? 'outline' : 'filled'}
+            loading={isLoading}
+            disabled={isLoading || (!canFollow && isFollowing)}
+            onClick={(e) => {
+              e.preventDefault();
+              handleFollow();
+            }}
+          >
+            {isFollowing ? '推しに登録中' : '推しに登録'}
+          </Button>
+        </div>
+      </div>
     </Link>
   );
 }

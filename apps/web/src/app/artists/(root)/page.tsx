@@ -1,3 +1,5 @@
+import { FaChevronRight } from 'react-icons/fa';
+import { IoSparklesOutline } from 'react-icons/io5';
 import { LinkButton } from '@/components/Buttons/LinkButton';
 import { LoginPromtOnFirstLoad } from '@/components/Modals/LoginPromtOnFirstLoad';
 import { ArtistList } from '@/features/artist/components/ArtistList';
@@ -27,33 +29,24 @@ export default async function ArtistsPage({ searchParams }: Props) {
       <ArtistSortSelect />
 
       {/* アーティスト追加バナー */}
-      <div className="mb-8 p-6 bg-gradient-to-r from-pink-50 to-purple-50 border border-pink-200 rounded-lg">
+      <div className="mb-8 p-6 bg-gradient-to-r from-pink-50 to-purple-50 border border-white rounded-lg shadow-lg">
         <div className="grid gap-2">
           <div className="flex-1">
-            <h2 className="text-lg font-bold text-text-black mb-2">
-              あなたの推しがいない時は...？ ✨
+            <h2 className="text-lg font-bold text-text-black mb-2 flex items-center gap-2">
+              <IoSparklesOutline color="var(--color-button-primary)" size={20} />
+              推しが見つからない時は...？
             </h2>
             <p className="text-sm text-text-gray">アーティストの掲載追加にご協力ください！</p>
           </div>
-          {currentUser ? (
-            <LinkButton
-              href="/artists/new"
-              color="var(--color-button-primary)"
-              radius="lg"
-              w="fit-content"
-            >
-              掲載追加はこちら！
-            </LinkButton>
-          ) : (
-            <LinkButton
-              href="/login"
-              color="var(--color-button-primary)"
-              radius="lg"
-              w="fit-content"
-            >
-              ログイン
-            </LinkButton>
-          )}
+          <LinkButton
+            href={currentUser ? '/artists/new' : '/login'}
+            color="var(--color-button-red)"
+            radius="lg"
+            w="fit-content"
+            rightSection={<FaChevronRight color="text-text-white" size={12} />}
+          >
+            掲載追加はこちらから！
+          </LinkButton>
         </div>
       </div>
 

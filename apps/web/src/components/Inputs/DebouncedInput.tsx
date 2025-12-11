@@ -1,6 +1,6 @@
 'use client';
 
-import { TextInput } from '@mantine/core';
+import type { TextInput } from '@mantine/core';
 import type React from 'react';
 import { type ComponentPropsWithoutRef, useEffect, useState } from 'react';
 import { useDebounce } from './hooks/useDebounce';
@@ -28,6 +28,12 @@ export const DebouncedInput = ({ value, delay, onChange, ...props }: Props): Rea
   }, [value]);
 
   return (
-    <TextInput {...props} value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
+    <input
+      type="text"
+      placeholder={props.placeholder}
+      onChange={(e) => setInputValue(e.target.value)}
+      className="bg-background-light/70 border-1 border-border-white shadow-sm rounded-full px-4 py-1 flex-1"
+      value={inputValue}
+    />
   );
 };
