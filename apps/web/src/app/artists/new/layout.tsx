@@ -21,7 +21,7 @@ export default async function RootLayout({
   return (
     <div>
       {user ? <DefaultHeader user={user} title="アーティスト" /> : <TopHeader />}
-      <div className={`pt-14 ${user && 'pb-14'}`}>{children}</div>
+      <div className={`pt-14 ${user && 'pb-20'}`}>{children}</div>
       {user ? <DefaultFooter /> : <Footer />}
     </div>
   );

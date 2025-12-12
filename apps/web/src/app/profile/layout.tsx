@@ -20,7 +20,7 @@ export default async function RootLayout({
   return (
     <div>
       <DefaultHeader user={user} title="プロフィール" />
-      <div className="pt-14 pb-14">{children}</div>
+      <div className="pt-14 pb-20">{children}</div>
       <DefaultFooter />
     </div>
   );
