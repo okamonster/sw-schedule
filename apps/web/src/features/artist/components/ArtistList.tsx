@@ -15,7 +15,7 @@ type Props = {
 
 export const ArtistList = ({ query = '', sort = 'followers' }: Props) => {
   // 無限スクロール
-  const { artists, fetchArtists, hasMore } = useArtists(
+  const { artists, fetchNextPage, hasNextPage } = useArtists(
     query,
     sort,
     ARTIST_SORT_ORDER,
@@ -23,8 +23,8 @@ export const ArtistList = ({ query = '', sort = 'followers' }: Props) => {
   );
 
   const loaderRef = useInfiniteScroll({
-    onIntersect: fetchArtists,
-    enabled: hasMore,
+    onIntersect: fetchNextPage,
+    enabled: hasNextPage,
   });
 
   // フォロー機能
@@ -63,7 +63,7 @@ export const ArtistList = ({ query = '', sort = 'followers' }: Props) => {
           isLoading={loadingStates[artist.id] || false}
         />
       ))}
-      {hasMore && <div ref={loaderRef} />}
+      {hasNextPage && <div ref={loaderRef} />}
     </div>
   );
 };
