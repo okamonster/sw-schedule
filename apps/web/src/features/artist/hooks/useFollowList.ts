@@ -1,40 +1,33 @@
 import type { Artist, User } from '@repo/common';
-import { useEffect, useState } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMemo, useState } from 'react';
 import { useBackendToken } from '@/hooks/useBackendToken';
 import { useToast } from '@/hooks/useToast';
 import { getCurrentUserByBackendToken } from '@/service/user';
-import {
-  createUserArtistFollow,
-  deleteUserArtistFollow,
-  getUserArtistFollow,
-} from '@/service/userArtistFollow';
+import { createUserArtistFollow, deleteUserArtistFollow } from '@/service/userArtistFollow';
 
 // フォロー制限定数
 const MAX_FOLLOWING_ARTISTS_FREE_PLAN = 3;
 
-export const useFollowList = () => {
-  const [followingStates, setFollowingStates] = useState<Record<string, boolean>>({});
+export const useFollowList = (artists: Artist[]) => {
   const [loadingStates, setLoadingStates] = useState<Record<string, boolean>>({});
-  const [user, setUser] = useState<User | null>(null);
+  // 楽観的更新用のローカルフォロー状態（サーバーからの状態より優先して表示する）
+  const [localFollowing, setLocalFollowing] = useState<Record<string, boolean | undefined>>({});
   const backendToken = useBackendToken();
   const { showErrorToast } = useToast();
+  const queryClient = useQueryClient();
 
-  // ユーザー情報を取得
-  useEffect(() => {
-    if (!backendToken) {
-      return;
-    }
-
-    const fetchUser = async () => {
-      try {
-        const userData = await getCurrentUserByBackendToken(backendToken);
-        setUser(userData);
-      } catch (error) {
-        console.error('Error fetching user:', error);
+  // ユーザー情報を取得（TanStack Query 経由でキャッシュ）
+  const { data: user } = useQuery<User | null>({
+    queryKey: ['currentUser'],
+    queryFn: async () => {
+      if (!backendToken) {
+        return null;
       }
-    };
-    fetchUser();
-  }, [backendToken]);
+      return await getCurrentUserByBackendToken(backendToken);
+    },
+    enabled: !!backendToken,
+  });
 
   // フォロー制限情報を計算（現在は無料プランのみ対応）
   const followLimit = user
@@ -45,30 +38,29 @@ export const useFollowList = () => {
       }
     : null;
 
-  // アーティストのフォロー状態を取得
-  const fetchFollowStates = async (artists: Artist[]) => {
-    if (!backendToken) {
-      return;
+  // アーティストごとのベースフォロー状態をユーザー情報から算出
+  const baseFollowingStates = useMemo(() => {
+    if (!user) {
+      return {};
     }
+    const followedIds = new Set(user.followingArtists.map((f) => f.artistId));
+    const states: Record<string, boolean> = {};
+    for (const artist of artists) {
+      states[artist.id] = followedIds.has(artist.id);
+    }
+    return states;
+  }, [user, artists]);
 
-    try {
-      const states: Record<string, boolean> = {};
-      await Promise.all(
-        artists.map(async (artist) => {
-          try {
-            const follow = await getUserArtistFollow(backendToken, artist.id);
-            states[artist.id] = !!follow;
-          } catch (error) {
-            console.error(`Error fetching follow state for artist ${artist.id}:`, error);
-            states[artist.id] = false;
-          }
-        })
-      );
-      setFollowingStates(states);
-    } catch (error) {
-      console.error('Error fetching follow states:', error);
+  // ローカルの楽観的状態をマージした最終的なフォロー状態
+  const followingStates = useMemo(() => {
+    const merged: Record<string, boolean> = { ...baseFollowingStates };
+    for (const [id, value] of Object.entries(localFollowing)) {
+      if (value !== undefined) {
+        merged[id] = value;
+      }
     }
-  };
+    return merged;
+  }, [baseFollowingStates, localFollowing]);
 
   // フォロー/アンフォロー処理
   const handleFollow = async (artistId: string) => {
@@ -79,60 +71,41 @@ export const useFollowList = () => {
 
     setLoadingStates((prev) => ({ ...prev, [artistId]: true }));
 
+    const isCurrentlyFollowing = followingStates[artistId];
+    const nextFollowing = !isCurrentlyFollowing;
+
+    // フォロー制限をチェック（フォローするときのみ）
+    if (!isCurrentlyFollowing && followLimit && !followLimit.canFollow) {
+      showErrorToast(
+        `フォロー制限に達しました。現在${followLimit.currentCount}人フォロー中です。無料プランは${followLimit.maxCount}人までフォローできます。`
+      );
+      setLoadingStates((prev) => ({ ...prev, [artistId]: false }));
+      return;
+    }
+
+    // UI は即座に次の状態を表示（サーバー結果が来るまで固定）
+    setLocalFollowing((prev) => ({ ...prev, [artistId]: nextFollowing }));
+
     try {
-      const isCurrentlyFollowing = followingStates[artistId];
-
-      if (isCurrentlyFollowing) {
-        // アンフォロー
-        await deleteUserArtistFollow(backendToken, artistId);
-        setFollowingStates((prev) => ({ ...prev, [artistId]: false }));
-
-        // ユーザー情報を更新（フォロー数を減らす）
-        if (user) {
-          setUser({
-            ...user,
-            followingArtists: user.followingArtists.filter(
-              (follow) => follow.artistId !== artistId
-            ),
-          });
-        }
-      } else {
-        // フォロー制限をチェック
-        if (followLimit && !followLimit.canFollow) {
-          showErrorToast(
-            `フォロー制限に達しました。現在${followLimit.currentCount}人フォロー中です。無料プランは${followLimit.maxCount}人までフォローできます。`
-          );
-          return;
-        }
-
+      if (nextFollowing) {
         // フォロー
         await createUserArtistFollow(backendToken, artistId);
-        setFollowingStates((prev) => ({ ...prev, [artistId]: true }));
-
-        // ユーザー情報を更新（フォロー数を増やす）
-        if (user) {
-          setUser({
-            ...user,
-            followingArtists: [
-              ...user.followingArtists,
-              {
-                id: '',
-                userId: user.id,
-                artistId,
-                createdAt: new Date(),
-                updatedAt: new Date(),
-                artist: {} as Artist,
-                user: {} as User,
-              },
-            ],
-          });
-        }
+      } else {
+        // アンフォロー
+        await deleteUserArtistFollow(backendToken, artistId);
       }
+
+      // サーバー状態を再取得して最終的な整合性を取る
+      await queryClient.invalidateQueries({ queryKey: ['currentUser'] });
     } catch (error) {
       console.error('Error handling follow:', error);
-      const errorMessage = error instanceof Error ? error.message : 'フォロー操作に失敗しました';
-      showErrorToast(errorMessage);
+      showErrorToast('フォロー操作に失敗しました');
     } finally {
+      // サーバー状態が反映されたタイミングでローカル状態の上書きを解除
+      setLocalFollowing((prev) => {
+        const { [artistId]: _, ...rest } = prev;
+        return rest;
+      });
       setLoadingStates((prev) => ({ ...prev, [artistId]: false }));
     }
   };
@@ -141,7 +114,6 @@ export const useFollowList = () => {
     followingStates,
     loadingStates,
     followLimit,
-    fetchFollowStates,
     handleFollow,
     canFollow: followLimit?.canFollow ?? true,
   };

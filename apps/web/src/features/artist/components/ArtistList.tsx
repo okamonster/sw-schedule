@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import { ARTIST_LIMIT, ARTIST_SORT_ORDER } from '@/constants';
 import { useArtists } from '@/features/artist/hooks/useArtists';
 import { useFollowList } from '@/features/artist/hooks/useFollowList';
@@ -28,21 +27,8 @@ export const ArtistList = ({ query = '', sort = 'followers' }: Props) => {
   });
 
   // フォロー機能
-  const {
-    followingStates,
-    loadingStates,
-    fetchFollowStates,
-    handleFollow,
-    canFollow,
-    followLimit,
-  } = useFollowList();
-
-  // アーティストが更新されたらフォロー状態を取得
-  useEffect(() => {
-    if (artists.length > 0) {
-      fetchFollowStates(artists);
-    }
-  }, [artists, fetchFollowStates]);
+  const { followingStates, loadingStates, handleFollow, canFollow, followLimit } =
+    useFollowList(artists);
 
   return (
     <div className="grid gap-4">
