@@ -1,5 +1,5 @@
 import type { Event } from '@repo/common';
-import { useEffect, useState } from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { searchEvents } from '@/service/event';
 
 export const useEvents = (
@@ -9,28 +9,29 @@ export const useEvents = (
   limit = 10
 ): {
   events: Event[];
-  fetchEvents: () => Promise<void>;
-  hasMore: boolean;
+  isLoading: boolean;
+  isError: boolean;
+  fetchNextPage: () => void;
+  hasNextPage: boolean;
+  isFetchingNextPage: boolean;
 } => {
-  const [events, setEvents] = useState<Event[]>([]);
-  const [offset, setOffset] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
+  const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ['events', keyword, sort, order, limit],
+      initialPageParam: 0,
+      queryFn: ({ pageParam }) => searchEvents(keyword, sort, order, limit, pageParam as number),
+      getNextPageParam: (lastPage, allPages) =>
+        lastPage.length < Number(limit) ? undefined : allPages.length * Number(limit),
+    });
 
-  // データ取得
-  const fetchEvents = async () => {
-    const data = await searchEvents(keyword, sort, order, limit, offset);
+  const events = data?.pages.flat() ?? [];
 
-    setEvents((prev) => [...prev, ...data]);
-    setHasMore(data.length === Number(limit));
-    setOffset((prev) => prev + Number(limit));
+  return {
+    events,
+    isLoading,
+    isError,
+    fetchNextPage,
+    hasNextPage: Boolean(hasNextPage),
+    isFetchingNextPage,
   };
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: フィルターが変更されたらリセット
-  useEffect(() => {
-    setEvents([]);
-    setOffset(0);
-    setHasMore(true);
-  }, [keyword, sort, order, limit]);
-
-  return { events, fetchEvents, hasMore };
 };
