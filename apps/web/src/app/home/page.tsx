@@ -19,7 +19,7 @@ export default async function HomePage() {
   const upcomingEvents = await getFollowingArtistsEvents(backendToken);
 
   return (
-    <div className="grid gap-4 px-4 py-2">
+    <div className="flex flex-col gap-4 px-4 py-2">
       <FollowingArtistList artists={followingArtists} />
       <section className="grid gap-2">
         <p className="text-md font-bold">直近の推しの出演イベント</p>
