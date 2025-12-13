@@ -10,6 +10,7 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 import type { Metadata } from 'next';
 import { SessionProvider } from 'next-auth/react';
 import { auth } from '@/auth';
+import { TanstackProvider } from '@/components/Providers/TanstackProvider';
 import { OGP_IMAGE_URL } from '@/constants';
 
 export const metadata: Metadata = {
@@ -97,13 +98,15 @@ export default async function RootLayout({
         <MantineProvider>
           <Notifications position="top-center" />
           <DatesProvider settings={{ locale: 'ja' }}>
-            <SessionProvider session={session}>
-              <div className="flex justify-center bg-theme">
-                <div className="max-w-[500px] w-full h-full min-h-[100vh] bg-background-light">
-                  {children}
+            <TanstackProvider>
+              <SessionProvider session={session}>
+                <div className="flex justify-center bg-theme">
+                  <div className="max-w-[500px] w-full h-full min-h-[100vh] bg-background-light">
+                    {children}
+                  </div>
                 </div>
-              </div>
-            </SessionProvider>
+              </SessionProvider>
+            </TanstackProvider>
           </DatesProvider>
         </MantineProvider>
       </body>

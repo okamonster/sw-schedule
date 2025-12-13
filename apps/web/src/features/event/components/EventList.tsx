@@ -15,10 +15,15 @@ export const EventList = ({ keyword = '', sort = 'eventDate' }: EventListProps) 
   const searchParams = useSearchParams();
   const area = searchParams.get('area');
 
-  const { events, fetchEvents, hasMore } = useEvents(keyword, sort, EVENT_SORT_ORDER, EVENT_LIMIT);
+  const { events, fetchNextPage, hasNextPage } = useEvents(
+    keyword,
+    sort,
+    EVENT_SORT_ORDER,
+    EVENT_LIMIT
+  );
   const loaderRef = useInfiniteScroll({
-    onIntersect: fetchEvents,
-    enabled: hasMore,
+    onIntersect: fetchNextPage,
+    enabled: hasNextPage,
   });
 
   return (
@@ -28,7 +33,7 @@ export const EventList = ({ keyword = '', sort = 'eventDate' }: EventListProps) 
         .map((event) => (
           <EventListCard key={event.id} event={event} />
         ))}
-      {hasMore && <div ref={loaderRef} />}
+      {hasNextPage && <div ref={loaderRef} />}
     </div>
   );
 };

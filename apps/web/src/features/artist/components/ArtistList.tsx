@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import { ARTIST_LIMIT, ARTIST_SORT_ORDER } from '@/constants';
 import { useArtists } from '@/features/artist/hooks/useArtists';
 import { useFollowList } from '@/features/artist/hooks/useFollowList';
@@ -15,7 +14,7 @@ type Props = {
 
 export const ArtistList = ({ query = '', sort = 'followers' }: Props) => {
   // 無限スクロール
-  const { artists, fetchArtists, hasMore } = useArtists(
+  const { artists, fetchNextPage, hasNextPage } = useArtists(
     query,
     sort,
     ARTIST_SORT_ORDER,
@@ -23,26 +22,13 @@ export const ArtistList = ({ query = '', sort = 'followers' }: Props) => {
   );
 
   const loaderRef = useInfiniteScroll({
-    onIntersect: fetchArtists,
-    enabled: hasMore,
+    onIntersect: fetchNextPage,
+    enabled: hasNextPage,
   });
 
   // フォロー機能
-  const {
-    followingStates,
-    loadingStates,
-    fetchFollowStates,
-    handleFollow,
-    canFollow,
-    followLimit,
-  } = useFollowList();
-
-  // アーティストが更新されたらフォロー状態を取得
-  useEffect(() => {
-    if (artists.length > 0) {
-      fetchFollowStates(artists);
-    }
-  }, [artists, fetchFollowStates]);
+  const { followingStates, loadingStates, handleFollow, canFollow, followLimit } =
+    useFollowList(artists);
 
   return (
     <div className="grid gap-4">
@@ -63,7 +49,7 @@ export const ArtistList = ({ query = '', sort = 'followers' }: Props) => {
           isLoading={loadingStates[artist.id] || false}
         />
       ))}
-      {hasMore && <div ref={loaderRef} />}
+      {hasNextPage && <div ref={loaderRef} />}
     </div>
   );
 };

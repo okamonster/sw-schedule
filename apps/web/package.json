@@ -20,6 +20,7 @@
     "@repo/common": "workspace:*",
     "@supabase/supabase-js": "^2.50.1",
     "@tailwindcss/postcss": "^4.1.10",
+    "@tanstack/react-query": "^5.90.12",
     "@vis.gl/react-google-maps": "^1.5.3",
     "dayjs": "^1.11.13",
     "next": "^15.5.7",

@@ -1,36 +1,40 @@
 import type { Artist } from '@repo/common';
-import { useEffect, useState } from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { getArtistListByQuery } from '@/service/artist';
+
+type UseArtistsReturn = {
+  artists: Artist[];
+  isLoading: boolean;
+  isError: boolean;
+  fetchNextPage: () => void;
+  hasNextPage: boolean;
+  isFetchingNextPage: boolean;
+};
 
 export const useArtists = (
   query = '',
   sort = 'followers',
   order = 'desc',
   limit = 10
-): {
-  artists: Artist[];
-  fetchArtists: () => Promise<void>;
-  hasMore: boolean;
-} => {
-  const [artists, setArtists] = useState<Artist[]>([]);
-  const [offset, setOffset] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
+): UseArtistsReturn => {
+  const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ['artists', query, sort, order, limit],
+      initialPageParam: 0,
+      queryFn: ({ pageParam }) =>
+        getArtistListByQuery(query, sort, order, limit, pageParam as number),
+      getNextPageParam: (lastPage, allPages) =>
+        lastPage.length < Number(limit) ? undefined : allPages.length * Number(limit),
+    });
 
-  // データ取得
-  const fetchArtists = async () => {
-    const data = await getArtistListByQuery(query, sort, order, limit, offset);
+  const artists = data?.pages.flat() ?? [];
 
-    setArtists((prev) => [...prev, ...data]);
-    setHasMore(data.length === Number(limit));
-    setOffset((prev) => prev + Number(limit));
+  return {
+    artists,
+    isLoading,
+    isError,
+    fetchNextPage,
+    hasNextPage: Boolean(hasNextPage),
+    isFetchingNextPage,
   };
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: フィルターが変更されたらリセット
-  useEffect(() => {
-    setArtists([]);
-    setOffset(0);
-    setHasMore(true);
-  }, [query, sort, order, limit]);
-
-  return { artists, fetchArtists, hasMore };
 };
