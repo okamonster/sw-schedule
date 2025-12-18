@@ -1,3 +1,4 @@
+import { IoSparklesOutline } from 'react-icons/io5';
 import { LinkButton } from '@/components/Buttons/LinkButton';
 import { EventList } from '@/features/event/components/EventList';
 import { EventSearchSection } from '@/features/event/components/EventSearchSection';
@@ -27,7 +28,8 @@ export default async function EventsPage({ searchParams }: Props) {
       <div className="mb-8 p-6 bg-gradient-to-r from-pink-50 to-purple-50 border border-pink-200 rounded-lg">
         <div className="grid gap-2">
           <div className="flex-1">
-            <h2 className="text-lg font-bold text-text-black mb-2">
+            <h2 className="text-lg font-bold text-text-black mb-2 flex items-center gap-2">
+              <IoSparklesOutline color="var(--color-button-primary)" size={20} />
               探しているイベントがない時は...？
             </h2>
             <p className="text-sm text-text-gray">イベントの掲載追加にご協力ください！</p>
@@ -35,19 +37,14 @@ export default async function EventsPage({ searchParams }: Props) {
           {currentUser ? (
             <LinkButton
               href="/events/new"
-              color="var(--color-button-primary)"
+              color="var(--color-button-red)"
               radius="lg"
               w="fit-content"
             >
               掲載はこちら！
             </LinkButton>
           ) : (
-            <LinkButton
-              href="/login"
-              color="var(--color-button-primary)"
-              radius="lg"
-              w="fit-content"
-            >
+            <LinkButton href="/login" color="var(--color-button-red)" radius="lg" w="fit-content">
               ログイン
             </LinkButton>
           )}
