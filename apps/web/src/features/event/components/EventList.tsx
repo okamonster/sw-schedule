@@ -27,7 +27,7 @@ export const EventList = ({ keyword = '', sort = 'eventDate' }: EventListProps) 
   });
 
   return (
-    <div className="grid gap-2">
+    <div className="grid gap-4">
       {events
         .filter((event) => (area ? event.locatePrefecture === area : true))
         .map((event) => (

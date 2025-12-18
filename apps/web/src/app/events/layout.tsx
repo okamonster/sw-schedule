@@ -19,7 +19,9 @@ export default async function RootLayout({
   return (
     <div>
       {user ? <DefaultHeader user={user} title="イベント" /> : <TopHeader />}
-      <div className={`pt-14 ${user && 'pb-20'}`}>{children}</div>
+      <div className={`pt-14 ${user && 'pb-20'} bg-background-light-gray min-h-[calc(100vh-56px)]`}>
+        {children}
+      </div>
       {user ? <DefaultFooter /> : <Footer />}
     </div>
   );

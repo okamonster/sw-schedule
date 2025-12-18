@@ -1,9 +1,9 @@
 'use client';
-import { Badge, Image } from '@mantine/core';
+import { Image, Overlay } from '@mantine/core';
 import type { Event } from '@repo/common';
 import Link from 'next/link';
-import { FaMapMarkerAlt } from 'react-icons/fa';
-import { DEFAULT_IMAGE_URL, getAreaLabel } from '@/constants';
+import { FaCalendar, FaMapMarkerAlt } from 'react-icons/fa';
+import { DEFAULT_IMAGE_URL } from '@/constants';
 import dayjs from '@/libs/dayjs';
 
 type Props = {
@@ -18,42 +18,41 @@ export const EventListCard = ({ event }: Props): React.ReactNode => {
   const imageUrl = event.eventImageUrl ? event.eventImageUrl : DEFAULT_IMAGE_URL;
 
   return (
-    <Link href={`/events/${event.id}`}>
-      <div className="flex rounded-md border border-border-gray">
-        <div className="w-[100px] h-full bg-theme">
-          <Image src={imageUrl} alt="イベント画像" w={100} h="100%" fit="contain" />
+    <Link href={`/events/${event.id}`} className="shrink-0 relative w-full h-[250px]">
+      <Image
+        src={imageUrl}
+        alt={event.eventName}
+        fit="cover"
+        radius="lg"
+        className="absolute top-0 left-0 w-full h-full shadow-lg"
+      />
+      {/* Overlay */}
+      <Overlay
+        gradient="linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.8))"
+        radius="lg"
+        className="absolute top-0 left-0 w-full h-full"
+        zIndex={0}
+      />
+      <div className="absolute top-2 left-2 z-10 rounded-full p-2 bg-background-red/70 border-1 border-pink-500">
+        <p className="text-xs text-text-white font-bold">
+          {diffDays > 0 && `あと${diffDays}日`}
+          {diffDays === 0 && '本日'}
+          {diffDays < 0 && '開催済み'}
+        </p>
+      </div>
+      <div className="absolute bottom-2 left-2 z-10 grid gap-2">
+        <p className="text-md text-text-white font-bold overflow-hidden text-ellipsis whitespace-wrap p-2">
+          {event.eventName}
+        </p>
+        <div className="flex items-center gap-2">
+          <FaCalendar color="var(--color-text-primary)" />
+          <p className="text-xs text-text-white font-bold">
+            {dayjs(event.eventDate).format('YYYY/MM/DD')}
+          </p>
         </div>
-        <div className="flex flex-1 p-2 justify-between w-full">
-          <div className="grid gap-1 w-full">
-            <div className="flex justify-between">
-              <p className="text-md font-bold">{event.eventName}</p>
-              <Badge
-                radius="lg"
-                color={diffDays > 0 ? 'var(--color-button-primary)' : 'var(--color-background-red)'}
-                className="shrink-0"
-              >
-                {diffDays > 0 && `あと${diffDays}日`}
-                {diffDays === 0 && '本日'}
-                {diffDays < 0 && '開催済み'}
-              </Badge>
-            </div>
-            <p className="text-sm text-text-gray">
-              開催:{dayjs(event.eventDate).tz().format('YYYY/MM/DD(ddd)')}
-            </p>
-            <div className="flex gap-1">
-              <Badge
-                color="var(--color-button-primary)"
-                radius="lg"
-                leftSection={<FaMapMarkerAlt />}
-                className="shrink-0"
-              >
-                {getAreaLabel(event.locatePrefecture)}
-              </Badge>
-              <p className="text-sm text-text-gray text-nowrap">
-                {event.eventLocationName.substring(0, 10)}
-              </p>
-            </div>
-          </div>
+        <div className="flex items-center gap-2">
+          <FaMapMarkerAlt color="var(--color-text-primary)" />
+          <p className="text-xs text-text-white font-bold">{event.eventLocationName || '未設定'}</p>
         </div>
       </div>
     </Link>
