@@ -36,6 +36,6 @@ module "backend_service" {
   memory_limit = "512Mi"
   
   min_instances = 0
-  max_instances = 20
+  max_instances = 10
 }
 

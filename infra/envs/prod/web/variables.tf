@@ -13,7 +13,7 @@ variable "region" {
 variable "environment" {
   type        = string
   description = "Environment name"
-  default     = "dev"
+  default     = "prod"
 }
 
 variable "container_port" {
