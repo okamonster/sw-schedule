@@ -13,6 +13,8 @@ import { auth } from '@/auth';
 import { TanstackProvider } from '@/components/Providers/TanstackProvider';
 import { OGP_IMAGE_URL } from '@/constants';
 
+export const runtime = 'edge';
+
 export const metadata: Metadata = {
   title: 'Gemba! - 推し活',
   description:
