@@ -8,6 +8,8 @@ import { Footer } from '@/components/Navigations/Footer';
 import { TopHeader } from '@/components/Navigations/TopHeader';
 import { getCurrentUser } from '@/service/user';
 
+export const runtime = 'edge';
+
 export default async function RootLayout({
   children,
 }: Readonly<{

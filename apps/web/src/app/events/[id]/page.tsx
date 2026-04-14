@@ -10,6 +10,8 @@ import { EventTicketSection } from '@/features/event/components/EventTicketSecti
 import { getEventById } from '@/service/event';
 import { getCurrentUser } from '@/service/user';
 
+export const runtime = 'edge';
+
 type Props = {
   params: Promise<{
     id: string;
