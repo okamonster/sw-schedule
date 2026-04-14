@@ -1,8 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    globalNotFound: true,
-  },
   async headers() {
     return [
       {

@@ -1,8 +1,5 @@
 import Link from 'next/link';
 
-export const runtime = 'edge';
-export const dynamic = 'force-dynamic';
-
 export default function NotFound() {
   return (
     <div className="grid min-h-[60vh] place-items-center px-4 py-16">
